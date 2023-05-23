@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, Image, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Alert } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity} from "react-native";
 
 const PreLogin = () => {
   return (
