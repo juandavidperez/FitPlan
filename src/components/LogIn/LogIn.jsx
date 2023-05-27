@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 const LoginForm = () => {
+  const windowHeight = Dimensions.get('window').height;
+
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.wrapper, { height: windowHeight }]}>
       <Text style={styles.title}>Login Form</Text>
       <View style={styles.form}>
         <View style={styles.field}>
@@ -53,7 +55,6 @@ const LoginForm = () => {
 
 const styles = StyleSheet.create({
   wrapper: {
-    width: 380,
     backgroundColor: '#fff',
     borderRadius: 15,
     shadowColor: '#000',

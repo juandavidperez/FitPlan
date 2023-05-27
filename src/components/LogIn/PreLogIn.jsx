@@ -1,9 +1,11 @@
 import React from "react";
-import { Text, View, StyleSheet, TouchableOpacity} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 
 const PreLogin = () => {
+  const windowHeight = Dimensions.get('window').height;
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { height: windowHeight }]}>
       <Text style={styles.title}>Login to your app!</Text>
       <Text style={styles.text}>Aca va algo pero no se que</Text>
       <TouchableOpacity style={styles.button}>
@@ -19,25 +21,13 @@ const PreLogin = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#9affdd",
+    backgroundColor: "#cf89ad",
     padding: 20,
-  },
-  topBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
   title: {
     fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
-  },
-  image: {
-    width: 50,
-    height: 50,
-    marginRight: 10,
-    borderRadius: 100,
   },
   text: {
     fontSize: 16,

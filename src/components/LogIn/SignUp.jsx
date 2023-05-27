@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 const SignUp = () => {
+  const windowHeight = Dimensions.get('window').height;
+
   return (
-    <View style={styles.wrapper}>
+    <View style={[styles.container, { height: windowHeight }]}>
       <Text style={styles.title}>Sign Up</Text>
       <View style={styles.form}>
         <View style={styles.field}>

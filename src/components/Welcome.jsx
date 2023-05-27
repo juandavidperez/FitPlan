@@ -1,10 +1,12 @@
 import React from 'react';
-import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 const Welcome = () => {
+  const windowHeight = Dimensions.get('window').height;
+
   return (
-    <View style={styles.container}>
-        <Text style={styles.title}>BIENVENIDO</Text>
+    <View style={[styles.container, { height: windowHeight }]}>
+      <Text style={styles.title}>BIENVENIDO</Text>
       <View style={styles.row}>
         <Image style={styles.image} source={require('../../assets/penguin.png')} />
         <View style={styles.textContainer}>
@@ -38,7 +40,6 @@ const Welcome = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#9affdd',
     padding: 20,
   },
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: 10,
-    borderRadius:100,
+    borderRadius: 100,
   },
   textContainer: {
     flex: 1,
