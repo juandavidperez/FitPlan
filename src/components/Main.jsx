@@ -1,26 +1,23 @@
 import React from 'react';
-import { Text, View, StyleSheet, Image, TouchableWithoutFeedback, Alert, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 const Main = () => {
   const windowHeight = Dimensions.get('window').height;
-
   return (
     <View style={[styles.container, { height: windowHeight }]}>
       <Text style={styles.title}>FitPlan</Text>
       <Text style={styles.subtitle}>¡Tu entrenador personal!</Text>
-      <TouchableWithoutFeedback onPress={() => Alert.alert('xd')}>
-        <Image
+      <Image
           source={require('../../assets/favicon.png')}
           style={styles.image}
         />
-      </TouchableWithoutFeedback>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fdf59c',
+    backgroundColor: '#1EB1CF',
     alignItems: 'center',
     justifyContent: 'center',
     color: '#000',

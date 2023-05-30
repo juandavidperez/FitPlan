@@ -8,31 +8,31 @@ const Welcome = () => {
     <View style={[styles.container, { height: windowHeight }]}>
       <Text style={styles.title}>BIENVENIDO</Text>
       <View style={styles.row}>
-        <Image style={styles.image} source={require('../../assets/penguin.png')} />
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Texto a la derecha</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>Texto a la izquierda</Text>
+          <Text style={styles.text}>Mejora tu salud y bienestar</Text>
         </View>
         <Image style={styles.image} source={require('../../assets/penguin.png')} />
       </View>
       <View style={styles.row}>
         <Image style={styles.image} source={require('../../assets/penguin.png')} />
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Texto a la derecha</Text>
+          <Text style={styles.text}>Descubre nuevos ejercicios</Text>
         </View>
       </View>
       <View style={styles.row}>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Texto a la izquierda</Text>
+          <Text style={styles.text}>Encuentra rutinas efectivas</Text>
         </View>
         <Image style={styles.image} source={require('../../assets/penguin.png')} />
+      </View>
+      <View style={styles.row}>
+        <Image style={styles.image} source={require('../../assets/penguin.png')} />
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>Sigue tu progreso personal</Text>
+        </View>
       </View>
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Botón</Text>
+        <Text style={styles.buttonText}>Explorar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -40,8 +40,9 @@ const Welcome = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#9affdd',
+    backgroundColor: '#0F7E79',
     padding: 20,
+    justifyContent: 'center',
   },
   row: {
     flexDirection: 'row',
@@ -52,18 +53,21 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: 'bold',
     textAlign: 'center',
+    color: '#FFF',
+    marginBottom: 20,
   },
   image: {
     width: 50,
     height: 50,
     marginRight: 10,
-    borderRadius: 100,
+    borderRadius: 25,
   },
   textContainer: {
     flex: 1,
   },
   text: {
     fontSize: 18,
+    color: '#FFF',
   },
   button: {
     backgroundColor: '#007aff',
@@ -75,6 +79,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
