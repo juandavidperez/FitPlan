@@ -4,6 +4,10 @@ import Constants from "expo-constants";
 import Main from "./src/components/Main.jsx";
 import Welcome from "./src/components/Welcome.jsx";
 import LoginG from "./src/components/LogIn/LogInG.jsx";
+import FirstForm from "./src/components/form/firstForm.jsx";
+import SecondForm from "./src/components/form/secondForm.jsx";
+import ThirdForm from "./src/components/form/thirdForm.jsx";
+import GridComponent from "./src/components/form/gridComponent.jsx";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -33,6 +37,10 @@ export default function App() {
       <Main />
       <Welcome />
       <LoginG />
+      <FirstForm />
+      <SecondForm />
+      <ThirdForm />
+      <GridComponent />
     </ScrollView>
   );
 }
