@@ -3,7 +3,7 @@ import { ScrollView } from "react-native";
 import Constants from "expo-constants";
 import Main from "./src/components/Main.jsx";
 import Welcome from "./src/components/Welcome.jsx";
-import LoginG from "./src/components/LogIn/LogInG.jsx";
+import LoginG from "./src/components/LogInG.jsx";
 import FirstForm from "./src/components/form/firstForm.jsx";
 import SecondForm from "./src/components/form/secondForm.jsx";
 import ThirdForm from "./src/components/form/thirdForm.jsx";

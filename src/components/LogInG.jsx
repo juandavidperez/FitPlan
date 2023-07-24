@@ -10,24 +10,24 @@ const LoginG = () => {
 
   const signInWithGooglePopup = () => {
     signInWithPopup(auth, provider)
-    .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      // The signed-in user info.
-      const user = result.user;
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
-    }).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
-    });
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        // The signed-in user info.
+        const user = result.user;
+        // IdP data available using getAdditionalUserInfo(result)
+        // ...
+      }).catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        // ...
+      });
   }
 
   return (
@@ -35,7 +35,9 @@ const LoginG = () => {
       <Text style={styles.title}>Login to your app!</Text>
       <View style={styles.div}>
         <Text style={styles.text}>Here goes something, but I'm not sure what</Text>
-        <Image source={require('../../../assets/google.png')} style={styles.image} />
+        <View style={styles.imageContainer}>
+          <Image source={require('../../assets/google.png')} style={styles.image} />
+        </View>
         <TouchableOpacity style={styles.button} onPress={() => signInWithGooglePopup()}>
           <Text style={styles.buttonText}>Log In with Google</Text>
         </TouchableOpacity>
@@ -76,17 +78,19 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    alignSelf: "center",
-    marginBottom: 20,
-  },
   div: {
     backgroundColor: "#456789",
     padding: 20,
     borderRadius: 10,
+  },
+  imageContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
 });
 

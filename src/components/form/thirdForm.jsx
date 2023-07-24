@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 const ThirdForm = () => {
   return (
@@ -9,21 +9,21 @@ const ThirdForm = () => {
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldText}>Máquinas</Text>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}></Text>
+          <Text style={styles.buttonText}>Seleccionar</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldText}>Objetos</Text>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}></Text>
+          <Text style={styles.buttonText}>Seleccionar</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.fieldContainer}>
         <Text style={styles.fieldText}>Otros</Text>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}> </Text>
+          <Text style={styles.buttonText}>Seleccionar</Text>
         </TouchableOpacity>
       </View>
 
@@ -33,6 +33,9 @@ const ThirdForm = () => {
     </View>
   );
 };
+
+const { width } = Dimensions.get('window');
+const itemWidth = width - 40;
 
 const styles = StyleSheet.create({
   container: {
@@ -52,12 +55,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2e5bff',
     borderRadius: 10,
-    paddingHorizontal: 0,
     marginBottom: 20,
   },
   fieldText: {
     fontSize: 16,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
   button: {
     backgroundColor: '#2e5bff',

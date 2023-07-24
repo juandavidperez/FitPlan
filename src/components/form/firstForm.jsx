@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 
 const FirstForm = () => {
   const [genero, setGenero] = useState('');
@@ -8,8 +8,6 @@ const FirstForm = () => {
   const [altura, setAltura] = useState('');
 
   const handleNext = () => {
-    // Aquí puedes realizar la lógica para guardar los datos y avanzar al siguiente paso del formulario
-    // Puedes utilizar los valores de los estados genero, edad, peso y altura
     console.log('Datos guardados:', genero, edad, peso, altura);
   };
 
@@ -82,6 +80,9 @@ const FirstForm = () => {
   );
 };
 
+const { width } = Dimensions.get('window');
+const itemWidth = width - 40;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -94,20 +95,24 @@ const styles = StyleSheet.create({
   },
   genderContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
   genderOption: {
-    flexDirection: 'row',
+    flex: 1,
     alignItems: 'center',
-    marginRight: 20,
+    justifyContent: 'center',
+    paddingVertical: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
   genderOptionSelected: {
     backgroundColor: '#2e5bff',
-    borderRadius: 5,
+    borderColor: '#2e5bff',
   },
   genderText: {
     fontSize: 16,
-    marginRight: 5,
   },
   genderTextSelected: {
     color: '#fff',
@@ -122,6 +127,7 @@ const styles = StyleSheet.create({
   },
   weightContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
   weightInput: {
@@ -139,13 +145,18 @@ const styles = StyleSheet.create({
   weightUnitOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    justifyContent: 'center',
+    paddingVertical: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
   weightUnitText: {
     fontSize: 16,
   },
   heightContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 20,
   },
   heightInput: {
@@ -163,7 +174,11 @@ const styles = StyleSheet.create({
   heightUnitOption: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 10,
+    justifyContent: 'center',
+    paddingVertical: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#ccc',
   },
   heightUnitText: {
     fontSize: 16,

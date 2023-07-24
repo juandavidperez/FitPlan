@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Picker, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Picker, StyleSheet, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 const SecondForm = () => {
@@ -9,12 +9,10 @@ const SecondForm = () => {
   const [diasSeleccionados, setDiasSeleccionados] = useState([]);
 
   const handleInfoIconPress = () => {
-    // Aquí puedes implementar la lógica para mostrar información adicional sobre las metas
     console.log('Icono de información presionado');
   };
 
   const handleDiaCheckboxPress = (dia) => {
-    // Aquí puedes implementar la lógica para manejar la selección/deselección de los días
     if (diasSeleccionados.includes(dia)) {
       setDiasSeleccionados(diasSeleccionados.filter((selectedDia) => selectedDia !== dia));
     } else {
@@ -23,13 +21,10 @@ const SecondForm = () => {
   };
 
   const handlePrevious = () => {
-    // Aquí puedes implementar la lógica para volver a la parte anterior del formulario
     console.log('Botón Anterior presionado');
   };
 
   const handleNext = () => {
-    // Aquí puedes implementar la lógica para guardar los datos y avanzar a la siguiente parte del formulario
-    // Puedes utilizar los valores de los estados meta, experiencia, dificultad y diasSeleccionados
     console.log('Datos guardados:', meta, experiencia, dificultad, diasSeleccionados);
   };
 
@@ -50,7 +45,7 @@ const SecondForm = () => {
             <Picker.Item label="Recomposición Corporal" value="recomposicion_corporal" />
           </Picker>
           <TouchableOpacity onPress={handleInfoIconPress}>
-            <Ionicons name="information-circle-outline" size={24} color="#2e5bff" />
+            <Ionicons name="information-circle-outline" size={24} color="#2e5bff"/>
           </TouchableOpacity>
         </View>
       </View>
@@ -141,6 +136,9 @@ const SecondForm = () => {
   );
 };
 
+const { width } = Dimensions.get('window');
+const itemWidth = width - 40;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -160,21 +158,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    paddingHorizontal: 10,
+    borderRadius: 10,
   },
   picker: {
     flex: 1,
     height: 40,
+    borderRadius: 10,
   },
   checkboxContainer: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginBottom: 10,
   },
   checkbox: {
+    width: itemWidth / 4.5,
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
+    marginBottom: 5,
     marginRight: 10,
   },
   checkboxSelected: {
@@ -183,6 +186,7 @@ const styles = StyleSheet.create({
   },
   checkboxText: {
     fontSize: 16,
+    textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
