@@ -1,36 +1,70 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { database} from '../../../App'
+import {ref, set, push } from 'firebase/database'
 
 const ThirdForm = () => {
+  const [selectedSet, setSelectedSet] = useState(null);
+
+  const handleForm = () => {
+    const userRef = ref(database, 'usuarios'); // Referencia al nodo "usuarios"
+    const newUserRef = push(userRef); // Genera un nuevo id para el usuario
+    set(newUserRef, {
+      selectedSet: selectedSet,
+    });
+    console.log('Datos guardados:', selectedSet);
+    setSelectedSet(null);
+  };
+
+  const sets = [
+    {
+      id: 'basico',
+      title: 'Básico',
+      description: 'Un set con implementos básicos para entrenar.',
+    },
+    {
+      id: 'casa',
+      title: 'En casa',
+      description: 'Un set con implementos para entrenar en casa, incluyendo pesas y barras.',
+    },
+    {
+      id: 'gimnasio',
+      title: 'Gimnasio',
+      description: 'Un set completo de implementos para entrenar en un gimnasio.',
+    },
+  ];
+
+  const handleSetSelect = (setId) => {
+    setSelectedSet(setId);
+  };
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Implementos disponibles</Text>
 
-      <View style={styles.fieldContainer}>
-        <Text style={styles.fieldText}>Máquinas</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Seleccionar</Text>
-        </TouchableOpacity>
-      </View>
+      {sets.map((set) => (
+        <View key={set.id} style={styles.fieldContainer}>
+          <Text style={styles.fieldText}>{set.title}</Text>
+          <TouchableOpacity
+            style={[styles.button, selectedSet === set.id && styles.selectedButton]}
+            onPress={() => handleSetSelect(set.id)}
+          >
+            <Text style={styles.buttonText}>Seleccionar</Text>
+          </TouchableOpacity>
+        </View>
+      ))}
 
-      <View style={styles.fieldContainer}>
-        <Text style={styles.fieldText}>Objetos</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Seleccionar</Text>
-        </TouchableOpacity>
-      </View>
+      {selectedSet && (
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText}>{sets.find((set) => set.id === selectedSet).description}</Text>
+        </View>
+      )}
 
-      <View style={styles.fieldContainer}>
-        <Text style={styles.fieldText}>Otros</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Seleccionar</Text>
-        </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity style={styles.finalizarButton}>
+      <TouchableOpacity style={[styles.finalizarButton, !selectedSet && styles.disabledButton]} disabled={!selectedSet} onPress={handleForm}>
         <Text style={styles.finalizarButtonText}>Finalizar</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -39,14 +73,16 @@ const itemWidth = width - 40;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1, // Cambio aquí para permitir que el ScrollView crezca
     padding: 20,
+    backgroundColor: '#f0f0f0',
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 20,
+    paddingBottom: 10,
   },
   fieldContainer: {
     flexDirection: 'row',
@@ -56,10 +92,10 @@ const styles = StyleSheet.create({
     borderColor: '#2e5bff',
     borderRadius: 10,
     marginBottom: 20,
+    paddingHorizontal: 15, // Agrego un espaciado horizontal para mantener el mismo ancho en todos los tamaños de pantalla
   },
   fieldText: {
     fontSize: 16,
-    paddingHorizontal: 10,
   },
   button: {
     backgroundColor: '#2e5bff',
@@ -67,10 +103,26 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
+  selectedButton: {
+    backgroundColor: '#ffcc00',
+  },
   buttonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  descriptionContainer: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#2e5bff',
+    borderRadius: 10,
+    marginBottom: 20,
+    backgroundColor: '#fff',
+  },
+  descriptionText: {
+    fontSize: 16,
+    color: '#555',
+    textAlign: 'center',
   },
   finalizarButton: {
     alignSelf: 'center',
@@ -79,6 +131,9 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginBottom: 20,
+  },
+  disabledButton: {
+    backgroundColor: '#ccc',
   },
   finalizarButtonText: {
     color: '#fff',

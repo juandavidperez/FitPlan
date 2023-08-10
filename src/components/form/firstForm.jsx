@@ -1,15 +1,41 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import {auth, database} from '../../../App'
+import {ref, set, push } from 'firebase/database'
 
 const FirstForm = () => {
   const [genero, setGenero] = useState('');
   const [edad, setEdad] = useState('');
   const [peso, setPeso] = useState('');
   const [altura, setAltura] = useState('');
+  const [unidadPeso, setUnidadPeso] = useState('Kg');
+  const [unidadAltura, setUnidadAltura] = useState('Cm');
 
   const handleNext = () => {
-    console.log('Datos guardados:', genero, edad, peso, altura);
+    const user = auth.currentUser;
+    if(user){
+      const userRef = ref(database, `usuarios/${user.displayName}`); // Referencia al nodo "usuarios"
+      const newUserRef = push(userRef);
+      // Genera un nuevo id para el usuario
+      set(newUserRef, {
+        genero: genero,
+        edad: parseInt(edad),
+        peso: [parseInt(peso), unidadPeso],
+        altura: [parseInt(altura), unidadAltura],
+      });
+  
+      console.log('Datos guardados:', genero, edad, peso, altura);
+  
+      //Reiniciar los estados para borrar los campos del formulario después de subir los datos
+      setGenero('');
+      setEdad('');
+      setPeso('');
+      setAltura('');
+    }else{
+      console.log('No hay usuario logueado');
+    }
   };
+  
 
   return (
     <View style={styles.container}>
@@ -46,10 +72,16 @@ const FirstForm = () => {
           value={peso}
         />
         <View style={styles.weightUnitContainer}>
-          <TouchableOpacity style={styles.weightUnitOption} onPress={() => console.log('Kg seleccionado')}>
+          <TouchableOpacity
+            onPress={() => setUnidadPeso('Kg')}
+            style={[styles.weightUnitOption, unidadPeso === 'Kg' && styles.weightUnitSelected]}
+          >
             <Text style={styles.weightUnitText}>Kg</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.weightUnitOption} onPress={() => console.log('Lb seleccionado')}>
+          <TouchableOpacity
+            onPress={() => setUnidadPeso('Lb')}
+            style={[styles.weightUnitOption, unidadPeso === 'Lb' && styles.weightUnitSelected]}
+          >
             <Text style={styles.weightUnitText}>Lb</Text>
           </TouchableOpacity>
         </View>
@@ -64,10 +96,16 @@ const FirstForm = () => {
           value={altura}
         />
         <View style={styles.heightUnitContainer}>
-          <TouchableOpacity style={styles.heightUnitOption} onPress={() => console.log('Cm seleccionado')}>
+          <TouchableOpacity
+            onPress={() => setUnidadAltura('Cm')}
+            style={[styles.heightUnitOption, unidadAltura === 'Cm' && styles.heightUnitSelected]}
+          >
             <Text style={styles.heightUnitText}>Cm</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.heightUnitOption} onPress={() => console.log('Ft seleccionado')}>
+          <TouchableOpacity
+            onPress={() => setUnidadAltura('Ft')}
+            style={[styles.heightUnitOption, unidadAltura === 'Ft' && styles.heightUnitSelected]}
+          >
             <Text style={styles.heightUnitText}>Ft</Text>
           </TouchableOpacity>
         </View>
@@ -125,25 +163,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
   },
-  weightContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  weightInput: {
-    flex: 1,
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    marginRight: 10,
-    paddingHorizontal: 10,
-  },
   weightUnitContainer: {
     flexDirection: 'row',
   },
   weightUnitOption: {
-    flexDirection: 'row',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
@@ -151,9 +175,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
   },
+  weightUnitSelected: {
+    backgroundColor: '#2e5bff',
+    borderColor: '#2e5bff',
+  },
   weightUnitText: {
     fontSize: 16,
   },
+
   heightContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -172,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   heightUnitOption: {
-    flexDirection: 'row',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
@@ -180,8 +209,26 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
   },
+  heightUnitSelected: {
+    backgroundColor: '#2e5bff',
+    borderColor: '#2e5bff',
+  },
   heightUnitText: {
     fontSize: 16,
+  },
+  weightContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  weightInput: {
+    flex: 1,
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginRight: 10,
+    paddingHorizontal: 10,
   },
   button: {
     backgroundColor: '#2e5bff',

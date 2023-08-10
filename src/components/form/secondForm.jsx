@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Picker, StyleSheet, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import {auth, database} from '../../../App'
+import {ref, set, push } from 'firebase/database'
 
 const SecondForm = () => {
   const [meta, setMeta] = useState('');
@@ -25,7 +27,23 @@ const SecondForm = () => {
   };
 
   const handleNext = () => {
-    console.log('Datos guardados:', meta, experiencia, dificultad, diasSeleccionados);
+    const user = auth.currentUser;
+    if(user){
+      const userRef = ref(database, `usuarios/${user.displayName}`); // Referencia al nodo "usuarios"
+      const newUserRef = push(userRef); // Genera un nuevo id para el usuario
+      set(newUserRef, {
+        meta: meta,
+        experiencia: experiencia,
+        dificultad: dificultad,
+        diasSeleccionados: diasSeleccionados,
+      });
+      console.log('Datos guardados:', meta, experiencia, dificultad, diasSeleccionados);
+      setMeta('');
+      setExperiencia('');
+      setDificultad('');
+    }else{
+      console.log('No hay usuario logueado');
+    }
   };
 
   return (
@@ -38,6 +56,7 @@ const SecondForm = () => {
             selectedValue={meta}
             onValueChange={(itemValue) => setMeta(itemValue)}
           >
+            <Picker.Item label="Ninguna" value="..." />
             <Picker.Item label="Hipertrofia" value="hipertrofia" />
             <Picker.Item label="Definición" value="definicion" />
             <Picker.Item label="Fuerza" value="fuerza" />
@@ -57,6 +76,7 @@ const SecondForm = () => {
           selectedValue={experiencia}
           onValueChange={(itemValue) => setExperiencia(itemValue)}
         >
+          <Picker.Item label="Ninguna" value="..." />
           <Picker.Item label="Principiante" value="principiante" />
           <Picker.Item label="Intermedio" value="intermedio" />
           <Picker.Item label="Avanzado" value="avanzado" />
@@ -70,9 +90,11 @@ const SecondForm = () => {
           selectedValue={dificultad}
           onValueChange={(itemValue) => setDificultad(itemValue)}
         >
+          <Picker.Item label="Ninguna" value="ninguna" />
           <Picker.Item label="Cardiacas" value="cardiacas" />
           <Picker.Item label="Falta de extremidades" value="falta_extremidades" />
-          {/* Agrega más opciones de dificultades aquí */}
+          <Picker.Item label="Lesiones" value="lesiones" />
+          <Picker.Item label="Obesidad" value="obesidad" />
         </Picker>
       </View>
 
@@ -199,6 +221,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 40,
     width: '45%',
+    marginBottom: 170,
   },
   buttonText: {
     color: '#fff',
