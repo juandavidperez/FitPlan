@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { database} from '../../../App'
 import {ref, set, push } from 'firebase/database'
 
@@ -50,7 +50,7 @@ const ThirdForm = () => {
             style={[styles.button, selectedSet === set.id && styles.selectedButton]}
             onPress={() => handleSetSelect(set.id)}
           >
-            <Text style={styles.buttonText}>Seleccionar</Text>
+            <Ionicons name="chevron-down" size={24} color="#fff" />
           </TouchableOpacity>
         </View>
       ))}
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderColor: '#2e5bff',
-    borderRadius: 10,
+    borderRadius: 15,
     marginBottom: 20,
     paddingHorizontal: 15, // Agrego un espaciado horizontal para mantener el mismo ancho en todos los tamaños de pantalla
   },
@@ -99,9 +99,11 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: '#2e5bff',
-    borderRadius: 10,
+    borderRadius: 14,
     paddingVertical: 10,
     paddingHorizontal: 15,
+    marginLeft: 10,
+    marginRight: -16, // Agrego un margen negativo para compensar el padding horizontal del contenedor
   },
   selectedButton: {
     backgroundColor: '#ffcc00',

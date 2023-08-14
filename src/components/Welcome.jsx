@@ -1,34 +1,35 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import {Ionicons} from '@expo/vector-icons'
 
 const Welcome = () => {
   const windowHeight = Dimensions.get('window').height;
 
   return (
     <View style={[styles.container, { height: windowHeight }]}>
-      <Text style={styles.title}>BIENVENIDO</Text>
+      <Text style={styles.title}>BIENVENIDO A FITPLAN</Text>
       <View style={styles.row}>
         <View style={styles.textContainer}>
           <Text style={styles.text}>Mejora tu salud y bienestar</Text>
         </View>
-        <Image style={styles.image} source={require('../../assets/penguin.png')} />
+        <Ionicons name="fitness" size={50} color="#900603" style={styles.icon}/>
       </View>
       <View style={styles.row}>
-        <Image style={styles.image} source={require('../../assets/penguin.png')} />
+        <Ionicons name="barbell" size={50} color="#858585" style={styles.icon}/>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Descubre nuevos ejercicios</Text>
+          <Text style={styles.textLeft}>Descubre nuevos ejercicios</Text>
         </View>
       </View>
       <View style={styles.row}>
         <View style={styles.textContainer}>
           <Text style={styles.text}>Encuentra rutinas efectivas</Text>
         </View>
-        <Image style={styles.image} source={require('../../assets/penguin.png')} />
+        <Ionicons name="timer" size={50} color="#ebecf0" style={styles.icon}/>
       </View>
       <View style={styles.row}>
-        <Image style={styles.image} source={require('../../assets/penguin.png')} />
+      <Ionicons name="stats-chart" size={50} color="#03ac13" style={styles.icon}/>
         <View style={styles.textContainer}>
-          <Text style={styles.text}>Sigue tu progreso personal</Text>
+          <Text style={styles.textLeft}>Sigue tu progreso personal</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.button}>
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     color: '#FFF',
     marginBottom: 20,
   },
-  image: {
+  icon: {
     width: 50,
     height: 50,
     marginRight: 10,
@@ -69,10 +70,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#FFF',
   },
+  textLeft: {
+    fontSize: 18,
+    color: '#FFF',
+    
+  },
   button: {
     backgroundColor: '#007aff',
     padding: 10,
-    borderRadius: 5,
+    borderRadius: 17,
     alignItems: 'center',
     marginTop: 20,
   },

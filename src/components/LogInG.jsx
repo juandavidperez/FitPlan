@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Ionicons } from '@expo/vector-icons'
 
 const provider = new GoogleAuthProvider();
 
@@ -32,9 +33,9 @@ const LoginG = () => {
 
   return (
     <View style={[styles.container, { height: windowHeight }]}>
-      <Text style={styles.title}>Login to your app!</Text>
       <View style={styles.div}>
-        <Text style={styles.text}>Here goes something, but I'm not sure what</Text>
+      <Text style={styles.title}>Login to our app!</Text>
+        <Ionicons name="person" size={50} color="black" style={styles.icon}/>
         <View style={styles.imageContainer}>
           <Image source={require('../../assets/google.png')} style={styles.image} />
         </View>
@@ -65,6 +66,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 20,
     color: "#FFF",
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
+    marginBottom: 20,
+    borderRadius: 25,
+    alignSelf: 'center',
   },
   button: {
     backgroundColor: "#000",

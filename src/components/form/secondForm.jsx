@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Picker, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import {Picker} from '@react-native-picker/picker';
 import { Ionicons } from '@expo/vector-icons';
 import {auth, database} from '../../../App'
 import {ref, set, push } from 'firebase/database'
@@ -56,7 +57,7 @@ const SecondForm = () => {
             selectedValue={meta}
             onValueChange={(itemValue) => setMeta(itemValue)}
           >
-            <Picker.Item label="Ninguna" value="..." />
+            <Picker.Item label="Ninguna" value="ninguna" />
             <Picker.Item label="Hipertrofia" value="hipertrofia" />
             <Picker.Item label="Definición" value="definicion" />
             <Picker.Item label="Fuerza" value="fuerza" />
@@ -71,31 +72,35 @@ const SecondForm = () => {
 
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Experiencia:</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={experiencia}
-          onValueChange={(itemValue) => setExperiencia(itemValue)}
-        >
-          <Picker.Item label="Ninguna" value="..." />
-          <Picker.Item label="Principiante" value="principiante" />
-          <Picker.Item label="Intermedio" value="intermedio" />
-          <Picker.Item label="Avanzado" value="avanzado" />
-        </Picker>
+        <View style={styles.inputContainer}>
+          <Picker
+            style={styles.picker}
+            selectedValue={experiencia}
+            onValueChange={(itemValue) => setExperiencia(itemValue)}
+          >
+            <Picker.Item label="Ninguna" value="..." />
+            <Picker.Item label="Principiante" value="principiante" />
+            <Picker.Item label="Intermedio" value="intermedio" />
+            <Picker.Item label="Avanzado" value="avanzado" />
+          </Picker>
+        </View>
       </View>
 
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Dificultades:</Text>
-        <Picker
-          style={styles.picker}
-          selectedValue={dificultad}
-          onValueChange={(itemValue) => setDificultad(itemValue)}
-        >
-          <Picker.Item label="Ninguna" value="ninguna" />
-          <Picker.Item label="Cardiacas" value="cardiacas" />
-          <Picker.Item label="Falta de extremidades" value="falta_extremidades" />
-          <Picker.Item label="Lesiones" value="lesiones" />
-          <Picker.Item label="Obesidad" value="obesidad" />
-        </Picker>
+        <View style={styles.inputContainer}>
+          <Picker
+            style={styles.picker}
+            selectedValue={dificultad}
+            onValueChange={(itemValue) => setDificultad(itemValue)}
+          >
+            <Picker.Item label="Ninguna" value="ninguna" />
+            <Picker.Item label="Cardiacas" value="cardiacas" />
+            <Picker.Item label="Falta de extremidades" value="falta_extremidades" />
+            <Picker.Item label="Lesiones" value="lesiones" />
+            <Picker.Item label="Obesidad" value="obesidad" />
+          </Picker>
+        </View>
       </View>
 
       <View style={styles.fieldContainer}>
@@ -221,7 +226,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     height: 40,
     width: '45%',
-    marginBottom: 170,
   },
   buttonText: {
     color: '#fff',

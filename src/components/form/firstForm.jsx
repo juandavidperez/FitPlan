@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import {auth, database} from '../../../App'
 import {ref, set, push } from 'firebase/database'
+import { Ionicons } from '@expo/vector-icons';
 
 const FirstForm = () => {
   const [genero, setGenero] = useState('');
@@ -45,13 +46,17 @@ const FirstForm = () => {
           onPress={() => setGenero('M')}
           style={[styles.genderOption, genero === 'M' && styles.genderOptionSelected]}
         >
-          <Text style={[styles.genderText, genero === 'M' && styles.genderTextSelected]}>Masculino</Text>
+          <Text style={[styles.genderText, genero === 'M' && styles.genderTextSelected]}>Masculino
+            <Ionicons name="man" size={24} color="black" style={[styles.genderText, genero === 'M' && styles.genderTextSelected]}/>
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setGenero('F')}
           style={[styles.genderOption, genero === 'F' && styles.genderOptionSelected]}
         >
-          <Text style={[styles.genderText, genero === 'F' && styles.genderTextSelected]}>Femenino</Text>
+          <Text style={[styles.genderText, genero === 'F' && styles.genderTextSelected]}>Femenino
+            <Ionicons name="woman" size={24} color="black" style={[styles.genderText, genero === 'F' && styles.genderTextSelected]}/>
+          </Text>
         </TouchableOpacity>
       </View>
 
@@ -125,6 +130,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#f0f0f0',
   },
   label: {
     fontSize: 16,
@@ -165,6 +171,7 @@ const styles = StyleSheet.create({
   },
   weightUnitContainer: {
     flexDirection: 'row',
+    width: itemWidth / 3.5,
   },
   weightUnitOption: {
     flex: 1,
@@ -199,6 +206,7 @@ const styles = StyleSheet.create({
   },
   heightUnitContainer: {
     flexDirection: 'row',
+    width: itemWidth / 3.5,
   },
   heightUnitOption: {
     flex: 1,
