@@ -5,7 +5,14 @@ import { Ionicons } from '@expo/vector-icons';
 import {auth, database} from '../../../App'
 import {ref, set, push } from 'firebase/database'
 
-const SecondForm = () => {
+const obtenerNombreUsuario = (email) => {
+  const nombreUsuario = email.split('@')[0]; // Obtener la parte antes del arroba
+  const nombreLimpio = nombreUsuario.replace(/[.#$\[\]]/g, ''); // Remover los caracteres . # $ [ ]
+  return nombreLimpio;
+};
+
+
+const SecondForm = ({navigation}) => {
   const [meta, setMeta] = useState('');
   const [experiencia, setExperiencia] = useState('');
   const [dificultad, setDificultad] = useState('');
@@ -23,14 +30,11 @@ const SecondForm = () => {
     }
   };
 
-  const handlePrevious = () => {
-    console.log('Botón Anterior presionado');
-  };
-
   const handleNext = () => {
     const user = auth.currentUser;
+    const nombreUsuario = obtenerNombreUsuario(user.email);
     if(user){
-      const userRef = ref(database, `usuarios/${user.displayName}`); // Referencia al nodo "usuarios"
+      const userRef = ref(database, `usuarios/${nombreUsuario}`); // Referencia al nodo "usuarios"
       const newUserRef = push(userRef); // Genera un nuevo id para el usuario
       set(newUserRef, {
         meta: meta,
@@ -152,10 +156,13 @@ const SecondForm = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handlePrevious}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FirstForm')}>
           <Text style={styles.buttonText}>Anterior</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleNext}>
+        <TouchableOpacity style={styles.button} onPress={() => {
+          handleNext();
+          navigation.navigate('ThirdForm');
+        }}>
           <Text style={styles.buttonText}>Siguiente</Text>
         </TouchableOpacity>
       </View>

@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import {Ionicons} from '@expo/vector-icons'
 
-const Main = () => {
+const Main = ({navigation}) => {
   const windowHeight = Dimensions.get('window').height;
   return (
     <View style={[styles.container, { height: windowHeight }]}>
@@ -10,10 +10,12 @@ const Main = () => {
         <Ionicons name="flash" size={24} color="#FFD300" />
       </Text>
       <Text style={styles.subtitle}>¡Tu entrenador personal!</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Welcome')}>
       <Image
-          source={require('../../assets/favicon.png')}
+          source={require('../../assets/fitplan.png')}
           style={styles.image}
         />
+      </TouchableOpacity>
     </View>
   );
 }

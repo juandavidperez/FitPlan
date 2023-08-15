@@ -4,7 +4,14 @@ import {auth, database} from '../../../App'
 import {ref, set, push } from 'firebase/database'
 import { Ionicons } from '@expo/vector-icons';
 
-const FirstForm = () => {
+const obtenerNombreUsuario = (email) => {
+  const nombreUsuario = email.split('@')[0]; // Obtener la parte antes del arroba
+  const nombreLimpio = nombreUsuario.replace(/[.#$\[\]]/g, ''); // Remover los caracteres . # $ [ ]
+  return nombreLimpio;
+};
+
+
+const FirstForm = ({navigation}) => {
   const [genero, setGenero] = useState('');
   const [edad, setEdad] = useState('');
   const [peso, setPeso] = useState('');
@@ -14,8 +21,9 @@ const FirstForm = () => {
 
   const handleNext = () => {
     const user = auth.currentUser;
+    const nombreUsuario = obtenerNombreUsuario(user.email);
     if(user){
-      const userRef = ref(database, `usuarios/${user.displayName}`); // Referencia al nodo "usuarios"
+      const userRef = ref(database, `usuarios/${nombreUsuario}`); // Referencia al nodo "usuarios"
       const newUserRef = push(userRef);
       // Genera un nuevo id para el usuario
       set(newUserRef, {
@@ -116,7 +124,10 @@ const FirstForm = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleNext}>
+      <TouchableOpacity style={styles.button} onPress={() => {
+        handleNext();
+        navigation.navigate('SecondForm');
+      }}>
         <Text style={styles.buttonText}>Siguiente</Text>
       </TouchableOpacity>
     </View>

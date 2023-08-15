@@ -1,12 +1,16 @@
 import React from "react";
 import { ScrollView } from "react-native";
 import Constants from "expo-constants";
-import Main from "./src/components/Main.jsx";
+import FirstScreen from "./src/components/FirstScreen.jsx";
 import Welcome from "./src/components/Welcome.jsx";
-import LoginG from "./src/components/LogInG.jsx";
+import LoginG from "./src/components/userAuth/LogInG.jsx";
+import SignUp from "./src/components/userAuth/SignUp.jsx";
 import FirstForm from "./src/components/form/firstForm.jsx";
 import SecondForm from "./src/components/form/secondForm.jsx";
 import ThirdForm from "./src/components/form/thirdForm.jsx";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -38,15 +42,20 @@ const database = getDatabase(app);
 export const auth = getAuth(app);
 export { app, database };
 
+const Stack = createStackNavigator();
+
 export default function App() {
   return (
-    <ScrollView style={{ marginTop: Constants.statusBarHeight, flexGrow: 1 }}>
-      <Main />
-      <Welcome />
-      <LoginG />
-      <FirstForm />
-      <SecondForm />
-      <ThirdForm />
-    </ScrollView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="FirstScreen">
+        <Stack.Screen name="Main" component={FirstScreen} />
+        <Stack.Screen name="Welcome" component={Welcome} />
+        <Stack.Screen name="SignUp" component={SignUp} />
+        <Stack.Screen name="LoginG" component={LoginG} />
+        <Stack.Screen name="FirstForm" component={FirstForm} />
+        <Stack.Screen name="SecondForm" component={SecondForm} />
+        <Stack.Screen name="ThirdForm" component={ThirdForm} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

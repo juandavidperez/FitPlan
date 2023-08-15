@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 import {Ionicons} from '@expo/vector-icons'
 
-const Welcome = () => {
+const Welcome = ({navigation}) => {
   const windowHeight = Dimensions.get('window').height;
 
   return (
@@ -32,7 +32,7 @@ const Welcome = () => {
           <Text style={styles.textLeft}>Sigue tu progreso personal</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
         <Text style={styles.buttonText}>Explorar</Text>
       </TouchableOpacity>
     </View>
