@@ -1,22 +1,27 @@
 import React, {useState} from 'react';
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native";
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Dimensions, Image, Alert } from "react-native";
 import { Ionicons } from '@expo/vector-icons'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
 
 const LoginG = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const windowHeight = Dimensions.get('window').height;
   const auth = getAuth();
-  const handleLogin = async (email, password) => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log(userCredential);
-    } catch (error) {
-      console.log(error);
-    }
+  const handleLogin = (email, password) => {
+    console.log({email, password});
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        Alert.alert('Listo ✅', 'Te logueaste correctamente');
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        Alert.alert('Error ❌', errorMessage);
+      });
   };
     
 
@@ -33,9 +38,13 @@ const LoginG = ({ navigation }) => {
         </View>
         <View style={styles.inputContainer}>
           <Ionicons name="lock-closed" size={20} color="#000" style={{ marginRight: 10, marginTop:5 }} />
-          <TextInput placeholder="Password" style={styles.input} onChangeText={(text)=>setPassword(text)}/>
+          <TextInput placeholder="Password" secureTextEntry={!showPassword} style={styles.input} onChangeText={(text)=>setPassword(text)}/>
+          <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={20} color="#000" style={{ marginLeft: 10, marginTop: 8 }} onPress={() => setShowPassword(!showPassword)}/>
         </View>
-        <TouchableOpacity style={styles.button} onPress={handleLogin(email, password)}>
+        <TouchableOpacity style={styles.button} onPress={() => {
+          handleLogin(email, password);
+          navigation.navigate('Home');
+        }}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>
         <Text style={styles.text}>Don't have an account? 

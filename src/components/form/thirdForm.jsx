@@ -1,24 +1,16 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { auth, database} from '../../../App'
+import { auth, database} from '../../../firebase'
 import {ref, set, push } from 'firebase/database'
-
-const obtenerNombreUsuario = (email) => {
-  const nombreUsuario = email.split('@')[0]; // Obtener la parte antes del arroba
-  const nombreLimpio = nombreUsuario.replace(/[.#$\[\]]/g, ''); // Remover los caracteres . # $ [ ]
-  return nombreLimpio;
-};
-
 
 const ThirdForm = () => {
   const [selectedSet, setSelectedSet] = useState(null);
 
   const handleForm = () => {
     const user = auth.currentUser;
-    const nombreUsuario = obtenerNombreUsuario(user.email);
     if(user){
-      const userRef = ref(database, `usuarios/${nombreUsuario}`); // Referencia al nodo "usuarios"
+      const userRef = ref(database, `usuarios/${user.name}`); // Referencia al nodo "usuarios"
       const newUserRef = push(userRef); // Genera un nuevo id para el usuario
       set(newUserRef, {
         selectedSet: selectedSet,

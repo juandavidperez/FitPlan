@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Text, TextInput, View, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native";
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, Dimensions, Image, Alert } from "react-native";
 import { Ionicons } from '@expo/vector-icons'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -15,9 +15,10 @@ const SignUp = ({ navigation }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      console.log(`Se ha registrado correctamente a ${user.email}`);
+      user.name = username;
+      Alert.alert('Listo ✅', 'Te has registrado correctamente');
     } catch (error) {
-      console.log(error);
+      Alert.alert('Error ❌', 'Ha ocurrido un error al registrarte');
     }
   }
   

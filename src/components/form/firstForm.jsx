@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import {auth, database} from '../../../App'
+import {auth, database} from '../../../firebase'
 import {ref, set, push } from 'firebase/database'
 import { Ionicons } from '@expo/vector-icons';
-
-const obtenerNombreUsuario = (email) => {
-  const nombreUsuario = email.split('@')[0]; // Obtener la parte antes del arroba
-  const nombreLimpio = nombreUsuario.replace(/[.#$\[\]]/g, ''); // Remover los caracteres . # $ [ ]
-  return nombreLimpio;
-};
-
 
 const FirstForm = ({navigation}) => {
   const [genero, setGenero] = useState('');
@@ -21,16 +14,15 @@ const FirstForm = ({navigation}) => {
 
   const handleNext = () => {
     const user = auth.currentUser;
-    const nombreUsuario = obtenerNombreUsuario(user.email);
     if(user){
-      const userRef = ref(database, `usuarios/${nombreUsuario}`); // Referencia al nodo "usuarios"
+      const userRef = ref(database, `usuarios/${user.name}`); // Referencia al nodo "usuarios"
       const newUserRef = push(userRef);
       // Genera un nuevo id para el usuario
       set(newUserRef, {
         genero: genero,
         edad: parseInt(edad),
         peso: [parseInt(peso), unidadPeso],
-        altura: [parseInt(altura), unidadAltura],
+        altura: [parseFloat(altura), unidadAltura],
       });
   
       console.log('Datos guardados:', genero, edad, peso, altura);

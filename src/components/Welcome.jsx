@@ -32,7 +32,7 @@ const Welcome = ({navigation}) => {
           <Text style={styles.textLeft}>Sigue tu progreso personal</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('SignUp')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('LoginG')}>
         <Text style={styles.buttonText}>Explorar</Text>
       </TouchableOpacity>
     </View>
