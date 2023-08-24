@@ -17,8 +17,11 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="FirstScreen">
+    <NavigationContainer style={{ width: 180 }}>
+      <Stack.Navigator
+        initialRouteName="FirstScreen"
+        screenOptions={{ headerShown: false }}
+      >
         <Stack.Screen name="Main" component={FirstScreen} />
         <Stack.Screen name="LoginG" component={LoginG} />
         <Stack.Screen name="SignUp" component={SignUp} />

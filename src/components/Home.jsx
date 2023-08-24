@@ -1,7 +1,5 @@
 import React from 'react';
 import { Text, View, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native";
-import { Ionicons } from '@expo/vector-icons'
-import { getAuth } from 'firebase/auth';
 
 const Home = ({ navigation }) => {
   return (
@@ -23,7 +21,6 @@ const Home = ({ navigation }) => {
           <Text style={styles.buttonText}>Ver Rutinas</Text>
         </TouchableOpacity>
       </View>
-      <Text>aadasd</Text>
     </View>
   );
 };

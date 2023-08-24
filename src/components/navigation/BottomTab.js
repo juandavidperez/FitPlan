@@ -42,7 +42,7 @@ const BottomTab = () => {
         component={Config}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-cog" color={color} size={size} />
+            <Ionicons name="ios-settings-sharp" color={color} size={size} />
           ),
         }}
       />

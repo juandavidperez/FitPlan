@@ -22,7 +22,7 @@ const Main = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1EB1CF',
+    backgroundColor: '#00d1ff',
     alignItems: 'center',
     justifyContent: 'center',
     color: '#000',
