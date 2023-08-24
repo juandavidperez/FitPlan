@@ -43,7 +43,7 @@ const LoginG = ({ navigation }) => {
         </View>
         <TouchableOpacity style={styles.button} onPress={() => {
           handleLogin(email, password);
-          navigation.navigate('Home');
+          navigation.navigate('BottomTab');
         }}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>

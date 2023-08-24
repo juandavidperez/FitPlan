@@ -6,7 +6,7 @@ import { getAuth } from 'firebase/auth';
 const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Bienvenido a FitplanApp</Text>
+      <Text style={styles.header}>Bienvenido a Fitplan</Text>
       <Text style={styles.subheader}>Tu compañero en el camino hacia una vida más saludable</Text>
 
       <View style={styles.buttonContainer}>
@@ -23,6 +23,7 @@ const Home = ({ navigation }) => {
           <Text style={styles.buttonText}>Ver Rutinas</Text>
         </TouchableOpacity>
       </View>
+      <Text>aadasd</Text>
     </View>
   );
 };

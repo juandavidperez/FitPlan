@@ -10,7 +10,7 @@ const Main = ({navigation}) => {
         <Ionicons name="flash" size={24} color="#FFD300" />
       </Text>
       <Text style={styles.subtitle}>¡Tu entrenador personal!</Text>
-      <TouchableOpacity onPress={() => navigation.navigate('Welcome')}>
+      <TouchableOpacity onPress={() => navigation.navigate('LoginG')}>
       <Image
           source={require('../../assets/fitplan.png')}
           style={styles.image}
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   image: {
-    width: 100,
-    height: 100,
+    width: 130,
+    height: 130,
   },
 });
 
