@@ -58,7 +58,7 @@ const LoginG = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#095A56",
+    backgroundColor: "rgba(78, 150, 209, 0.8)",
     padding: 20,
     justifyContent: "center",
   },

@@ -5,7 +5,7 @@ import {Ionicons} from '@expo/vector-icons'
 const Main = ({navigation}) => {
   const windowHeight = Dimensions.get('window').height;
   return (
-    <View style={[styles.container, { height: windowHeight }]}>
+    <View style={[styles.container, { height: windowHeight * 1.10}]}>
       <Text style={styles.title}>FitPlan
         <Ionicons name="flash" size={24} color="#FFD300" />
       </Text>
@@ -28,13 +28,13 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   title: {
+    fontFamily: 'Comfortaa-Regular',
     fontSize: 30,
-    fontWeight: 'bold',
     color: '#000',
   },
   subtitle: {
+    fontFamily: 'Comfortaa-Regular',
     fontSize: 21,
-    fontWeight: '600',
     color: '#000',
   },
   image: {
