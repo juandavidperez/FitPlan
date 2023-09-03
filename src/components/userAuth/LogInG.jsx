@@ -16,7 +16,7 @@ const LoginG = ({ navigation }) => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
-        Alert.alert('Listo ✅', 'Te logueaste correctamente');
+        navigation.navigate('BottomTab');
       })
       .catch((error) => {
         const errorMessage = error.message;
@@ -42,8 +42,11 @@ const LoginG = ({ navigation }) => {
           <Ionicons name={showPassword ? 'eye-off' : 'eye'} size={20} color="#000" style={{ marginLeft: 10, marginTop: 8 }} onPress={() => setShowPassword(!showPassword)}/>
         </View>
         <TouchableOpacity style={styles.button} onPress={() => {
-          handleLogin(email, password);
-          navigation.navigate('BottomTab');
+          if(email.length > 0 && password.length > 0) {
+            handleLogin(email, password);
+          } else {
+            Alert.alert('Error ❌', 'Porfavor rellena todos los campos');
+          }
         }}>
           <Text style={styles.buttonText}>Log In</Text>
         </TouchableOpacity>

@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../Home.jsx";
 import Profile from "../Profile.jsx";
-import Calendar from "../Calendar.jsx";
+import CalendarC from "../Calendar.jsx";
 import Config from "../Config.jsx";
 
 const Tab = createBottomTabNavigator();
@@ -30,7 +30,7 @@ const BottomTab = () => {
       />
       <Tab.Screen
         name="Calendar"
-        component={Calendar}
+        component={CalendarC}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-calendar" color={color} size={size} />

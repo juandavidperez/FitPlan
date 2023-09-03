@@ -28,12 +28,10 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   title: {
-    fontFamily: 'Comfortaa-Regular',
     fontSize: 30,
     color: '#000',
   },
   subtitle: {
-    fontFamily: 'Comfortaa-Regular',
     fontSize: 21,
     color: '#000',
   },

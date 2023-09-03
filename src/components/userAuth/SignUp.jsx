@@ -16,7 +16,7 @@ const SignUp = ({ navigation }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       user.name = username;
-      Alert.alert('Listo ✅', 'Te has registrado correctamente');
+      navigation.navigate('BottomTab');
     } catch (error) {
       Alert.alert('Error ❌', 'Ha ocurrido un error al registrarte');
     }
@@ -42,8 +42,11 @@ const SignUp = ({ navigation }) => {
           <TextInput placeholder="Password" style={styles.input} onChangeText={(text)=>setPassword(text)}/>
         </View>
         <TouchableOpacity style={styles.button} onPress={()=>{
-          handleSignUp(email, password);
-          navigation.navigate('FirstForm');
+          if(username.length > 0 && email.length > 0 && password.length > 0) {
+            handleSignUp(email, password);
+          } else {
+            Alert.alert('Error ❌', 'Porfavor rellena todos los campos');
+          }
         }}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>

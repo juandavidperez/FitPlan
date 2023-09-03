@@ -19,7 +19,7 @@ export default function App() {
   return (
     <NavigationContainer style={{ width: 180 }}>
       <Stack.Navigator
-        initialRouteName="FirstScreen"
+        initialRouteName="BottomTab"
         screenOptions={{ headerShown: false }}
       >
         <Stack.Screen name="Main" component={FirstScreen} />
