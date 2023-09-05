@@ -2,38 +2,18 @@ import React, {useState} from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native'
 import { Calendar, Agenda } from 'react-native-calendars';
 import moment from 'moment';
-import {MaterialCommunityIcons} from '@expo/vector-icons'
+import {FontAwesome5, Feather} from '@expo/vector-icons'
 
 const width = Dimensions.get('window').width;
-const CalendarC = () => {
+const CalendarC = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(moment().format('YYYY-MM-DD'));
-  const [calendar, setCalendar] = useState('M');
-  const [contenedorSize, setContenedorSize] = useState(500);
-
 
   return (
     <View style={styles.container}>
-      <View style={[styles.calendarContainer, {height: contenedorSize}]}>
+      <View style={styles.calendarContainer}>
         <View style={{flexDirection: 'row', justifyContent: 'space-around', width: '100%', alignItems: 'center', marginTop: 50, marginBottom: 20}}>
           <Text style={styles.title}>Calendario</Text>
-          <TouchableOpacity
-            onPress={() => {
-              setContenedorSize(500);
-              setCalendar('M');
-            }}
-            style={calendar === 'M' && styles.calendarOptionSelected}>
-            <MaterialCommunityIcons name="calendar-month" size={24} color="black" />
-          </TouchableOpacity>
-          <TouchableOpacity 
-            onPress={() => {
-              setContenedorSize(213);
-              setCalendar('W');
-            }}
-            style={calendar === 'W' && styles.calendarOptionSelected}>
-            <MaterialCommunityIcons name="calendar-week" size={24} color="black" />
-          </TouchableOpacity>
         </View>
-        {calendar === 'M' ? (
           <Calendar
           current={selectedDate}
           style={styles.monthCalendar}
@@ -58,27 +38,35 @@ const CalendarC = () => {
             [selectedDate]: { selected: true, selectedColor: 'white' },
           }}
         />
-        ) : (
-          <Agenda
-            selected={selectedDate}
-            style={styles.weekCalendar}
-            theme={{
-              backgroundColor: '#00d1ff',
-              calendarBackground: '#00d1ff',
-              selectedDayTextColor: '#00d1ff',
-              dayTextColor: 'white',
-              textDisabledColor: 'rgba(255, 255, 255, 0.7)',
-              textDayFontFamily: 'monospace',
-              textDayHeaderFontFamily: 'monospace',
-              textMonthFontFamily: 'monospace',
-              textDayHeaderFontSize: 15,
-              monthTextColor: 'white',
-            }}
-            markedDates={{
-              [selectedDate]: { selected: true, selectedColor: 'white' },
-            }}
-          />
-        )}
+      </View>
+      <View style={styles.streakContainer}>
+        <View style={{flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15}}>
+          <Text style={{fontSize: 22, fontWeight: 'bold', marginTop: 20, marginRight: 10}}>Racha actual</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={{fontSize:45, marginTop: 6}}>1</Text>
+            <FontAwesome5 name="fire" size={50} color="orange" style={{marginHorizontal: 10, marginTop: 10}}/>
+          </View>
+        </View>
+        <View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+            <Text>Lun</Text>
+            <Text>Mar</Text>
+            <Text>Mier</Text>
+            <Text>Jue</Text>
+            <Text>Vie</Text>
+            <Text>Sab</Text>
+            <Text>Dom</Text>
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+            <Feather name="check-circle" size={24} color="black" />
+            <Feather name="check-circle" size={24} color="black" />
+            <Feather name="check-circle" size={24} color="black" />
+            <Feather name="check-circle" size={24} color="black" />
+            <Feather name="circle" size={24} color="black" />
+            <Feather name="circle" size={24} color="black" />
+            <Feather name="circle" size={24} color="black" />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -91,6 +79,7 @@ const styles = StyleSheet.create({
   },
   calendarContainer: {
     width: width,
+    height: 490,
     backgroundColor: '#00d1ff',
     elevation: 7,
     justifyContent: 'flex-start',
@@ -114,9 +103,11 @@ const styles = StyleSheet.create({
     height: 350,
     fontSize: 20,
   },
-  weekCalendar: {
-    width: width - 40,
-  },
+  streakContainer: {
+    marginTop: 30,
+    height: 225,
+    width: width - 50,
+  }
 });
 
 export default CalendarC;

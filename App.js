@@ -5,7 +5,6 @@ import SignUp from "./src/components/userAuth/SignUp.jsx";
 import FirstForm from "./src/components/form/firstForm.jsx";
 import SecondForm from "./src/components/form/secondForm.jsx";
 import ThirdForm from "./src/components/form/thirdForm.jsx";
-import Home from "./src/components/Home.jsx";
 import BottomTab from "./src/components/navigation/BottomTab.js";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -28,7 +27,6 @@ export default function App() {
         <Stack.Screen name="FirstForm" component={FirstForm} />
         <Stack.Screen name="SecondForm" component={SecondForm} />
         <Stack.Screen name="ThirdForm" component={ThirdForm} />
-        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="BottomTab" component={BottomTab} />
       </Stack.Navigator>
     </NavigationContainer>
