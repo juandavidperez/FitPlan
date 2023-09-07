@@ -22,6 +22,7 @@
     "react-dom": "^18.2.0",
     "react-native": "0.71.8",
     "react-native-calendars": "^1.1300.0",
+    "react-native-charts-wrapper": "^0.5.11",
     "react-native-web": "^0.18.12"
   },
   "devDependencies": {

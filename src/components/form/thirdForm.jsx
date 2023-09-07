@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { auth, database} from '../../../firebase'
 import {ref, set, push } from 'firebase/database'
 
-const ThirdForm = () => {
+const ThirdForm = ({navigation}) => {
   const [selectedSet, setSelectedSet] = useState(null);
 
   const handleForm = () => {
@@ -66,7 +66,10 @@ const ThirdForm = () => {
         </View>
       )}
 
-      <TouchableOpacity style={[styles.finalizarButton, !selectedSet && styles.disabledButton]} disabled={!selectedSet} onPress={handleForm}>
+      <TouchableOpacity style={[styles.finalizarButton, !selectedSet && styles.disabledButton]} disabled={!selectedSet} onPress={() => {
+        handleForm();
+        navigation.navigate('BottomTab');
+      }}>
         <Text style={styles.finalizarButtonText}>Finalizar</Text>
       </TouchableOpacity>
     </ScrollView>

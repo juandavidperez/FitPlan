@@ -3,7 +3,6 @@ import { Text, TextInput, View, StyleSheet, TouchableOpacity, Dimensions, Image,
 import { Ionicons } from '@expo/vector-icons'
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-
 const SignUp = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
@@ -16,7 +15,7 @@ const SignUp = ({ navigation }) => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       user.name = username;
-      navigation.navigate('BottomTab');
+      navigation.navigate('FirstForm');
     } catch (error) {
       Alert.alert('Error ❌', 'Ha ocurrido un error al registrarte');
     }
