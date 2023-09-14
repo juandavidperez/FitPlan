@@ -1,80 +1,115 @@
-import React from 'react';
-import { ScrollView, Text, View, StyleSheet, TouchableOpacity, Dimensions, Image } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import {
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+  Image,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const fecha = new Date();
 const hoy = fecha.getDate();
-const mesActual = fecha.getMonth() + 1; 
+const mesActual = fecha.getMonth() + 1;
 const diaActual = fecha.getDay();
 function getMonthName(month) {
   switch (month) {
     case 1:
-      return 'Ene';
+      return "Ene";
     case 2:
-      return 'Feb';
+      return "Feb";
     case 3:
-      return 'Mar';
+      return "Mar";
     case 4:
-      return 'Abr';
+      return "Abr";
     case 5:
-      return 'May';
+      return "May";
     case 6:
-      return 'Jun';
+      return "Jun";
     case 7:
-      return 'Jul';
+      return "Jul";
     case 8:
-      return 'Ago';
+      return "Ago";
     case 9:
-      return 'Sep';
+      return "Sep";
     case 10:
-      return 'Oct';
+      return "Oct";
     case 11:
-      return 'Nov';
+      return "Nov";
     case 12:
-      return 'Dic';
+      return "Dic";
     default:
-      return 'Mes';
+      return "Mes";
   }
 }
 const getDayName = (day) => {
   switch (day) {
     case 0:
-      return 'Domingo';
+      return "Domingo";
     case 1:
-      return 'Lunes';
+      return "Lunes";
     case 2:
-      return 'Martes';
+      return "Martes";
     case 3:
-      return 'Miercoles';
+      return "Miercoles";
     case 4:
-      return 'Jueves';
+      return "Jueves";
     case 5:
-      return 'Viernes';
+      return "Viernes";
     case 6:
-      return 'Sabado';
+      return "Sabado";
     default:
-      return 'Dia';
+      return "Dia";
   }
 };
-const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get("window").height;
 const Home = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
-        <Text style={styles.date}>{hoy} / {getMonthName(mesActual)}</Text>
+        <Text style={styles.date}>
+          {hoy} / {getMonthName(mesActual)}
+        </Text>
         <Text style={styles.date}>Descanso</Text>
       </View>
       <View style={styles.rutine}>
         <View style={styles.excersices}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '100%', height: 35, alignItems: 'center', marginTop: 15, elevation: 10, marginBottom: 3}}>
-            <Ionicons name="barbell" size={30} color="black" style={{marginLeft: 15}}/>
-            <Text style={{color: 'black', fontWeight: 'bold'}}>Ejercicios diarios </Text>
-            <Text style={{color: 'black', fontWeight: 'bold'}}>{getDayName(diaActual)} {hoy}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              width: "100%",
+              height: 35,
+              alignItems: "center",
+              marginTop: 15,
+              elevation: 10,
+              marginBottom: 3,
+            }}
+          >
+            <Ionicons
+              name="barbell"
+              size={30}
+              color="black"
+              style={{ marginLeft: 15 }}
+            />
+            <Text style={{ color: "black", fontWeight: "bold" }}>
+              Ejercicios diarios{" "}
+            </Text>
+            <Text style={{ color: "black", fontWeight: "bold" }}>
+              {getDayName(diaActual)} {hoy}
+            </Text>
             <TouchableOpacity>
-              <Ionicons name="md-chevron-forward-circle" size={30} color="black" style={{marginHorizontal: 10}}/>
+              <Ionicons
+                name="md-chevron-forward-circle"
+                size={30}
+                color="black"
+                style={{ marginHorizontal: 10 }}
+              />
             </TouchableOpacity>
           </View>
-          <ScrollView style={{ width: '100%', margin: 13}}>
+          <ScrollView style={{ width: "100%", margin: 13 }}>
             <View style={styles.excersice}></View>
             <View style={styles.excersice}></View>
             <View style={styles.excersice}></View>
@@ -89,74 +124,74 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
   },
   banner: {
-    flexDirection: 'row',
-    width: '90%',
+    flexDirection: "row",
+    width: "90%",
     height: 200,
     borderRadius: 30,
-    marginHorizontal: '5%',
-    marginTop: '12%',
-    backgroundColor: '#00d1ff',
+    marginHorizontal: "5%",
+    marginTop: "12%",
+    backgroundColor: "#00d1ff",
     elevation: 7,
-    justifyContent: 'space-between',
-    borderColor: '#fff',
+    justifyContent: "space-between",
+    borderColor: "#fff",
     borderWidth: 2,
   },
   date: {
     fontSize: 30,
-    color: '#fff',
-    marginHorizontal: '5%',
-    marginTop: '5%',
-    flexDirection: 'row',
+    color: "#fff",
+    marginHorizontal: "5%",
+    marginTop: "5%",
+    flexDirection: "row",
   },
   today: {
     fontSize: 30,
-    color: '#fff',
-    alignSelf: 'flex-end',
-    marginHorizontal: '5%',
+    color: "#fff",
+    alignSelf: "flex-end",
+    marginHorizontal: "5%",
   },
   rutine: {
-    width: '100%',
+    width: "100%",
     height: windowHeight / 1.6,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    marginTop: '12%',
-    backgroundColor: '#00d1ff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginTop: "12%",
+    backgroundColor: "#00d1ff",
+    alignItems: "center",
+    justifyContent: "center",
     elevation: 7,
-  }, 
+  },
   excersices: {
-    width: '90%',
-    height: (windowHeight / 1.85),
+    width: "90%",
+    height: windowHeight / 1.85,
     marginTop: 15,
     borderRadius: 30,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     elevation: 5,
-    borderColor: '#00d1ff',
+    borderColor: "#00d1ff",
     borderWidth: 2,
     marginBottom: 25,
-  }, 
+  },
   week: {
-    width: '90%',
-    height: (windowHeight / 3.8),
+    width: "90%",
+    height: windowHeight / 3.8,
     marginTop: 15,
     borderRadius: 30,
-    backgroundColor: '#fff',
-  }, 
+    backgroundColor: "#fff",
+  },
   excersice: {
-    width: '88%',
+    width: "88%",
     height: 100,
     borderRadius: 30,
-    backgroundColor: '#00d1ff',
+    backgroundColor: "#00d1ff",
     elevation: 5,
-    borderColor: '#fff',
+    borderColor: "#fff",
     borderWidth: 2,
     marginLeft: 7,
     marginBottom: 15,
-  }
+  },
 });
 
 export default Home;

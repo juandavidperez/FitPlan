@@ -1,46 +1,45 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
-import { Ionicons } from '@expo/vector-icons';
-import {auth, database} from '../../../firebase'
-import {ref, set, push } from 'firebase/database'
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import { Ionicons } from "@expo/vector-icons";
+import { auth, database } from "../../../firebase";
+import { ref, set, push } from "firebase/database";
 
-const SecondForm = ({navigation}) => {
-  const [meta, setMeta] = useState('');
-  const [experiencia, setExperiencia] = useState('');
-  const [dificultad, setDificultad] = useState('');
+const SecondForm = ({ navigation, onEnviar }) => {
+  const [meta, setMeta] = useState("");
+  const [experiencia, setExperiencia] = useState("");
+  const [dificultad, setDificultad] = useState("");
   const [diasSeleccionados, setDiasSeleccionados] = useState([]);
 
   const handleInfoIconPress = () => {
-    console.log('Icono de información presionado');
+    console.log("Icono de información presionado");
   };
 
   const handleDiaCheckboxPress = (dia) => {
     if (diasSeleccionados.includes(dia)) {
-      setDiasSeleccionados(diasSeleccionados.filter((selectedDia) => selectedDia !== dia));
+      setDiasSeleccionados(
+        diasSeleccionados.filter((selectedDia) => selectedDia !== dia)
+      );
     } else {
       setDiasSeleccionados([...diasSeleccionados, dia]);
     }
   };
 
   const handleNext = () => {
-    const user = auth.currentUser;
-    if(user){
-      const userRef = ref(database, `usuarios/${user.name}`); // Referencia al nodo "usuarios"
-      const newUserRef = push(userRef); // Genera un nuevo id para el usuario
-      set(newUserRef, {
-        meta: meta,
-        experiencia: experiencia,
-        dificultad: dificultad,
-        diasSeleccionados: diasSeleccionados,
-      });
-      console.log('Datos guardados:', meta, experiencia, dificultad, diasSeleccionados);
-      setMeta('');
-      setExperiencia('');
-      setDificultad('');
-    }else{
-      console.log('No hay usuario logueado');
-    }
+    onEnviar({
+      meta: meta,
+      experiencia: experiencia,
+      dificultad: dificultad,
+      diasSeleccionados: diasSeleccionados,
+    });
+    console.log(meta, experiencia, dificultad, diasSeleccionados);
+    navigation.navigate("ThirdForm");
   };
 
   return (
@@ -58,10 +57,17 @@ const SecondForm = ({navigation}) => {
             <Picker.Item label="Definición" value="definicion" />
             <Picker.Item label="Fuerza" value="fuerza" />
             <Picker.Item label="Déficit Calórico" value="deficit_calorico" />
-            <Picker.Item label="Recomposición Corporal" value="recomposicion_corporal" />
+            <Picker.Item
+              label="Recomposición Corporal"
+              value="recomposicion_corporal"
+            />
           </Picker>
           <TouchableOpacity onPress={handleInfoIconPress}>
-            <Ionicons name="information-circle-outline" size={24} color="#2e5bff"/>
+            <Ionicons
+              name="information-circle-outline"
+              size={24}
+              color="#2e5bff"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -92,7 +98,10 @@ const SecondForm = ({navigation}) => {
           >
             <Picker.Item label="Ninguna" value="ninguna" />
             <Picker.Item label="Cardiacas" value="cardiacas" />
-            <Picker.Item label="Falta de extremidades" value="falta_extremidades" />
+            <Picker.Item
+              label="Falta de extremidades"
+              value="falta_extremidades"
+            />
             <Picker.Item label="Lesiones" value="lesiones" />
             <Picker.Item label="Obesidad" value="obesidad" />
           </Picker>
@@ -103,44 +112,65 @@ const SecondForm = ({navigation}) => {
         <Text style={styles.label}>Días:</Text>
         <View style={styles.checkboxContainer}>
           <TouchableOpacity
-            style={[styles.checkbox, diasSeleccionados.includes('D') && styles.checkboxSelected]}
-            onPress={() => handleDiaCheckboxPress('D')}
+            style={[
+              styles.checkbox,
+              diasSeleccionados.includes("D") && styles.checkboxSelected,
+            ]}
+            onPress={() => handleDiaCheckboxPress("D")}
           >
             <Text style={styles.checkboxText}>D</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.checkbox, diasSeleccionados.includes('L') && styles.checkboxSelected]}
-            onPress={() => handleDiaCheckboxPress('L')}
+            style={[
+              styles.checkbox,
+              diasSeleccionados.includes("L") && styles.checkboxSelected,
+            ]}
+            onPress={() => handleDiaCheckboxPress("L")}
           >
             <Text style={styles.checkboxText}>L</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.checkbox, diasSeleccionados.includes('Ma') && styles.checkboxSelected]}
-            onPress={() => handleDiaCheckboxPress('Ma')}
+            style={[
+              styles.checkbox,
+              diasSeleccionados.includes("Ma") && styles.checkboxSelected,
+            ]}
+            onPress={() => handleDiaCheckboxPress("Ma")}
           >
             <Text style={styles.checkboxText}>M</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.checkbox, diasSeleccionados.includes('Mi') && styles.checkboxSelected]}
-            onPress={() => handleDiaCheckboxPress('Mi')}
+            style={[
+              styles.checkbox,
+              diasSeleccionados.includes("Mi") && styles.checkboxSelected,
+            ]}
+            onPress={() => handleDiaCheckboxPress("Mi")}
           >
             <Text style={styles.checkboxText}>M</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.checkbox, diasSeleccionados.includes('J') && styles.checkboxSelected]}
-            onPress={() => handleDiaCheckboxPress('J')}
+            style={[
+              styles.checkbox,
+              diasSeleccionados.includes("J") && styles.checkboxSelected,
+            ]}
+            onPress={() => handleDiaCheckboxPress("J")}
           >
             <Text style={styles.checkboxText}>J</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.checkbox, diasSeleccionados.includes('V') && styles.checkboxSelected]}
-            onPress={() => handleDiaCheckboxPress('V')}
+            style={[
+              styles.checkbox,
+              diasSeleccionados.includes("V") && styles.checkboxSelected,
+            ]}
+            onPress={() => handleDiaCheckboxPress("V")}
           >
             <Text style={styles.checkboxText}>V</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.checkbox, diasSeleccionados.includes('S') && styles.checkboxSelected]}
-            onPress={() => handleDiaCheckboxPress('S')}
+            style={[
+              styles.checkbox,
+              diasSeleccionados.includes("S") && styles.checkboxSelected,
+            ]}
+            onPress={() => handleDiaCheckboxPress("S")}
           >
             <Text style={styles.checkboxText}>S</Text>
           </TouchableOpacity>
@@ -148,13 +178,13 @@ const SecondForm = ({navigation}) => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FirstForm')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("FirstForm")}
+        >
           <Text style={styles.buttonText}>Anterior</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => {
-          handleNext();
-          navigation.navigate('ThirdForm');
-        }}>
+        <TouchableOpacity style={styles.button} onPress={() => handleNext()}>
           <Text style={styles.buttonText}>Siguiente</Text>
         </TouchableOpacity>
       </View>
@@ -162,27 +192,29 @@ const SecondForm = ({navigation}) => {
   );
 };
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 const itemWidth = width - 40;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    marginTop: 20,
+    marginRight: 20,
   },
   fieldContainer: {
     marginBottom: 20,
   },
   label: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     borderRadius: 10,
   },
@@ -192,14 +224,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   checkboxContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     marginBottom: 10,
   },
   checkbox: {
     width: itemWidth / 4.5,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -207,29 +239,29 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   checkboxSelected: {
-    backgroundColor: '#2e5bff',
-    borderColor: '#2e5bff',
+    backgroundColor: "#2e5bff",
+    borderColor: "#2e5bff",
   },
   checkboxText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   button: {
-    backgroundColor: '#2e5bff',
+    backgroundColor: "#2e5bff",
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     height: 40,
-    width: '45%',
+    width: "45%",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 

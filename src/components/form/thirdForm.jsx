@@ -1,42 +1,47 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { auth, database} from '../../../firebase'
-import {ref, set, push } from 'firebase/database'
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Dimensions,
+  ScrollView,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { auth, database } from "../../../firebase";
+import { ref, set, push } from "firebase/database";
 
-const ThirdForm = ({navigation}) => {
+const ThirdForm = ({ navigation, onEnviar, enviarDatos }) => {
   const [selectedSet, setSelectedSet] = useState(null);
 
   const handleForm = () => {
-    const user = auth.currentUser;
-    if(user){
-      const userRef = ref(database, `usuarios/${user.name}`); // Referencia al nodo "usuarios"
-      const newUserRef = push(userRef); // Genera un nuevo id para el usuario
-      set(newUserRef, {
-        selectedSet: selectedSet,
-      });
-      console.log('Datos guardados:', selectedSet);
-      setSelectedSet(null);
-    }else{
-      console.log('No hay usuario logueado');
+    //onEnviar({ selectedSet: selectedSet });
+    console.log(enviarDatos);
+    if (enviarDatos) {
+      enviarDatos();
+    } else {
+      console.log("No hay datos para enviar en el thirdform");
     }
-  }
+    navigation.navigate("BottomTab");
+  };
 
   const sets = [
     {
-      id: 'basico',
-      title: 'Básico',
-      description: 'Un set con implementos básicos para entrenar.',
+      id: "basico",
+      title: "Básico",
+      description: "Un set con implementos básicos para entrenar.",
     },
     {
-      id: 'casa',
-      title: 'En casa',
-      description: 'Un set con implementos para entrenar en casa, incluyendo pesas y barras.',
+      id: "casa",
+      title: "En casa",
+      description:
+        "Un set con implementos para entrenar en casa, incluyendo pesas y barras.",
     },
     {
-      id: 'gimnasio',
-      title: 'Gimnasio',
-      description: 'Un set completo de implementos para entrenar en un gimnasio.',
+      id: "gimnasio",
+      title: "Gimnasio",
+      description:
+        "Un set completo de implementos para entrenar en un gimnasio.",
     },
   ];
 
@@ -52,7 +57,10 @@ const ThirdForm = ({navigation}) => {
         <View key={set.id} style={styles.fieldContainer}>
           <Text style={styles.fieldText}>{set.title}</Text>
           <TouchableOpacity
-            style={[styles.button, selectedSet === set.id && styles.selectedButton]}
+            style={[
+              styles.button,
+              selectedSet === set.id && styles.selectedButton,
+            ]}
             onPress={() => handleSetSelect(set.id)}
           >
             <Ionicons name="chevron-down" size={24} color="#fff" />
@@ -62,42 +70,47 @@ const ThirdForm = ({navigation}) => {
 
       {selectedSet && (
         <View style={styles.descriptionContainer}>
-          <Text style={styles.descriptionText}>{sets.find((set) => set.id === selectedSet).description}</Text>
+          <Text style={styles.descriptionText}>
+            {sets.find((set) => set.id === selectedSet).description}
+          </Text>
         </View>
       )}
 
-      <TouchableOpacity style={[styles.finalizarButton, !selectedSet && styles.disabledButton]} disabled={!selectedSet} onPress={() => {
-        handleForm();
-        navigation.navigate('BottomTab');
-      }}>
+      <TouchableOpacity
+        style={[styles.finalizarButton, !selectedSet && styles.disabledButton]}
+        disabled={!selectedSet}
+        onPress={() => handleForm()}
+      >
         <Text style={styles.finalizarButtonText}>Finalizar</Text>
       </TouchableOpacity>
     </ScrollView>
   );
 };
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 const itemWidth = width - 40;
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1, // Cambio aquí para permitir que el ScrollView crezca
     padding: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: "#f0f0f0",
+    marginTop: 20,
+    marginRight: 20,
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 20,
     paddingBottom: 10,
   },
   fieldContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderWidth: 1,
-    borderColor: '#2e5bff',
+    borderColor: "#2e5bff",
     borderRadius: 15,
     marginBottom: 20,
     paddingHorizontal: 15, // Agrego un espaciado horizontal para mantener el mismo ancho en todos los tamaños de pantalla
@@ -106,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   button: {
-    backgroundColor: '#2e5bff',
+    backgroundColor: "#2e5bff",
     borderRadius: 14,
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -114,41 +127,41 @@ const styles = StyleSheet.create({
     marginRight: -16, // Agrego un margen negativo para compensar el padding horizontal del contenedor
   },
   selectedButton: {
-    backgroundColor: '#ffcc00',
+    backgroundColor: "#ffcc00",
   },
   buttonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   descriptionContainer: {
     padding: 10,
     borderWidth: 1,
-    borderColor: '#2e5bff',
+    borderColor: "#2e5bff",
     borderRadius: 10,
     marginBottom: 20,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   descriptionText: {
     fontSize: 16,
-    color: '#555',
-    textAlign: 'center',
+    color: "#555",
+    textAlign: "center",
   },
   finalizarButton: {
-    alignSelf: 'center',
-    backgroundColor: '#2e5bff',
+    alignSelf: "center",
+    backgroundColor: "#2e5bff",
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
     marginBottom: 20,
   },
   disabledButton: {
-    backgroundColor: '#ccc',
+    backgroundColor: "#ccc",
   },
   finalizarButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
 
