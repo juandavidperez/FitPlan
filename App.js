@@ -30,7 +30,7 @@ export default function App() {
   const [selectedSet, setSelectedSet] = useState(null);
   const user = auth.currentUser;
   const enviarDatos = () => {
-    const name = user.email.split("@")[0];
+    const name = user.email.split("@")[0].replace(".", "_");
     console.log({ user, name });
     if (user) {
       const userRef = ref(database, `usuarios/${name}`); // Referencia al nodo "usuarios"

@@ -1,32 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get } from "firebase/database";
 
-const user = auth.currentUser;
-const name = user.email.split("@")[0];
-const dbRef = ref(getDatabase());
-get(child(dbRef, "usuarios/" + name + "/"))
-  .then((snapshot) => {
-    if (snapshot.exists()) {
-      console.log(snapshot.val());
-    } else {
-      console.log("No data available");
-    }
-  })
-  .catch((error) => {
-    console.error(error);
-  });
-
 const Profile = ({ navigation }) => {
-  const [username, setUsername] = useState("JohnDoe");
-  const [age, setAge] = useState("30");
-  const [height, setHeight] = useState("175 cm");
-  const [weight, setWeight] = useState("70 kg");
-  const [gender, setGender] = useState("Masculino");
-  const [goal, setGoal] = useState("Perder peso");
-  const [experience, setExperience] = useState("Intermedio");
+  const [userData, setUserData] = useState(null);
+
+  const user = auth.currentUser;
+  const name = user.email.split("@")[0].replace(".", "_");
+  const dbRef = ref(getDatabase());
+  get(child(dbRef, "usuarios/" + name + "/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        for (const key in data) {
+          if (Object.hasOwnProperty.call(data, key)) {
+            const element = data[key];
+            setUserData(element);
+          }
+        }
+      } else {
+        console.log("No data available");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  const inicial = userData === null ? "c" : userData.username[0].toLowerCase();
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
@@ -37,7 +38,7 @@ const Profile = ({ navigation }) => {
       </View>
       <View style={styles.userDesc}>
         <MaterialCommunityIcons
-          name={"alpha-" + "j" + "-circle"}
+          name={"alpha-" + inicial + "-circle"}
           size={80}
           color="#000"
           style={{ marginTop: 15 }}
@@ -50,7 +51,7 @@ const Profile = ({ navigation }) => {
             textAlign: "center",
           }}
         >
-          User
+          {userData === null ? "Cargando..." : userData.username}
         </Text>
       </View>
       <View style={styles.userStats}>
@@ -85,11 +86,9 @@ const Profile = ({ navigation }) => {
             <Text
               style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
             >
-              17
+              {userData == null ? "Cargando..." : userData.edad}
             </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
+            <TouchableOpacity onPress={() => console.log(userData, inicial)}>
               <MaterialCommunityIcons
                 name={"pencil"}
                 size={20}
@@ -122,7 +121,9 @@ const Profile = ({ navigation }) => {
             <Text
               style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
             >
-              165 Cm
+              {userData == null
+                ? "Cargando..."
+                : userData.altura[0] + " " + userData.altura[1]}
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("EditProfile")}
@@ -167,7 +168,9 @@ const Profile = ({ navigation }) => {
             <Text
               style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
             >
-              48 Kg
+              {userData == null
+                ? "Cargando..."
+                : userData.peso[0] + " " + userData.peso[1]}
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("EditProfile")}
@@ -204,7 +207,7 @@ const Profile = ({ navigation }) => {
             <Text
               style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
             >
-              Masculino
+              {userData == null ? "Cargando..." : userData.genero}
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("EditProfile")}

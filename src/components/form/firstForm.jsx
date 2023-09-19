@@ -37,16 +37,16 @@ const FirstForm = ({ navigation, onEnviar }) => {
       <Text style={styles.label}>Selecciona tu género:</Text>
       <View style={styles.genderContainer}>
         <TouchableOpacity
-          onPress={() => setGenero("M")}
+          onPress={() => setGenero("Masculino")}
           style={[
             styles.genderOption,
-            genero === "M" && styles.genderOptionSelected,
+            genero === "Masculino" && styles.genderOptionSelected,
           ]}
         >
           <Text
             style={[
               styles.genderText,
-              genero === "M" && styles.genderTextSelected,
+              genero === "Masculino" && styles.genderTextSelected,
             ]}
           >
             Masculino
@@ -56,22 +56,22 @@ const FirstForm = ({ navigation, onEnviar }) => {
               color="black"
               style={[
                 styles.genderText,
-                genero === "M" && styles.genderTextSelected,
+                genero === "Masculino" && styles.genderTextSelected,
               ]}
             />
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setGenero("F")}
+          onPress={() => setGenero("Femenino")}
           style={[
             styles.genderOption,
-            genero === "F" && styles.genderOptionSelected,
+            genero === "Femenino" && styles.genderOptionSelected,
           ]}
         >
           <Text
             style={[
               styles.genderText,
-              genero === "F" && styles.genderTextSelected,
+              genero === "Femenino" && styles.genderTextSelected,
             ]}
           >
             Femenino
@@ -81,7 +81,7 @@ const FirstForm = ({ navigation, onEnviar }) => {
               color="black"
               style={[
                 styles.genderText,
-                genero === "F" && styles.genderTextSelected,
+                genero === "Femenino" && styles.genderTextSelected,
               ]}
             />
           </Text>
