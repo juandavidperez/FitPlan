@@ -4,6 +4,29 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get } from "firebase/database";
 
+const data = {
+  dataSets: [
+    {
+      values: [5, 4, 3, 2, 1], // Valores para cada categoría
+      label: "Dataset 1", // Etiqueta del conjunto de datos
+      config: {
+        color: "blue", // Color del gráfico
+        drawFilled: true, // Rellenar el área bajo el gráfico
+        fillColor: "blue", // Color del relleno
+        fillAlpha: 60, // Opacidad del relleno
+        lineWidth: 2, // Grosor de la línea
+      },
+    },
+  ],
+  labels: [
+    "Categoría 1",
+    "Categoría 2",
+    "Categoría 3",
+    "Categoría 4",
+    "Categoría 5",
+  ], // Etiquetas para las categorías
+};
+
 const Profile = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
 
@@ -55,16 +78,37 @@ const Profile = ({ navigation }) => {
         </Text>
       </View>
       <View style={styles.userStats}>
-        <Text
+        <View
           style={{
-            fontSize: 20,
-            fontWeight: "bold",
-            textAlign: "center",
-            marginBottom: 20,
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",
+            flexDirection: "row",
+            marginBottom: 10,
           }}
         >
-          Datos personales
-        </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: "bold",
+              marginBottom: 10,
+              textAlign: "center",
+              marginLeft: 10,
+            }}
+          >
+            Datos personales
+          </Text>
+          <TouchableOpacity
+            style={{ position: "absolute", right: 10 }}
+            onPress={() => navigation.navigate("EditProfile")}
+          >
+            <MaterialCommunityIcons
+              name="account-edit"
+              size={30}
+              color="#000"
+            />
+          </TouchableOpacity>
+        </View>
         <View
           style={{
             flexDirection: "row",
@@ -88,24 +132,6 @@ const Profile = ({ navigation }) => {
             >
               {userData == null ? "Cargando..." : userData.edad}
             </Text>
-            <TouchableOpacity onPress={() => console.log(userData, inicial)}>
-              <MaterialCommunityIcons
-                name={"pencil"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 50 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
-              <MaterialCommunityIcons
-                name={"trash-can"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 0 }}
-              />
-            </TouchableOpacity>
           </View>
           <View style={styles.stat}>
             <Text
@@ -125,26 +151,6 @@ const Profile = ({ navigation }) => {
                 ? "Cargando..."
                 : userData.altura[0] + " " + userData.altura[1]}
             </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
-              <MaterialCommunityIcons
-                name={"pencil"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 50 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
-              <MaterialCommunityIcons
-                name={"trash-can"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 0 }}
-              />
-            </TouchableOpacity>
           </View>
         </View>
         <View
@@ -172,26 +178,6 @@ const Profile = ({ navigation }) => {
                 ? "Cargando..."
                 : userData.peso[0] + " " + userData.peso[1]}
             </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
-              <MaterialCommunityIcons
-                name={"pencil"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 50 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
-              <MaterialCommunityIcons
-                name={"trash-can"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 0 }}
-              />
-            </TouchableOpacity>
           </View>
           <View style={styles.stat}>
             <Text
@@ -209,26 +195,6 @@ const Profile = ({ navigation }) => {
             >
               {userData == null ? "Cargando..." : userData.genero}
             </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
-              <MaterialCommunityIcons
-                name={"pencil"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 50 }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("EditProfile")}
-            >
-              <MaterialCommunityIcons
-                name={"trash-can"}
-                size={20}
-                color="#000"
-                style={{ position: "absolute", right: 15, bottom: 0 }}
-              />
-            </TouchableOpacity>
           </View>
         </View>
         <View

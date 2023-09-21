@@ -8,6 +8,7 @@ import FirstForm from "./src/components/form/firstForm.jsx";
 import SecondForm from "./src/components/form/secondForm.jsx";
 import ThirdForm from "./src/components/form/thirdForm.jsx";
 import BottomTab from "./src/components/navigation/BottomTab.js";
+import EditProfile from "./src/components/EditProfile";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -121,6 +122,7 @@ export default function App() {
           )}
         </Stack.Screen>
         <Stack.Screen name="BottomTab" component={BottomTab} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
