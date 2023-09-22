@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   View,
+  ScrollView,
   Text,
   TextInput,
   StyleSheet,
@@ -9,10 +10,32 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
-import { child, getDatabase, ref, get } from "firebase/database";
+import { child, getDatabase, ref, get, update } from "firebase/database";
 
 const EditProfile = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
+  const [username, setUsername] = useState(
+    userData === null ? "" : userData.username
+  );
+  const [edad, setEdad] = useState(userData === null ? "" : userData.edad);
+  const [peso, setPeso] = useState(userData === null ? "" : userData.peso[0]);
+  const [altura, setAltura] = useState(
+    userData === null ? "" : userData.altura[0]
+  );
+  const [genero, setGenero] = useState(
+    userData === null ? "" : userData.genero
+  );
+  const [unidadPeso, setUnidadPeso] = useState("Kg");
+  const [unidadAltura, setUnidadAltura] = useState("Cm");
+  // Function to toggle weight units
+  const toggleWeightUnit = () => {
+    setUnidadPeso(unidadPeso === "Kg" ? "Lb" : "Kg");
+  };
+
+  // Function to toggle height units
+  const toggleHeightUnit = () => {
+    setUnidadAltura(unidadAltura === "Cm" ? "Ft" : "Cm");
+  };
 
   const user = auth.currentUser;
   const name = user.email.split("@")[0].replace(".", "_");
@@ -34,9 +57,29 @@ const EditProfile = ({ navigation }) => {
     .catch((error) => {
       console.error(error);
     });
-  const inicial = userData === null ? "c" : userData.username[0].toLowerCase();
 
-  const handleSubmmit = () => {};
+  const handleSubmmit = () => {
+    if (userData) {
+      const dbRef = ref(getDatabase());
+      const name = user.email.split("@")[0].replace(".", "_");
+      const updates = {};
+      updates["/usuarios/" + name + "/"] = {
+        username: username,
+        edad: edad,
+        peso: [peso, unidadPeso],
+        altura: [altura, unidadAltura],
+        genero: genero,
+        diasSeleccionados: userData.diasSeleccionados,
+        email: userData.email,
+        dificultad: userData.dificultad,
+        experiencia: userData.experiencia,
+        meta: userData.meta,
+      };
+      update(ref(getDatabase()), updates);
+      console.log("Informacion actualizada");
+      navigation.navigate("BottomTab");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -46,14 +89,15 @@ const EditProfile = ({ navigation }) => {
           Editar informacion
         </Text>
       </View>
-      <View style={styles.userInfo}>
+      <ScrollView style={styles.userInfo}>
         <View style={styles.userData}>
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
             Nombre de usuario
           </Text>
           <TextInput
             style={styles.userInput}
-            value={userData === null ? "Cargando..." : userData.username}
+            placeholder={userData === null ? "Cargando..." : userData.username}
+            onChange={(text) => setUsername(text)}
           />
         </View>
         <View style={styles.userData}>
@@ -62,26 +106,39 @@ const EditProfile = ({ navigation }) => {
           </Text>
           <TextInput
             style={styles.userInput}
-            value={userData === null ? "Cargando..." : userData.edad}
+            placeholder={userData === null ? "Cargando..." : userData.edad}
+            onChange={(text) => setEdad(text)}
           />
         </View>
         <View style={styles.userData}>
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
-            Peso
+            Peso ({unidadPeso})
           </Text>
           <TextInput
             style={styles.userInput}
-            value={userData === null ? "Cargando..." : userData.peso[0]}
+            placeholder={userData === null ? "Cargando..." : userData.peso[0]}
+            onChangeText={(text) => setPeso(text)}
           />
+          <TouchableOpacity onPress={toggleWeightUnit}>
+            <Text style={{ fontSize: 16, color: "#00d1ff" }}>
+              Cambiar Unidad ({unidadPeso === "Kg" ? "Lb" : "Kg"})
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.userData}>
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
-            Altura
+            Altura ({unidadAltura})
           </Text>
           <TextInput
             style={styles.userInput}
-            value={userData === null ? "Cargando..." : userData.altura[0]}
+            placeholder={userData === null ? "Cargando..." : userData.altura[0]}
+            onChangeText={(text) => setAltura(text)}
           />
+          <TouchableOpacity onPress={toggleHeightUnit}>
+            <Text style={{ fontSize: 16, color: "#00d1ff" }}>
+              Cambiar Unidad ({unidadAltura === "Cm" ? "Ft" : "Cm"})
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.userData}>
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
@@ -89,11 +146,17 @@ const EditProfile = ({ navigation }) => {
           </Text>
           <TextInput
             style={styles.userInput}
-            value={userData === null ? "Cargando..." : userData.genero}
+            placeholder={userData === null ? "Cargando..." : userData.genero}
+            onChangeText={(text) => setGenero(text)}
           />
         </View>
-      </View>
-      <TouchableOpacity style={styles.boton}>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.boton}
+        onPress={() => {
+          //handleSubmmit();
+        }}
+      >
         <View
           style={{
             width: "100%",
@@ -140,8 +203,6 @@ const styles = StyleSheet.create({
     height: 550,
     backgroundColor: "#fff",
     elevation: 7,
-    justifyContent: "center",
-    alignItems: "center",
     borderRadius: 20,
   },
   boton: {
