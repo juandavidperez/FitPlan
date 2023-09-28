@@ -1,83 +1,109 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
   Text,
   TextInput,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
-import { child, getDatabase, ref, get, update } from "firebase/database";
+import { getDatabase, ref, get, update, set } from "firebase/database";
 
 const EditProfile = ({ navigation }) => {
-  const [userData, setUserData] = useState(null);
-  const [username, setUsername] = useState(
-    userData === null ? "" : userData.username
-  );
-  const [edad, setEdad] = useState(userData === null ? "" : userData.edad);
-  const [peso, setPeso] = useState(userData === null ? "" : userData.peso[0]);
-  const [altura, setAltura] = useState(
-    userData === null ? "" : userData.altura[0]
-  );
-  const [genero, setGenero] = useState(
-    userData === null ? "" : userData.genero
-  );
+  const [key, setKey] = useState(""); // [1]
+  const [userData, setUserData] = useState({});
+  const [username, setUsername] = useState("");
+  const [edad, setEdad] = useState("");
+  const [peso, setPeso] = useState("");
   const [unidadPeso, setUnidadPeso] = useState("Kg");
+  const [altura, setAltura] = useState("");
   const [unidadAltura, setUnidadAltura] = useState("Cm");
-  // Function to toggle weight units
+  const [genero, setGenero] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const user = auth.currentUser;
+      if (user) {
+        const name = user.email.split("@")[0].replace(".", "_");
+        const db = getDatabase();
+        const userRef = ref(db, `usuarios/${name}`);
+        try {
+          const snapshot = await get(userRef);
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            for (const key in data) {
+              if (Object.hasOwnProperty.call(data, key)) {
+                const element = data[key];
+                setKey(key);
+                setUserData(element);
+              }
+            }
+          } else {
+            console.log("No data available");
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const toggleWeightUnit = () => {
     setUnidadPeso(unidadPeso === "Kg" ? "Lb" : "Kg");
   };
 
-  // Function to toggle height units
   const toggleHeightUnit = () => {
     setUnidadAltura(unidadAltura === "Cm" ? "Ft" : "Cm");
   };
 
-  const user = auth.currentUser;
-  const name = user.email.split("@")[0].replace(".", "_");
-  const dbRef = ref(getDatabase());
-  get(child(dbRef, "usuarios/" + name + "/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        for (const key in data) {
-          if (Object.hasOwnProperty.call(data, key)) {
-            const element = data[key];
-            setUserData(element);
-          }
-        }
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
   const handleSubmmit = () => {
     if (userData) {
-      const dbRef = ref(getDatabase());
-      const name = user.email.split("@")[0].replace(".", "_");
-      const updates = {};
-      updates["/usuarios/" + name + "/"] = {
-        username: username,
-        edad: edad,
-        peso: [peso, unidadPeso],
-        altura: [altura, unidadAltura],
-        genero: genero,
-        diasSeleccionados: userData.diasSeleccionados,
-        email: userData.email,
-        dificultad: userData.dificultad,
-        experiencia: userData.experiencia,
-        meta: userData.meta,
-      };
-      update(ref(getDatabase()), updates);
-      console.log("Informacion actualizada");
-      navigation.navigate("BottomTab");
+      const user = auth.currentUser;
+      if (user) {
+        const name = user.email.split("@")[0].replace(".", "_");
+        const db = getDatabase();
+        const userRef = ref(db, `usuarios/${name}/${key}`);
+
+        const isSafeToUpdate =
+          typeof username === "string" &&
+          typeof edad === "string" &&
+          typeof peso === "string" &&
+          typeof altura === "string" &&
+          typeof genero === "string";
+
+        if (isSafeToUpdate) {
+          const updates = {
+            username: username || userData.username,
+            edad: edad || userData.edad,
+            peso: [peso, unidadPeso] || [userData.peso[0], userData.peso[1]],
+            altura: [altura, unidadAltura] || [
+              userData.altura[0],
+              userData.altura[1],
+            ],
+            genero: genero || userData.genero,
+            diasSeleccionados: userData.diasSeleccionados,
+            email: userData.email,
+            dificultad: userData.dificultad,
+            experiencia: userData.experiencia,
+            meta: userData.meta,
+          };
+
+          update(userRef, updates)
+            .then(() => {
+              console.log("Información actualizada correctamente");
+              navigation.navigate("BottomTab");
+            })
+            .catch((error) => {
+              console.error("Error al actualizar información:", error);
+            });
+        } else {
+          console.error("Los datos contienen funciones o valores no válidos.");
+        }
+      }
     }
   };
 
@@ -85,19 +111,25 @@ const EditProfile = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.topBar}>
         <Text style={{ fontSize: 27, color: "#fff", marginTop: 25 }}>
-          {" "}
-          Editar informacion
+          Editar información
         </Text>
       </View>
       <ScrollView style={styles.userInfo}>
         <View style={styles.userData}>
-          <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              marginTop: 20,
+              marginBottom: 10,
+            }}
+          >
             Nombre de usuario
           </Text>
           <TextInput
             style={styles.userInput}
-            placeholder={userData === null ? "Cargando..." : userData.username}
-            onChange={(text) => setUsername(text)}
+            placeholder={userData.username || "Cargando..."}
+            onChangeText={(text) => setUsername(text)}
           />
         </View>
         <View style={styles.userData}>
@@ -106,8 +138,8 @@ const EditProfile = ({ navigation }) => {
           </Text>
           <TextInput
             style={styles.userInput}
-            placeholder={userData === null ? "Cargando..." : userData.edad}
-            onChange={(text) => setEdad(text)}
+            placeholder={userData.edad || "Cargando..."}
+            onChangeText={(text) => setEdad(text)}
           />
         </View>
         <View style={styles.userData}>
@@ -116,7 +148,7 @@ const EditProfile = ({ navigation }) => {
           </Text>
           <TextInput
             style={styles.userInput}
-            placeholder={userData === null ? "Cargando..." : userData.peso[0]}
+            placeholder={userData.peso ? userData.peso[0] : "Cargando..."}
             onChangeText={(text) => setPeso(text)}
           />
           <TouchableOpacity onPress={toggleWeightUnit}>
@@ -131,7 +163,7 @@ const EditProfile = ({ navigation }) => {
           </Text>
           <TextInput
             style={styles.userInput}
-            placeholder={userData === null ? "Cargando..." : userData.altura[0]}
+            placeholder={userData.altura ? userData.altura[0] : "Cargando..."}
             onChangeText={(text) => setAltura(text)}
           />
           <TouchableOpacity onPress={toggleHeightUnit}>
@@ -142,44 +174,50 @@ const EditProfile = ({ navigation }) => {
         </View>
         <View style={styles.userData}>
           <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 10 }}>
-            Genero
+            Género
           </Text>
           <TextInput
             style={styles.userInput}
-            placeholder={userData === null ? "Cargando..." : userData.genero}
+            placeholder={userData.genero || "Cargando..."}
             onChangeText={(text) => setGenero(text)}
           />
         </View>
-      </ScrollView>
-      <TouchableOpacity
-        style={styles.boton}
-        onPress={() => {
-          //handleSubmmit();
-        }}
-      >
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "row",
-            marginBottom: 10,
-            marginTop: 10,
-          }}
-        >
-          <MaterialCommunityIcons name="account-edit" size={30} color="#fff" />
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: "bold",
-              marginLeft: 10,
-              color: "#fff",
+        <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
+          <TouchableOpacity
+            style={styles.boton}
+            onPress={() => {
+              handleSubmmit();
             }}
           >
-            Editar informacion
-          </Text>
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+                marginBottom: 10,
+                marginTop: 10,
+              }}
+            >
+              <MaterialCommunityIcons
+                name="account-edit"
+                size={30}
+                color="#fff"
+              />
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "bold",
+                  marginLeft: 10,
+                  color: "#fff",
+                }}
+              >
+                Editar información
+              </Text>
+            </View>
+          </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
@@ -198,20 +236,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userInfo: {
-    marginVertical: 30,
-    width: "90%",
-    height: 550,
     backgroundColor: "#fff",
-    elevation: 7,
+    width: "90%",
+    maxHeight: "70%",
+    marginTop: 20,
     borderRadius: 20,
   },
   boton: {
-    width: "45%",
+    width: "50%",
     height: 60,
     backgroundColor: "#00d1ff",
-    elevation: 7,
     justifyContent: "center",
-    alignItems: "center",
     borderRadius: 20,
   },
   userData: {
@@ -229,6 +264,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     paddingLeft: 10,
+    marginLeft: "10%",
   },
 });
 
