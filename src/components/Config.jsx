@@ -13,7 +13,7 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 
-const Config = () => {
+const Config = ({ navigation }) => {
   return (
     <View>
       <View style={styles.topBar}>
@@ -52,7 +52,7 @@ const Config = () => {
               Cuenta
             </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Account")}>
             <FontAwesome5 name="chevron-right" size={24} color="black" />
           </TouchableOpacity>
         </View>
