@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { auth } from "../../firebase";
-import { child, getDatabase, ref, get } from "firebase/database";
+import { child, getDatabase, ref, get, remove } from "firebase/database";
 import { AntDesign } from "@expo/vector-icons";
 
 const Account = ({ navigation }) => {
@@ -34,14 +34,21 @@ const Account = ({ navigation }) => {
   };
 
   const deleteAccount = () => {
-    auth.currentUser
-      .delete()
+    remove(ref(dbRef, "usuarios/" + name + "/"))
       .then(() => {
-        console.log("Usuario eliminado");
-        navigation.navigate("Login");
+        console.log("Remove succeeded.");
+        auth.currentUser
+          .delete()
+          .then(() => {
+            console.log("User deleted");
+            navigation.navigate("Login");
+          })
+          .catch((error) => {
+            console.log("Error deleting user", error);
+          });
       })
       .catch((error) => {
-        console.log(error);
+        console.log("Remove failed: " + error.message);
       });
   };
   return (
@@ -80,12 +87,22 @@ const Account = ({ navigation }) => {
         >
           Gestion de Cuenta
         </Text>
-        <TouchableOpacity style={styles.stat}>
+        <TouchableOpacity
+          style={styles.stat}
+          onPress={() => {
+            logOut();
+          }}
+        >
           <Text>
             Cerrar Sesion <AntDesign name="logout" size={24} color="black" />
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.stat}>
+        <TouchableOpacity
+          style={styles.stat}
+          onPress={() => {
+            deleteAccount();
+          }}
+        >
           <Text style={{ color: "red", fontWeight: "bold" }}>
             Eliminar Cuenta <AntDesign name="delete" size={24} color="black" />
           </Text>
