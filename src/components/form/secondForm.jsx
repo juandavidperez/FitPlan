@@ -62,13 +62,6 @@ const SecondForm = ({ navigation, onEnviar }) => {
               value="recomposicion_corporal"
             />
           </Picker>
-          <TouchableOpacity onPress={handleInfoIconPress}>
-            <Ionicons
-              name="information-circle-outline"
-              size={24}
-              color="#2e5bff"
-            />
-          </TouchableOpacity>
         </View>
       </View>
 
@@ -118,7 +111,14 @@ const SecondForm = ({ navigation, onEnviar }) => {
             ]}
             onPress={() => handleDiaCheckboxPress("D")}
           >
-            <Text style={styles.checkboxText}>D</Text>
+            <Text
+              style={[
+                styles.checkboxText,
+                diasSeleccionados.includes("D") && styles.checkboxTextSelected,
+              ]}
+            >
+              D
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -127,7 +127,14 @@ const SecondForm = ({ navigation, onEnviar }) => {
             ]}
             onPress={() => handleDiaCheckboxPress("L")}
           >
-            <Text style={styles.checkboxText}>L</Text>
+            <Text
+              style={[
+                styles.checkboxText,
+                diasSeleccionados.includes("L") && styles.checkboxTextSelected,
+              ]}
+            >
+              L
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -136,7 +143,14 @@ const SecondForm = ({ navigation, onEnviar }) => {
             ]}
             onPress={() => handleDiaCheckboxPress("Ma")}
           >
-            <Text style={styles.checkboxText}>M</Text>
+            <Text
+              style={[
+                styles.checkboxText,
+                diasSeleccionados.includes("Ma") && styles.checkboxTextSelected,
+              ]}
+            >
+              M
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -145,7 +159,14 @@ const SecondForm = ({ navigation, onEnviar }) => {
             ]}
             onPress={() => handleDiaCheckboxPress("Mi")}
           >
-            <Text style={styles.checkboxText}>M</Text>
+            <Text
+              style={[
+                styles.checkboxText,
+                diasSeleccionados.includes("Mi") && styles.checkboxTextSelected,
+              ]}
+            >
+              M
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -154,7 +175,14 @@ const SecondForm = ({ navigation, onEnviar }) => {
             ]}
             onPress={() => handleDiaCheckboxPress("J")}
           >
-            <Text style={styles.checkboxText}>J</Text>
+            <Text
+              style={[
+                styles.checkboxText,
+                diasSeleccionados.includes("J") && styles.checkboxTextSelected,
+              ]}
+            >
+              J
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -163,7 +191,14 @@ const SecondForm = ({ navigation, onEnviar }) => {
             ]}
             onPress={() => handleDiaCheckboxPress("V")}
           >
-            <Text style={styles.checkboxText}>V</Text>
+            <Text
+              style={[
+                styles.checkboxText,
+                diasSeleccionados.includes("V") && styles.checkboxTextSelected,
+              ]}
+            >
+              V
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
@@ -172,7 +207,14 @@ const SecondForm = ({ navigation, onEnviar }) => {
             ]}
             onPress={() => handleDiaCheckboxPress("S")}
           >
-            <Text style={styles.checkboxText}>S</Text>
+            <Text
+              style={[
+                styles.checkboxText,
+                diasSeleccionados.includes("S") && styles.checkboxTextSelected,
+              ]}
+            >
+              S
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -199,14 +241,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    marginTop: 20,
-    marginRight: 20,
+    justifyContent: "center",
+    backgroundColor: "#e2f3f5",
   },
   fieldContainer: {
     marginBottom: 20,
   },
   label: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold",
     marginBottom: 10,
   },
@@ -214,7 +256,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#000",
     borderRadius: 5,
     borderRadius: 10,
   },
@@ -231,7 +273,7 @@ const styles = StyleSheet.create({
   checkbox: {
     width: itemWidth / 4.5,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#000",
     borderRadius: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
@@ -246,6 +288,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
   },
+  checkboxTextSelected: {
+    color: "#fff",
+  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -257,6 +302,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 40,
     width: "45%",
+    marginHorizontal: 5,
   },
   buttonText: {
     color: "#fff",

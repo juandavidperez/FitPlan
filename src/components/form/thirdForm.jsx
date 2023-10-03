@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Dimensions,
   ScrollView,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { auth, database } from "../../../firebase";
@@ -27,21 +28,23 @@ const ThirdForm = ({ navigation, onEnviar, enviarDatos }) => {
 
   const sets = [
     {
+      id: "casa",
+      title: "En casa",
+      description: "No tienes implementos pero quieres entrenar en casa.",
+      image: require("../../../assets/saltar-la-cuerda.png"),
+    },
+    {
       id: "basico",
       title: "Básico",
       description: "Un set con implementos básicos para entrenar.",
-    },
-    {
-      id: "casa",
-      title: "En casa",
-      description:
-        "Un set con implementos para entrenar en casa, incluyendo pesas y barras.",
+      image: require("../../../assets/rutina-de-ejercicio.png"),
     },
     {
       id: "gimnasio",
       title: "Gimnasio",
       description:
-        "Un set completo de implementos para entrenar en un gimnasio.",
+        "Tienes posibilidad de entrenar con los implementos de un gimnasio.",
+      image: require("../../../assets/levantamiento-de-pesas.png"),
     },
   ];
 
@@ -73,6 +76,10 @@ const ThirdForm = ({ navigation, onEnviar, enviarDatos }) => {
           <Text style={styles.descriptionText}>
             {sets.find((set) => set.id === selectedSet).description}
           </Text>
+          <Image
+            source={sets.find((set) => set.id === selectedSet).image}
+            style={styles.image}
+          />
         </View>
       )}
 
@@ -94,9 +101,8 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1, // Cambio aquí para permitir que el ScrollView crezca
     padding: 20,
-    backgroundColor: "#f0f0f0",
-    marginTop: 20,
-    marginRight: 20,
+    backgroundColor: "#e2f3f5",
+    justifyContent: "center",
   },
   title: {
     fontSize: 18,
@@ -162,6 +168,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  image: {
+    width: 100,
+    height: 100,
+    alignSelf: "center",
+    marginTop: 10,
   },
 });
 

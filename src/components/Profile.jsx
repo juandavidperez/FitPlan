@@ -54,7 +54,7 @@ const Profile = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
-        <Text style={{ fontSize: 27, color: "#fff", marginTop: 15 }}>
+        <Text style={{ fontSize: 25, color: "#fff", marginTop: 15 }}>
           {" "}
           My Profile
         </Text>
@@ -62,13 +62,13 @@ const Profile = ({ navigation }) => {
       <View style={styles.userDesc}>
         <MaterialCommunityIcons
           name={"alpha-" + inicial + "-circle"}
-          size={80}
+          size={95}
           color="#000"
           style={{ marginTop: 15 }}
         />
         <Text
           style={{
-            fontSize: 20,
+            fontSize: 25,
             fontWeight: "bold",
             marginBottom: 23,
             textAlign: "center",
@@ -228,14 +228,15 @@ const styles = StyleSheet.create({
   },
   topBar: {
     width: "100%",
-    height: "13%",
+    height: "10%",
     backgroundColor: "#00d1ff",
     justifyContent: "center",
     alignItems: "center",
+    paddingTop: 15,
   },
   userDesc: {
     width: "100%",
-    height: "25%",
+    height: "28%",
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
@@ -254,7 +255,7 @@ const styles = StyleSheet.create({
     width: "40%",
     height: 80,
     backgroundColor: "#fff",
-    borderRadius: 30,
+    borderRadius: 15,
     marginBottom: 20,
     marginHorizontal: 10,
     elevation: 5,

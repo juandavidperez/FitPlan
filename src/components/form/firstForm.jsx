@@ -112,7 +112,14 @@ const FirstForm = ({ navigation, onEnviar }) => {
               unidadPeso === "Kg" && styles.weightUnitSelected,
             ]}
           >
-            <Text style={styles.weightUnitText}>Kg</Text>
+            <Text
+              style={[
+                styles.weightUnitText,
+                unidadPeso === "Kg" && styles.unitSelectedText,
+              ]}
+            >
+              Kg
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setUnidadPeso("Lb")}
@@ -121,7 +128,14 @@ const FirstForm = ({ navigation, onEnviar }) => {
               unidadPeso === "Lb" && styles.weightUnitSelected,
             ]}
           >
-            <Text style={styles.weightUnitText}>Lb</Text>
+            <Text
+              style={[
+                styles.weightUnitText,
+                unidadPeso === "Lb" && styles.unitSelectedText,
+              ]}
+            >
+              Lb
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -142,7 +156,14 @@ const FirstForm = ({ navigation, onEnviar }) => {
               unidadAltura === "Cm" && styles.heightUnitSelected,
             ]}
           >
-            <Text style={styles.heightUnitText}>Cm</Text>
+            <Text
+              style={[
+                styles.heightUnitText,
+                unidadAltura === "Cm" && styles.unitSelectedText,
+              ]}
+            >
+              Cm
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setUnidadAltura("Ft")}
@@ -151,7 +172,14 @@ const FirstForm = ({ navigation, onEnviar }) => {
               unidadAltura === "Ft" && styles.heightUnitSelected,
             ]}
           >
-            <Text style={styles.heightUnitText}>Ft</Text>
+            <Text
+              style={[
+                styles.heightUnitText,
+                unidadAltura === "Ft" && styles.unitSelectedText,
+              ]}
+            >
+              Ft
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -170,12 +198,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#f0f0f0",
-    marginTop: 20,
-    marginRight: 20,
+    backgroundColor: "#e2f3f5",
+    justifyContent: "center",
   },
   label: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: "bold",
     marginBottom: 10,
   },
@@ -189,13 +216,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 10,
-    borderRadius: 5,
+    borderRadius: 7,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#000",
   },
   genderOptionSelected: {
     backgroundColor: "#2e5bff",
-    borderColor: "#2e5bff",
+    borderColor: "#000",
   },
   genderText: {
     fontSize: 16,
@@ -205,8 +232,8 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
+    borderColor: "#000",
+    borderWidth: 1.2,
     borderRadius: 5,
     marginBottom: 20,
     paddingHorizontal: 10,
@@ -222,11 +249,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#000",
   },
   weightUnitSelected: {
     backgroundColor: "#2e5bff",
-    borderColor: "#2e5bff",
+    borderColor: "#000",
+    color: "#fff",
   },
   weightUnitText: {
     fontSize: 16,
@@ -240,7 +268,7 @@ const styles = StyleSheet.create({
   heightInput: {
     flex: 1,
     height: 40,
-    borderColor: "#ccc",
+    borderColor: "#000",
     borderWidth: 1,
     borderRadius: 5,
     marginRight: 10,
@@ -257,14 +285,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "#000",
   },
   heightUnitSelected: {
     backgroundColor: "#2e5bff",
-    borderColor: "#2e5bff",
+    borderColor: "#000",
   },
   heightUnitText: {
     fontSize: 16,
+  },
+  unitSelectedText: {
+    color: "#fff",
   },
   weightContainer: {
     flexDirection: "row",
@@ -274,7 +305,7 @@ const styles = StyleSheet.create({
   weightInput: {
     flex: 1,
     height: 40,
-    borderColor: "#ccc",
+    borderColor: "#000",
     borderWidth: 1,
     borderRadius: 5,
     marginRight: 10,
