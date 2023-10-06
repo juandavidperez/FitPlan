@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   Text,
@@ -64,8 +64,36 @@ const getDayName = (day) => {
       return "Dia";
   }
 };
+const equipamento = {
+  null: require("../../assets/corriendo.png"),
+  "": require("../../assets/corriendo.png"),
+  banda: require("../../assets/saltar-la-cuerda.png"),
+  mancuernas: require("../../assets/dumbell.png"),
+  barra: require("../../assets/levantamiento-de-pesas.png"),
+  maquina: require("../../assets/gimnasia.png"),
+};
+
 const windowHeight = Dimensions.get("window").height;
 const Home = ({ navigation }) => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Llamamos a la función getData dentro de useEffect para asegurarnos de que se ejecute después del montaje del componente.
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://fitplan-routine.vercel.app/data/ejercicios.json"
+        );
+        if (!response.ok) throw "Error";
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
@@ -110,10 +138,34 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <ScrollView style={{ width: "100%", margin: 13 }}>
-            <View style={styles.excersice}></View>
-            <View style={styles.excersice}></View>
-            <View style={styles.excersice}></View>
-            <View style={styles.excersice}></View>
+            <View style={styles.excersice}>
+              <Text style={{ fontSize: 17, fontWeight: "bold", margin: 10 }}>
+                {data === null
+                  ? "Cargando..."
+                  : data["experiencia 1"][0].nombre}
+              </Text>
+              <Text
+                style={{ fontSize: 15, marginHorizontal: 10, marginBottom: 5 }}
+              >
+                {data === null
+                  ? "Cargando..."
+                  : data["experiencia 1"][0].repeticion === null
+                  ? `Duracion: ${data["experiencia 1"][0].duracion}`
+                  : `Reps: ${data["experiencia 1"][0].repeticion}`}
+              </Text>
+              <Text
+                style={{ fontSize: 15, marginHorizontal: 10, marginBottom: 5 }}
+              >
+                Series:{" "}
+                {data === null ? "Cargando..." : data["experiencia 1"][0].set}
+              </Text>
+              {
+                <Image
+                  source={equipamento[data["experiencia 1"][0].equipo]}
+                  style={styles.image}
+                />
+              }
+            </View>
           </ScrollView>
         </View>
       </View>
@@ -128,11 +180,12 @@ const styles = StyleSheet.create({
   },
   banner: {
     flexDirection: "row",
-    width: "90%",
-    height: 200,
+    width: "80%",
+    height: windowHeight / 5,
     borderRadius: 30,
-    marginHorizontal: "5%",
-    marginTop: "12%",
+    marginHorizontal: "10%",
+    marginTop: "10%",
+    marginBottom: "5%",
     backgroundColor: "#00d1ff",
     elevation: 7,
     justifyContent: "space-between",
@@ -140,9 +193,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   date: {
-    fontSize: 30,
+    fontSize: 23,
     color: "#fff",
-    marginHorizontal: "5%",
+    marginHorizontal: "7%",
     marginTop: "5%",
     flexDirection: "row",
   },
@@ -154,10 +207,10 @@ const styles = StyleSheet.create({
   },
   rutine: {
     width: "100%",
-    height: windowHeight / 1.6,
+    height: "71%",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    marginTop: "12%",
+    marginTop: "3%",
     backgroundColor: "#00d1ff",
     alignItems: "center",
     justifyContent: "center",
@@ -165,7 +218,7 @@ const styles = StyleSheet.create({
   },
   excersices: {
     width: "90%",
-    height: windowHeight / 1.85,
+    height: "85%",
     marginTop: 15,
     borderRadius: 30,
     backgroundColor: "#fff",
@@ -183,7 +236,7 @@ const styles = StyleSheet.create({
   },
   excersice: {
     width: "88%",
-    height: 100,
+    height: windowHeight / 6,
     borderRadius: 30,
     backgroundColor: "#00d1ff",
     elevation: 5,
@@ -191,6 +244,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginLeft: 7,
     marginBottom: 15,
+  },
+  image: {
+    width: windowHeight / 12,
+    height: windowHeight / 12,
+    alignSelf: "flex-end",
+    position: "absolute",
+    bottom: 20,
+    right: "35%",
   },
 });
 
