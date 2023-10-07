@@ -197,7 +197,7 @@ const Home = ({ navigation }) => {
           </View>
           <ScrollView style={{ width: "100%", margin: 13 }}>
             <View style={styles.excersice}>
-              <Text style={{ fontSize: 17, fontWeight: "bold", margin: 10 }}>
+              <Text style={{ fontSize: 17, fontWeight: "bold", margin: 15 }}>
                 {isLoaded === false ? "Cargando..." : data[0].nombre}
               </Text>
               <Text
