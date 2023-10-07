@@ -9,6 +9,8 @@ import {
   Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { auth } from "../../firebase";
+import { child, getDatabase, ref, get, set } from "firebase/database";
 
 const fecha = new Date();
 const hoy = fecha.getDate();
@@ -64,6 +66,34 @@ const getDayName = (day) => {
       return "Dia";
   }
 };
+const getMeta = (meta) => {
+  switch (meta) {
+    case "deficit_calorico":
+      return 1;
+    case "hipertrofia":
+      return 2;
+    case "definicion":
+      return 3;
+    case "fuerza":
+      return 4;
+    default:
+      return 1;
+  }
+};
+const getExperiencia = (experiencia) => {
+  switch (experiencia) {
+    case "ninguna":
+      return "experiencia 1";
+    case "principiante":
+      return "experiencia 1";
+    case "intermedio":
+      return "experiencia 2";
+    case "avanzado":
+      return "experiencia 3";
+    default:
+      return "experiencia 1";
+  }
+};
 const equipamento = {
   null: require("../../assets/corriendo.png"),
   "": require("../../assets/corriendo.png"),
@@ -76,15 +106,16 @@ const equipamento = {
 const windowHeight = Dimensions.get("window").height;
 const Home = ({ navigation }) => {
   const [data, setData] = useState(null);
+  const [userData, setUserData] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Llamamos a la función getData dentro de useEffect para asegurarnos de que se ejecute después del montaje del componente.
     const fetchData = async () => {
       try {
         const response = await fetch(
           "https://fitplan-routine.vercel.app/data/ejercicios.json"
         );
-        if (!response.ok) throw "Error";
+        if (!response.ok) throw Error(response.statusText);
         const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {
@@ -92,8 +123,35 @@ const Home = ({ navigation }) => {
       }
     };
     fetchData();
-  });
 
+    const user = auth.currentUser;
+    const name = user.email.split("@")[0].replace(".", "_");
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, "usuarios/" + name + "/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data1 = snapshot.val();
+          for (const key in data1) {
+            if (Object.hasOwnProperty.call(data1, key)) {
+              const element = data1[key];
+              setUserData(element);
+            }
+          }
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (userData !== null) {
+      setData(data[getExperiencia(userData.experiencia)]);
+      setIsLoaded(true);
+    }
+  }, [userData]);
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
@@ -128,7 +186,7 @@ const Home = ({ navigation }) => {
             <Text style={{ color: "black", fontWeight: "bold" }}>
               {getDayName(diaActual)} {hoy}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => console.log(data[0].nombre)}>
               <Ionicons
                 name="md-chevron-forward-circle"
                 size={30}
@@ -140,31 +198,33 @@ const Home = ({ navigation }) => {
           <ScrollView style={{ width: "100%", margin: 13 }}>
             <View style={styles.excersice}>
               <Text style={{ fontSize: 17, fontWeight: "bold", margin: 10 }}>
-                {data === null
-                  ? "Cargando..."
-                  : data["experiencia 1"][0].nombre}
+                {isLoaded === false ? "Cargando..." : data[0].nombre}
               </Text>
               <Text
                 style={{ fontSize: 15, marginHorizontal: 10, marginBottom: 5 }}
               >
-                {data === null
+                {isLoaded === false
                   ? "Cargando..."
-                  : data["experiencia 1"][0].repeticion === null
-                  ? `Duracion: ${data["experiencia 1"][0].duracion}`
-                  : `Reps: ${data["experiencia 1"][0].repeticion}`}
+                  : data[0].repeticion === null
+                  ? `Duracion: ${data[0].duracion}`
+                  : `Reps: ${data[0].repeticion}`}
               </Text>
               <Text
                 style={{ fontSize: 15, marginHorizontal: 10, marginBottom: 5 }}
               >
-                Series:{" "}
-                {data === null ? "Cargando..." : data["experiencia 1"][0].set}
+                Series: {isLoaded === false ? "Cargando..." : data[0].set}
               </Text>
-              {
+              {isLoaded === false ? (
                 <Image
-                  source={equipamento[data["experiencia 1"][0].equipo]}
+                  source={require("../../assets/corriendo.png")}
                   style={styles.image}
                 />
-              }
+              ) : (
+                <Image
+                  source={equipamento[data[0].equipo]}
+                  style={styles.image}
+                />
+              )}
             </View>
           </ScrollView>
         </View>
@@ -207,7 +267,7 @@ const styles = StyleSheet.create({
   },
   rutine: {
     width: "100%",
-    height: "71%",
+    height: "72%",
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
     marginTop: "3%",

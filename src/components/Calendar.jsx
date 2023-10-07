@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   calendarContainer: {
-    width: width,
-    height: 460,
+    width: "100%",
+    height: "60%",
     backgroundColor: "#00d1ff",
     elevation: 7,
     justifyContent: "flex-start",
@@ -206,12 +206,12 @@ const styles = StyleSheet.create({
   },
   monthCalendar: {
     width: width - 40,
-    height: 350,
+    height: "80%",
     fontSize: 20,
   },
   streakContainer: {
     marginTop: 30,
-    height: 225,
+    height: "40%",
     width: width - 50,
   },
 });
