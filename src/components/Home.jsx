@@ -96,7 +96,6 @@ const getExperiencia = (experiencia) => {
 };
 const equipamento = {
   null: require("../../assets/corriendo.png"),
-  "": require("../../assets/corriendo.png"),
   banda: require("../../assets/saltar-la-cuerda.png"),
   mancuernas: require("../../assets/dumbell.png"),
   barra: require("../../assets/levantamiento-de-pesas.png"),
@@ -201,7 +200,7 @@ const Home = ({ navigation }) => {
                 {isLoaded === false ? "Cargando..." : data[0].nombre}
               </Text>
               <Text
-                style={{ fontSize: 15, marginHorizontal: 10, marginBottom: 5 }}
+                style={{ fontSize: 15, marginHorizontal: 15, marginBottom: 5 }}
               >
                 {isLoaded === false
                   ? "Cargando..."
@@ -210,7 +209,7 @@ const Home = ({ navigation }) => {
                   : `Reps: ${data[0].repeticion}`}
               </Text>
               <Text
-                style={{ fontSize: 15, marginHorizontal: 10, marginBottom: 5 }}
+                style={{ fontSize: 15, marginHorizontal: 15, marginBottom: 5 }}
               >
                 Series: {isLoaded === false ? "Cargando..." : data[0].set}
               </Text>
