@@ -119,7 +119,13 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="ThirdForm" enviarDatos={enviarDatos}>
           {(props) => (
-            <ThirdForm enviarDatos={enviarDatos} {...props}></ThirdForm>
+            <ThirdForm
+              onEnviar={(data) => {
+                setSelectedSet(data.selectedSet);
+              }}
+              enviarDatos={enviarDatos}
+              {...props}
+            ></ThirdForm>
           )}
         </Stack.Screen>
         <Stack.Screen name="BottomTab" component={BottomTab} />

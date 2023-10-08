@@ -94,12 +94,100 @@ const getExperiencia = (experiencia) => {
       return "experiencia 1";
   }
 };
+
+const getDayName2 = (day) => {
+  switch (day) {
+    case "D":
+      return "Domingo";
+    case "L":
+      return "Lunes";
+    case "Ma":
+      return "Martes";
+    case "Mi":
+      return "Miercoles";
+    case "J":
+      return "Jueves";
+    case "V":
+      return "Viernes";
+    case "S":
+      return "Sabado";
+    default:
+      return "Dia";
+  }
+};
 const equipamento = {
   null: require("../../assets/corriendo.png"),
   banda: require("../../assets/saltar-la-cuerda.png"),
   mancuernas: require("../../assets/dumbell.png"),
   barra: require("../../assets/levantamiento-de-pesas.png"),
   maquina: require("../../assets/gimnasia.png"),
+};
+
+const generarRutina = (ejercicios, meta, usuario) => {
+  // Filtrar ejercicios según la meta seleccionada
+  const ejerciciosMeta = ejercicios.filter((ejercicio) => {
+    return ejercicio.objetivo.includes(meta);
+  });
+
+  // Filtrar ejercicios que no tienen dificultades coincidentes con las del usuario
+  const ejerciciosMetaSinDificultad = ejerciciosMeta.filter((ejercicio) => {
+    return !ejercicio.dificultad.includes(usuario.dificultad);
+  });
+  // Encontrar todos los grupos musculares disponibles
+  const gruposMusculares = new Set();
+  ejerciciosMetaSinDificultad.forEach((ejercicio) => {
+    ejercicio.musculos.forEach((musculo) => {
+      gruposMusculares.add(musculo);
+    });
+  });
+
+  // Calcular la cantidad de ejercicios por día y por grupo muscular
+  const rutina = [];
+  const ejerciciosMetaSinDificultadArray = Array.from(
+    ejerciciosMetaSinDificultad
+  );
+  const diasEntrenamiento = usuario.diasSeleccionados;
+  const gruposMuscularesArray = Array.from(gruposMusculares);
+  const gruposMuscularesPorDia =
+    gruposMuscularesArray.length / diasEntrenamiento.length;
+  const ejerciciosPorDia = Math.floor(
+    ejerciciosMetaSinDificultadArray.length / diasEntrenamiento.length
+  );
+  const ejerciciosPorGrupo = {};
+
+  // Inicializar el objeto ejerciciosPorGrupo
+  gruposMuscularesArray.forEach((grupo) => {
+    ejerciciosPorGrupo[grupo] = [];
+  });
+
+  // Asignar ejercicios a grupos musculares
+  ejerciciosMetaSinDificultad.forEach((ejercicio) => {
+    ejercicio.musculos.forEach((musculo) => {
+      ejerciciosPorGrupo[musculo].push(ejercicio);
+    });
+  });
+
+  // Generar la rutina
+  for (let i = 0; i < diasEntrenamiento.length; i++) {
+    const dia = [];
+    for (let j = 0; j < ejerciciosPorDia; j++) {
+      const grupoMuscular =
+        gruposMuscularesArray[i * gruposMuscularesPorDia + j];
+      const ejerciciosGrupo = ejerciciosPorGrupo[grupoMuscular];
+      if (typeof ejerciciosGrupo === "undefined") {
+        continue;
+      }
+      if (ejerciciosGrupo.length > 0) {
+        const ejercicioIndex = Math.floor(
+          Math.random() * ejerciciosGrupo.length
+        );
+        const ejercicio = ejerciciosGrupo.splice(ejercicioIndex, 1)[0];
+        dia.push(ejercicio);
+      }
+    }
+    rutina.push(dia);
+  }
+  return rutina;
 };
 
 const windowHeight = Dimensions.get("window").height;
@@ -149,6 +237,7 @@ const Home = ({ navigation }) => {
     if (userData !== null) {
       setData(data[getExperiencia(userData.experiencia)]);
       setIsLoaded(true);
+      generarRutina(data, getMeta(userData.meta), userData);
     }
   }, [userData]);
   return (
@@ -185,7 +274,7 @@ const Home = ({ navigation }) => {
             <Text style={{ color: "black", fontWeight: "bold" }}>
               {getDayName(diaActual)} {hoy}
             </Text>
-            <TouchableOpacity onPress={() => console.log(data[0].nombre)}>
+            <TouchableOpacity>
               <Ionicons
                 name="md-chevron-forward-circle"
                 size={30}

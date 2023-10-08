@@ -16,7 +16,8 @@ const ThirdForm = ({ navigation, onEnviar, enviarDatos }) => {
   const [selectedSet, setSelectedSet] = useState(null);
 
   const handleForm = () => {
-    //onEnviar({ selectedSet: selectedSet });
+    onEnviar({ selectedSet: selectedSet });
+    console.log(selectedSet);
     console.log(enviarDatos);
     if (enviarDatos) {
       enviarDatos();
