@@ -95,26 +95,6 @@ const getExperiencia = (experiencia) => {
   }
 };
 
-const getDayName2 = (day) => {
-  switch (day) {
-    case "D":
-      return "Domingo";
-    case "L":
-      return "Lunes";
-    case "Ma":
-      return "Martes";
-    case "Mi":
-      return "Miercoles";
-    case "J":
-      return "Jueves";
-    case "V":
-      return "Viernes";
-    case "S":
-      return "Sabado";
-    default:
-      return "Dia";
-  }
-};
 const equipamento = {
   null: require("../../assets/corriendo.png"),
   banda: require("../../assets/saltar-la-cuerda.png"),
@@ -187,7 +167,7 @@ const generarRutina = (ejercicios, meta, usuario) => {
     }
     rutina.push(dia);
   }
-  return rutina;
+  console.log(rutina);
 };
 
 const windowHeight = Dimensions.get("window").height;
@@ -237,7 +217,6 @@ const Home = ({ navigation }) => {
     if (userData !== null) {
       setData(data[getExperiencia(userData.experiencia)]);
       setIsLoaded(true);
-      generarRutina(data, getMeta(userData.meta), userData);
     }
   }, [userData]);
   return (
@@ -274,7 +253,13 @@ const Home = ({ navigation }) => {
             <Text style={{ color: "black", fontWeight: "bold" }}>
               {getDayName(diaActual)} {hoy}
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={
+                isLoaded === false
+                  ? () => {}
+                  : () => generarRutina(data, getMeta(userData.meta), userData)
+              }
+            >
               <Ionicons
                 name="md-chevron-forward-circle"
                 size={30}
