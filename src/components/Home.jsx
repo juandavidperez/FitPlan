@@ -15,7 +15,7 @@ import { child, getDatabase, ref, get, set } from "firebase/database";
 const fecha = new Date();
 const hoy = fecha.getDate();
 const mesActual = fecha.getMonth() + 1;
-const diaActual = fecha.getDay();
+const diaActual = 4; //fecha.getDay()
 function getMonthName(month) {
   switch (month) {
     case 1:
@@ -95,6 +95,10 @@ const getExperiencia = (experiencia) => {
   }
 };
 
+const firstLetterToUpperCase = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const equipamento = {
   null: require("../../assets/corriendo.png"),
   banda: require("../../assets/saltar-la-cuerda.png"),
@@ -167,7 +171,7 @@ const generarRutina = (ejercicios, meta, usuario) => {
     }
     rutina.push(dia);
   }
-  console.log(rutina);
+  return rutina;
 };
 
 const windowHeight = Dimensions.get("window").height;
@@ -175,6 +179,9 @@ const Home = ({ navigation }) => {
   const [data, setData] = useState(null);
   const [userData, setUserData] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [rutine, setRutine] = useState(null);
+  const [diasSeleccionadosCortos, setDiasSeleccionadosCortos] = useState([]);
+  const [indiceDia, setIndiceDia] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -216,16 +223,59 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     if (userData !== null) {
       setData(data[getExperiencia(userData.experiencia)]);
+      const dias = userData.diasSeleccionados.map((dia) => {
+        switch (dia) {
+          case "D":
+            return "Domingo";
+          case "L":
+            return "Lunes";
+          case "Ma":
+            return "Martes";
+          case "Mi":
+            return "Miercoles";
+          case "J":
+            return "Jueves";
+          case "V":
+            return "Viernes";
+          case "S":
+            return "Sabado";
+          default:
+            return "Dia";
+        }
+      });
+      setDiasSeleccionadosCortos(dias);
       setIsLoaded(true);
     }
   }, [userData]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      setRutine(generarRutina(data, getMeta(userData.meta), userData));
+      console.log(diasSeleccionadosCortos.includes(getDayName(diaActual)));
+      setIndiceDia(diasSeleccionadosCortos.indexOf(getDayName(diaActual)));
+    }
+  }, [isLoaded]);
+  if (isLoaded && rutine !== null) {
+    console.log(rutine);
+    console.log(indiceDia);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
         <Text style={styles.date}>
           {hoy} / {getMonthName(mesActual)}
         </Text>
-        <Text style={styles.date}>Descanso</Text>
+        {isLoaded && rutine !== null ? (
+          rutine[indiceDia][0].musculos.map((musculo, index) => {
+            return (
+              <Text key={index} style={styles.date}>
+                {firstLetterToUpperCase(musculo)}
+              </Text>
+            );
+          })
+        ) : (
+          <Text style={styles.date}>Cargando...</Text>
+        )}
       </View>
       <View style={styles.rutine}>
         <View style={styles.excersices}>
@@ -253,13 +303,7 @@ const Home = ({ navigation }) => {
             <Text style={{ color: "black", fontWeight: "bold" }}>
               {getDayName(diaActual)} {hoy}
             </Text>
-            <TouchableOpacity
-              onPress={
-                isLoaded === false
-                  ? () => {}
-                  : () => generarRutina(data, getMeta(userData.meta), userData)
-              }
-            >
+            <TouchableOpacity>
               <Ionicons
                 name="md-chevron-forward-circle"
                 size={30}
@@ -269,36 +313,59 @@ const Home = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <ScrollView style={{ width: "100%", margin: 13 }}>
-            <View style={styles.excersice}>
-              <Text style={{ fontSize: 17, fontWeight: "bold", margin: 15 }}>
-                {isLoaded === false ? "Cargando..." : data[0].nombre}
-              </Text>
-              <Text
-                style={{ fontSize: 15, marginHorizontal: 15, marginBottom: 5 }}
-              >
-                {isLoaded === false
-                  ? "Cargando..."
-                  : data[0].repeticion === null
-                  ? `Duracion: ${data[0].duracion}`
-                  : `Reps: ${data[0].repeticion}`}
-              </Text>
-              <Text
-                style={{ fontSize: 15, marginHorizontal: 15, marginBottom: 5 }}
-              >
-                Series: {isLoaded === false ? "Cargando..." : data[0].set}
-              </Text>
-              {isLoaded === false ? (
-                <Image
-                  source={require("../../assets/corriendo.png")}
-                  style={styles.image}
-                />
-              ) : (
-                <Image
-                  source={equipamento[data[0].equipo]}
-                  style={styles.image}
-                />
-              )}
-            </View>
+            {isLoaded && rutine !== null ? (
+              rutine[indiceDia].map((ejercicio, index) => {
+                return (
+                  <View key={index} style={styles.excersice}>
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        margin: 15,
+                      }}
+                    >
+                      {ejercicio.nombre}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        marginHorizontal: 15,
+                        marginBottom: 5,
+                      }}
+                    >
+                      {ejercicio.repeticion === null
+                        ? `Duracion: ${ejercicio.duracion} segundos`
+                        : `Repeticiones: ${ejercicio.repeticion}`}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        marginHorizontal: 15,
+                        marginBottom: 5,
+                      }}
+                    >
+                      Series: {ejercicio.set}
+                    </Text>
+                    <Image
+                      source={equipamento[ejercicio.equipo]}
+                      style={styles.image}
+                    />
+                  </View>
+                );
+              })
+            ) : (
+              <View style={styles.excersice}>
+                <Text
+                  style={{
+                    fontSize: 17,
+                    fontWeight: "bold",
+                    margin: 15,
+                  }}
+                >
+                  Cargando...
+                </Text>
+              </View>
+            )}
           </ScrollView>
         </View>
       </View>
@@ -384,7 +451,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     position: "absolute",
     bottom: 20,
-    right: "35%",
+    right: "30%",
   },
 });
 
