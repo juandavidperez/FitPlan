@@ -184,6 +184,16 @@ const Home = ({ navigation }) => {
   const [indiceDia, setIndiceDia] = useState(0);
 
   useEffect(() => {
+    // Este efecto se ejecuta cuando cambias a cualquier otra pantalla
+    const unsubscribe = navigation.addListener("beforeRemove", () => {
+      // Antes de quitar la pantalla actual
+      setIsLoaded(false); // Restablece isLoaded a false
+    });
+
+    return unsubscribe; // Limpia el efecto cuando la pantalla se desmonta
+  }, [navigation]);
+
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -221,7 +231,7 @@ const Home = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (userData !== null) {
+    if (userData && userData !== null) {
       setData(data[getExperiencia(userData.experiencia)]);
       const dias = userData.diasSeleccionados.map((dia) => {
         switch (dia) {

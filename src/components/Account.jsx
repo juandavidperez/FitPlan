@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get, remove } from "firebase/database";
@@ -6,10 +6,16 @@ import { AntDesign } from "@expo/vector-icons";
 
 const Account = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
-
   const user = auth.currentUser;
-  const name = user.email.split("@")[0].replace(".", "_");
   const dbRef = ref(getDatabase());
+  const [name, setName] = useState("");
+
+  useEffect(() => {
+    if (user !== null) {
+      setName(user.email.split("@")[0].replace(".", "_"));
+    }
+  }, [user]);
+
   get(child(dbRef, "usuarios/" + name + "/"))
     .then((snapshot) => {
       if (snapshot.exists()) {
@@ -28,20 +34,25 @@ const Account = ({ navigation }) => {
       console.error(error);
     });
 
-  const logOut = () => {
-    auth.signOut();
-    navigation.navigate("Login");
+  const logOut = async () => {
+    try {
+      await auth.signOut();
+      navigation.navigate("LoginG");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const deleteAccount = () => {
-    remove(ref(dbRef, "usuarios/" + name + "/"))
+    if (!dbRef) return console.log("No existe el usuario");
+    remove(child(dbRef, "usuarios/" + name + "/"))
       .then(() => {
         console.log("Remove succeeded.");
         auth.currentUser
           .delete()
           .then(() => {
             console.log("User deleted");
-            navigation.navigate("Login");
+            navigation.navigate("LoginG");
           })
           .catch((error) => {
             console.log("Error deleting user", error);
@@ -142,7 +153,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
     marginVertical: 5,
-    borderBottomWidth: 1,
   },
   accountManagement: {
     width: "100%",
