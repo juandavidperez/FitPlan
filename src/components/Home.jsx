@@ -8,14 +8,14 @@ import {
   Dimensions,
   Image,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get, set } from "firebase/database";
 
 const fecha = new Date();
 const hoy = fecha.getDate();
 const mesActual = fecha.getMonth() + 1;
-const diaActual = 4; //fecha.getDay()
+const diaActual = fecha.getDay();
 function getMonthName(month) {
   switch (month) {
     case 1:
@@ -251,8 +251,9 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     if (isLoaded) {
       setRutine(generarRutina(data, getMeta(userData.meta), userData));
-      console.log(diasSeleccionadosCortos.includes(getDayName(diaActual)));
-      setIndiceDia(diasSeleccionadosCortos.indexOf(getDayName(diaActual)));
+      if (diasSeleccionadosCortos.includes(getDayName(diaActual))) {
+        setIndiceDia(diasSeleccionadosCortos.indexOf(getDayName(diaActual)));
+      }
     }
   }, [isLoaded]);
   if (isLoaded && rutine !== null) {
@@ -266,13 +267,35 @@ const Home = ({ navigation }) => {
           {hoy} / {getMonthName(mesActual)}
         </Text>
         {isLoaded && rutine !== null ? (
-          rutine[indiceDia][0].musculos.map((musculo, index) => {
-            return (
-              <Text key={index} style={styles.date}>
-                {firstLetterToUpperCase(musculo)}
-              </Text>
-            );
-          })
+          diasSeleccionadosCortos.includes(getDayName(diaActual)) ? (
+            rutine[indiceDia][0].musculos.map((musculo, index) => {
+              return (
+                <Text key={index} style={styles.date}>
+                  {firstLetterToUpperCase(musculo)}
+                </Text>
+              );
+            })
+          ) : (
+            <View
+              style={{
+                width: "50%",
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text style={styles.date}>Descanso</Text>
+              <Image
+                source={require("../../assets/ramadan.png")}
+                style={{
+                  width: 100,
+                  height: 100,
+                  alignSelf: "center",
+                  marginTop: 10,
+                }}
+              />
+            </View>
+          )
         ) : (
           <Text style={styles.date}>Cargando...</Text>
         )}
@@ -314,9 +337,49 @@ const Home = ({ navigation }) => {
           </View>
           <ScrollView style={{ width: "100%", margin: 13 }}>
             {isLoaded && rutine !== null ? (
-              rutine[indiceDia].map((ejercicio, index) => {
-                return (
-                  <View key={index} style={styles.excersice}>
+              diasSeleccionadosCortos.includes(getDayName(diaActual)) ? (
+                rutine[indiceDia].map((ejercicio, index) => {
+                  return (
+                    <View key={index} style={styles.excersice}>
+                      <Text
+                        style={{
+                          fontSize: 17,
+                          fontWeight: "bold",
+                          margin: 15,
+                        }}
+                      >
+                        {ejercicio.nombre}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          marginHorizontal: 15,
+                          marginBottom: 5,
+                        }}
+                      >
+                        {ejercicio.repeticion === null
+                          ? `Duracion: ${ejercicio.duracion} segundos`
+                          : `Repeticiones: ${ejercicio.repeticion}`}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize: 15,
+                          marginHorizontal: 15,
+                          marginBottom: 5,
+                        }}
+                      >
+                        Series: {ejercicio.set}
+                      </Text>
+                      <Image
+                        source={equipamento[ejercicio.equipo]}
+                        style={styles.image}
+                      />
+                    </View>
+                  );
+                })
+              ) : (
+                <View>
+                  <View style={styles.excersice2}>
                     <Text
                       style={{
                         fontSize: 17,
@@ -324,7 +387,12 @@ const Home = ({ navigation }) => {
                         margin: 15,
                       }}
                     >
-                      {ejercicio.nombre}
+                      Descansa{" "}
+                      <MaterialCommunityIcons
+                        name="sleep"
+                        size={24}
+                        color="yellow"
+                      />
                     </Text>
                     <Text
                       style={{
@@ -333,9 +401,7 @@ const Home = ({ navigation }) => {
                         marginBottom: 5,
                       }}
                     >
-                      {ejercicio.repeticion === null
-                        ? `Duracion: ${ejercicio.duracion} segundos`
-                        : `Repeticiones: ${ejercicio.repeticion}`}
+                      Hoy es tu dia de descanso, disfruta!
                     </Text>
                     <Text
                       style={{
@@ -344,15 +410,81 @@ const Home = ({ navigation }) => {
                         marginBottom: 5,
                       }}
                     >
-                      Series: {ejercicio.set}
+                      Recuerda dormir tus 8 horas para estar al 100% mañana
                     </Text>
-                    <Image
-                      source={equipamento[ejercicio.equipo]}
-                      style={styles.image}
-                    />
                   </View>
-                );
-              })
+                  <View style={styles.excersice2}>
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        margin: 15,
+                      }}
+                    >
+                      Come bien{" "}
+                      <MaterialCommunityIcons
+                        name="food-apple"
+                        size={24}
+                        color="red"
+                      />
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        marginHorizontal: 15,
+                        marginBottom: 5,
+                      }}
+                    >
+                      Comer bien es fundamental para tu salud
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        marginHorizontal: 15,
+                        marginBottom: 5,
+                      }}
+                    >
+                      Alimentate con comida saludable y en las cantidades
+                      adecuadas
+                    </Text>
+                  </View>
+                  <View style={styles.excersice2}>
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        margin: 15,
+                      }}
+                    >
+                      Hidratate{" "}
+                      <MaterialCommunityIcons
+                        name="water"
+                        size={24}
+                        color="blue"
+                      />
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        marginHorizontal: 15,
+                        marginBottom: 5,
+                      }}
+                    >
+                      Recuerda tomar 2 litros de agua al dia
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        marginHorizontal: 15,
+                        marginBottom: 5,
+                      }}
+                    >
+                      Asi mantendras tu cuerpo hidratado y funcionando
+                      correctamente
+                    </Text>
+                  </View>
+                </View>
+              )
             ) : (
               <View style={styles.excersice}>
                 <Text
@@ -393,7 +525,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   date: {
-    fontSize: 23,
+    fontSize: 20,
     color: "#fff",
     marginHorizontal: "7%",
     marginTop: "5%",
@@ -437,6 +569,17 @@ const styles = StyleSheet.create({
   excersice: {
     width: "88%",
     height: windowHeight / 6,
+    borderRadius: 30,
+    backgroundColor: "#00d1ff",
+    elevation: 5,
+    borderColor: "#fff",
+    borderWidth: 2,
+    marginLeft: 7,
+    marginBottom: 15,
+  },
+  excersice2: {
+    width: "88%",
+    height: windowHeight / 5,
     borderRadius: 30,
     backgroundColor: "#00d1ff",
     elevation: 5,
