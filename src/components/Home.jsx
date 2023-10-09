@@ -284,15 +284,22 @@ const Home = ({ navigation }) => {
                 justifyContent: "center",
               }}
             >
-              <Text style={styles.date}>Descanso</Text>
+              <Text
+                style={[
+                  {
+                    fontSize: 20,
+                    color: "#fff",
+                    position: "absolute",
+                    top: 15,
+                    right: "25%",
+                  },
+                ]}
+              >
+                Descanso
+              </Text>
               <Image
                 source={require("../../assets/ramadan.png")}
-                style={{
-                  width: 100,
-                  height: 100,
-                  alignSelf: "center",
-                  marginTop: 10,
-                }}
+                style={styles.icon}
               />
             </View>
           )
@@ -410,7 +417,9 @@ const Home = ({ navigation }) => {
                         marginBottom: 5,
                       }}
                     >
-                      Recuerda dormir tus 8 horas para estar al 100% mañana
+                      Recuerda dormir tus{" "}
+                      <Text style={styles.negrita}>8 horas</Text> para estar al
+                      100% mañana
                     </Text>
                   </View>
                   <View style={styles.excersice2}>
@@ -444,8 +453,9 @@ const Home = ({ navigation }) => {
                         marginBottom: 5,
                       }}
                     >
-                      Alimentate con comida saludable y en las cantidades
-                      adecuadas
+                      Alimentate con{" "}
+                      <Text style={styles.negrita}>comida saludable</Text> y en
+                      las cantidades adecuadas
                     </Text>
                   </View>
                   <View style={styles.excersice2}>
@@ -470,7 +480,9 @@ const Home = ({ navigation }) => {
                         marginBottom: 5,
                       }}
                     >
-                      Recuerda tomar 2 litros de agua al dia
+                      Recuerda tomar{" "}
+                      <Text style={styles.negrita}>2 litros</Text> de agua al
+                      dia
                     </Text>
                     <Text
                       style={{
@@ -527,9 +539,9 @@ const styles = StyleSheet.create({
   date: {
     fontSize: 20,
     color: "#fff",
-    marginHorizontal: "7%",
+    alignSelf: "flex-start",
+    marginHorizontal: "5%",
     marginTop: "5%",
-    flexDirection: "row",
   },
   today: {
     fontSize: 30,
@@ -595,6 +607,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 20,
     right: "30%",
+  },
+  icon: {
+    width: windowHeight / 10,
+    height: windowHeight / 10,
+    alignSelf: "flex-end",
+    position: "absolute",
+    bottom: 20,
+    right: "30%",
+  },
+  negrita: {
+    fontWeight: "bold",
   },
 });
 

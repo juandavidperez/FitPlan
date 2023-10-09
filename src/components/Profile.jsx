@@ -56,7 +56,7 @@ const Profile = ({ navigation }) => {
       <View style={styles.topBar}>
         <Text style={{ fontSize: 25, color: "#fff", marginTop: 15 }}>
           {" "}
-          My Profile
+          Perfil
         </Text>
       </View>
       <View style={styles.userDesc}>
