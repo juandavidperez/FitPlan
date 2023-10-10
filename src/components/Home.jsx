@@ -108,13 +108,14 @@ const equipamento = {
 };
 
 const generarRutina = (ejercicios, meta, usuario) => {
+  if (!ejercicios || !usuario || ejercicios.length === 0) {
+    console.log("No hay ejercicios o usuario", ejercicios, usuario);
+    return null;
+  }
   // Filtrar ejercicios según la meta seleccionada
-  const ejerciciosMeta =
-    ejercicios && Array.isArray(ejercicios)
-      ? ejercicios.filter((ejercicio) => {
-          return ejercicio.objetivo.includes(meta);
-        })
-      : [];
+  const ejerciciosMeta = ejercicios.filter((ejercicio) => {
+    return ejercicio.objetivo.includes(meta);
+  });
 
   // Filtrar ejercicios que no tienen dificultades coincidentes con las del usuario
   const ejerciciosMetaSinDificultad = ejerciciosMeta.filter((ejercicio) => {
@@ -193,7 +194,7 @@ const Home = ({ navigation }) => {
       setIsLoaded(false); // Restablece isLoaded a false
     });
 
-    return () => unsubscribe; // Limpia el efecto cuando la pantalla se desmonta
+    return unsubscribe; // Limpia el efecto cuando la pantalla se desmonta
   }, [navigation]);
 
   useEffect(() => {
@@ -205,41 +206,43 @@ const Home = ({ navigation }) => {
         if (!response.ok) throw Error(response.statusText);
         const jsonData = await response.json();
         setData(jsonData);
+        console.log(jsonData);
       } catch (error) {
         console.log(error);
       }
     };
+    console.log("CALLING FETCH DATA");
     fetchData();
-
-    const user = auth.currentUser;
-    console.log({ auth });
-    const name = user.email.split("@")[0].replace(".", "_");
-    if (user && name) {
-      const dbRef = ref(getDatabase());
-      get(child(dbRef, "usuarios/" + name + "/"))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            const data1 = snapshot.val();
-            for (const key in data1) {
-              if (Object.hasOwnProperty.call(data1, key)) {
-                const element = data1[key];
-                setUserData(element);
-              }
-            }
-          } else {
-            console.log("No data available");
-          }
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }, [auth, auth.currentUser]);
+  }, []);
 
   useEffect(() => {
-    if (userData && userData !== null && userData.experiencia) {
-      console.log({ userData });
-      data && setData(data[getExperiencia(userData.experiencia)]);
+    const user = auth.currentUser;
+    const name = user.email.split("@")[0].replace(".", "_");
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, "usuarios/" + name + "/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data1 = snapshot.val();
+          for (const key in data1) {
+            if (Object.hasOwnProperty.call(data1, key)) {
+              const element = data1[key];
+              setUserData(element);
+            }
+          }
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [auth.currentUser]);
+
+  useEffect(() => {
+    if (userData && userData !== null) {
+      if (data && data[getExperiencia(userData.experiencia)]) {
+        setData(data[getExperiencia(userData.experiencia)]);
+      }
       const dias = userData.diasSeleccionados.map((dia) => {
         switch (dia) {
           case "D":
@@ -263,22 +266,22 @@ const Home = ({ navigation }) => {
       setDiasSeleccionadosCortos(dias);
       setIsLoaded(true);
     }
-
-    return () => {
-      console.log("UNMOUNTING HOME");
-      setUserData(null);
-      setIsLoaded(false);
-    };
   }, [userData]);
 
   useEffect(() => {
-    if (isLoaded && data && userData) {
+    if (isLoaded && data) {
+      console.log(data, typeof data);
       setRutine(generarRutina(data, getMeta(userData.meta), userData));
       if (diasSeleccionadosCortos.includes(getDayName(diaActual))) {
         setIndiceDia(diasSeleccionadosCortos.indexOf(getDayName(diaActual)));
       }
     }
-  }, [isLoaded, data, userData]);
+  }, [isLoaded, data]);
+
+  if (isLoaded && rutine !== null) {
+    console.log(rutine);
+    console.log(indiceDia);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
