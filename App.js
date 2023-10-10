@@ -33,7 +33,6 @@ export default function App() {
   const user = auth.currentUser;
   const enviarDatos = () => {
     const name = user.email.split("@")[0].replace(".", "_");
-    console.log({ user, name });
     if (user) {
       const userRef = ref(database, `usuarios/${name}`); // Referencia al nodo "usuarios"
       const newUserRef = push(userRef);
@@ -51,19 +50,6 @@ export default function App() {
         dificultad: dificultad,
         diasSeleccionados: diasSeleccionados,
         selectedSet: selectedSet,
-      });
-      console.log({
-        username,
-        email,
-        genero,
-        edad,
-        peso,
-        altura,
-        meta,
-        experiencia,
-        dificultad,
-        diasSeleccionados,
-        selectedSet,
       });
     } else {
       console.log("No hay usuario logueado");

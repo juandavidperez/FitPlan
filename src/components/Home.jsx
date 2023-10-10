@@ -109,9 +109,12 @@ const equipamento = {
 
 const generarRutina = (ejercicios, meta, usuario) => {
   // Filtrar ejercicios según la meta seleccionada
-  const ejerciciosMeta = ejercicios.filter((ejercicio) => {
-    return ejercicio.objetivo.includes(meta);
-  });
+  const ejerciciosMeta =
+    ejercicios && Array.isArray(ejercicios)
+      ? ejercicios.filter((ejercicio) => {
+          return ejercicio.objetivo.includes(meta);
+        })
+      : [];
 
   // Filtrar ejercicios que no tienen dificultades coincidentes con las del usuario
   const ejerciciosMetaSinDificultad = ejerciciosMeta.filter((ejercicio) => {
@@ -190,7 +193,7 @@ const Home = ({ navigation }) => {
       setIsLoaded(false); // Restablece isLoaded a false
     });
 
-    return unsubscribe; // Limpia el efecto cuando la pantalla se desmonta
+    return () => unsubscribe; // Limpia el efecto cuando la pantalla se desmonta
   }, [navigation]);
 
   useEffect(() => {
@@ -209,30 +212,34 @@ const Home = ({ navigation }) => {
     fetchData();
 
     const user = auth.currentUser;
+    console.log({ auth });
     const name = user.email.split("@")[0].replace(".", "_");
-    const dbRef = ref(getDatabase());
-    get(child(dbRef, "usuarios/" + name + "/"))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          const data1 = snapshot.val();
-          for (const key in data1) {
-            if (Object.hasOwnProperty.call(data1, key)) {
-              const element = data1[key];
-              setUserData(element);
+    if (user && name) {
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, "usuarios/" + name + "/"))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data1 = snapshot.val();
+            for (const key in data1) {
+              if (Object.hasOwnProperty.call(data1, key)) {
+                const element = data1[key];
+                setUserData(element);
+              }
             }
+          } else {
+            console.log("No data available");
           }
-        } else {
-          console.log("No data available");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [auth, auth.currentUser]);
 
   useEffect(() => {
-    if (userData && userData !== null) {
-      setData(data[getExperiencia(userData.experiencia)]);
+    if (userData && userData !== null && userData.experiencia) {
+      console.log({ userData });
+      data && setData(data[getExperiencia(userData.experiencia)]);
       const dias = userData.diasSeleccionados.map((dia) => {
         switch (dia) {
           case "D":
@@ -256,20 +263,22 @@ const Home = ({ navigation }) => {
       setDiasSeleccionadosCortos(dias);
       setIsLoaded(true);
     }
+
+    return () => {
+      console.log("UNMOUNTING HOME");
+      setUserData(null);
+      setIsLoaded(false);
+    };
   }, [userData]);
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isLoaded && data && userData) {
       setRutine(generarRutina(data, getMeta(userData.meta), userData));
       if (diasSeleccionadosCortos.includes(getDayName(diaActual))) {
         setIndiceDia(diasSeleccionadosCortos.indexOf(getDayName(diaActual)));
       }
     }
-  }, [isLoaded]);
-  if (isLoaded && rutine !== null) {
-    console.log(rutine);
-    console.log(indiceDia);
-  }
+  }, [isLoaded, data, userData]);
   return (
     <View style={styles.container}>
       <View style={styles.banner}>
