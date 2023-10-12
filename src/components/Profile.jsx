@@ -3,29 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get } from "firebase/database";
-
-const data = {
-  dataSets: [
-    {
-      values: [5, 4, 3, 2, 1], // Valores para cada categoría
-      label: "Dataset 1", // Etiqueta del conjunto de datos
-      config: {
-        color: "blue", // Color del gráfico
-        drawFilled: true, // Rellenar el área bajo el gráfico
-        fillColor: "blue", // Color del relleno
-        fillAlpha: 60, // Opacidad del relleno
-        lineWidth: 2, // Grosor de la línea
-      },
-    },
-  ],
-  labels: [
-    "Categoría 1",
-    "Categoría 2",
-    "Categoría 3",
-    "Categoría 4",
-    "Categoría 5",
-  ], // Etiquetas para las categorías
-};
+import RadarChart from "./RadarChart";
 
 const Profile = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
@@ -113,39 +91,39 @@ const Profile = ({ navigation }) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
-            marginBottom: 10,
+            marginBottom: 5,
           }}
         >
           <View style={styles.stat}>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 fontWeight: "bold",
-                marginBottom: 10,
+                marginBottom: 5,
                 textAlign: "center",
               }}
             >
               Edad
             </Text>
             <Text
-              style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
+              style={{ fontSize: 15, marginBottom: 5, textAlign: "center" }}
             >
-              {userData == null ? "Cargando..." : userData.edad}
+              {userData == null ? "Cargando..." : `${userData.edad} años`}
             </Text>
           </View>
           <View style={styles.stat}>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 fontWeight: "bold",
-                marginBottom: 10,
+                marginBottom: 5,
                 textAlign: "center",
               }}
             >
               Altura
             </Text>
             <Text
-              style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
+              style={{ fontSize: 15, marginBottom: 15, textAlign: "center" }}
             >
               {userData == null
                 ? "Cargando..."
@@ -157,22 +135,22 @@ const Profile = ({ navigation }) => {
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
-            marginBottom: 10,
+            marginBottom: 5,
           }}
         >
           <View style={styles.stat}>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 fontWeight: "bold",
-                marginBottom: 10,
+                marginBottom: 5,
                 textAlign: "center",
               }}
             >
               Peso
             </Text>
             <Text
-              style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
+              style={{ fontSize: 15, marginBottom: 5, textAlign: "center" }}
             >
               {userData == null
                 ? "Cargando..."
@@ -182,16 +160,16 @@ const Profile = ({ navigation }) => {
           <View style={styles.stat}>
             <Text
               style={{
-                fontSize: 18,
+                fontSize: 15,
                 fontWeight: "bold",
-                marginBottom: 10,
+                marginBottom: 5,
                 textAlign: "center",
               }}
             >
               Genero
             </Text>
             <Text
-              style={{ fontSize: 18, marginBottom: 10, textAlign: "center" }}
+              style={{ fontSize: 15, marginBottom: 5, textAlign: "center" }}
             >
               {userData == null ? "Cargando..." : userData.genero}
             </Text>
@@ -209,10 +187,20 @@ const Profile = ({ navigation }) => {
         >
           <View style={{ width: "50%", height: "100%", alignItems: "center" }}>
             <Text
-              style={{ fontSize: 18, fontWeight: "bold", marginVertical: 10 }}
+              style={{ fontSize: 15, fontWeight: "bold", marginVertical: 10 }}
             >
-              Meta
+              Estadisticas
             </Text>
+            <View
+              style={{
+                width: "100%",
+                height: "100%",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <RadarChart />
+            </View>
           </View>
         </View>
       </View>
@@ -252,8 +240,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   stat: {
-    width: "40%",
-    height: 80,
+    width: 150,
+    height: 60,
     backgroundColor: "#fff",
     borderRadius: 15,
     marginBottom: 20,
@@ -263,7 +251,7 @@ const styles = StyleSheet.create({
   },
   graphic: {
     width: "90%",
-    height: 170,
+    height: 230,
     backgroundColor: "#fff",
     borderRadius: 30,
     marginBottom: 20,

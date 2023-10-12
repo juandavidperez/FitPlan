@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth, database } from "./firebase";
+import { auth, database } from "./firebase.js";
 import { ref, set, push } from "firebase/database";
 import FirstScreen from "./src/components/FirstScreen.jsx";
 import LoginG from "./src/components/userAuth/LogInG.jsx";
