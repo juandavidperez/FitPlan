@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Svg, Circle, Line, Polygon, Text } from "react-native-svg";
+import { auth } from "../../firebase";
+import { child, getDatabase, ref, get } from "firebase/database";
 
-const personData = [20, 180, 70]; // Ajusta estos valores según tus datos
 function normalize(value, min, max, newMin, newMax) {
   return ((value - min) / (max - min)) * (newMax - newMin) + newMin;
 }
@@ -14,12 +15,7 @@ const heightMax = 250;
 const weightMin = 1;
 const weightMax = 150;
 
-const normalizedAge = normalize(personData[0], ageMin, ageMax, 1, 5);
-const normalizedHeight = normalize(personData[1], heightMin, heightMax, 1, 5);
-const normalizedWeight = normalize(personData[2], weightMin, weightMax, 1, 5);
-
-const categories = ["Edad", "Altura", "Peso"];
-const data = [normalizedAge, normalizedHeight, normalizedWeight]; // Ajusta estos valores según tus datos
+const categories = ["Edad", "Altura", "Peso"]; // Categorías del gráfico
 
 const center = 120; // Centro del gráfico
 const radius = 80; // Radio del gráfico
@@ -29,12 +25,55 @@ const angleSlice = (2 * Math.PI) / categories.length; // Ángulo entre categorí
 const styles = StyleSheet.create({});
 
 const RadarChart = () => {
+  const [userData, setUserData] = useState(null);
+  const [data, setData] = useState([0, 0, 0]);
+  let normalizedAge, normalizedHeight, normalizedWeight;
+  const user = auth.currentUser;
+
   useEffect(() => {
-    // Limpia el componente si es necesario
-    return () => {
-      // Limpia el componente si es necesario
-    };
-  }, []);
+    if (user) {
+      const name = user.email.split("@")[0].replace(".", "_");
+      const dbRef = ref(getDatabase());
+      get(child(dbRef, "usuarios/" + name + "/"))
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            const data = snapshot.val();
+            for (const key in data) {
+              if (Object.hasOwnProperty.call(data, key)) {
+                const element = data[key];
+                setUserData(element);
+              }
+            }
+          } else {
+            console.log("No data available");
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (userData) {
+      normalizedAge = normalize(userData.edad, ageMin, ageMax, 1, levels);
+      normalizedHeight = normalize(
+        userData.altura[0],
+        heightMin,
+        heightMax,
+        1,
+        levels
+      );
+      normalizedWeight = normalize(
+        userData.peso[0],
+        weightMin,
+        weightMax,
+        1,
+        levels
+      );
+      setData([normalizedAge, normalizedHeight, normalizedWeight]);
+    }
+  }, [userData]);
 
   return (
     <View style={styles.container}>
