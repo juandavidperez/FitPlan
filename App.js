@@ -10,6 +10,7 @@ import ThirdForm from "./src/components/form/thirdForm.jsx";
 import BottomTab from "./src/components/navigation/BottomTab.js";
 import EditProfile from "./src/components/EditProfile.jsx";
 import Account from "./src/components/Account.jsx";
+import About from "./src/components/About.jsx";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -117,6 +118,7 @@ export default function App() {
         <Stack.Screen name="BottomTab" component={BottomTab} />
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="Account" component={Account} />
+        <Stack.Screen name="About" component={About} />
       </Stack.Navigator>
     </NavigationContainer>
   );
