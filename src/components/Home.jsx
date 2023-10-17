@@ -387,7 +387,7 @@ const Home = ({ navigation }) => {
                         }}
                       >
                         {ejercicio.repeticion === null
-                          ? `Duracion: ${ejercicio.duracion} segundos`
+                          ? `Duracion: ${ejercicio.duracion} seg`
                           : `Repeticiones: ${ejercicio.repeticion}`}
                       </Text>
                       <Text
