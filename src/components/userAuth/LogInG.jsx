@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Text,
   TextInput,
@@ -11,11 +11,15 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { ThemeContext } from "../ThemeContext";
 
 const LoginG = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { secondaryBackgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
 
   const windowHeight = Dimensions.get("window").height;
   const auth = getAuth();
@@ -34,7 +38,12 @@ const LoginG = ({ navigation }) => {
   };
 
   return (
-    <View style={[styles.container, { height: windowHeight }]}>
+    <View
+      style={[
+        styles.container,
+        { height: windowHeight, backgroundColor: secondaryBackgroundColor },
+      ]}
+    >
       <View style={styles.div}>
         <Text style={styles.title}>Welcome to Our App!</Text>
         <View style={styles.imageContainer}>

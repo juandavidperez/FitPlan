@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   View,
   Text,
@@ -6,20 +6,24 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
+import { ThemeContext } from "./ThemeContext";
 
 const windowWidth = Dimensions.get("window").width;
 
-const App = () => {
-  const [selected, setSelected] = useState(null);
-
+const Apariencia = () => {
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { backgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
   return (
-    <View style={styles.container}>
-      <View style={styles.topBar}>
-        <Text style={styles.title}>Apariencia</Text>
+    <View style={[styles.container, { backgroundColor: backgroundColor }]}>
+      <View style={[styles.topBar, { backgroundColor: highlightColor }]}>
+        <Text style={[styles.title, { color: titleColor }]}>Apariencia</Text>
       </View>
       <View style={styles.content}>
         <TouchableOpacity
-          onPress={() => setSelected(0)}
+          onPress={() => {
+            handleContextChange(0);
+          }}
           style={[
             styles.cuadro,
             styles.modoClaro,
@@ -32,7 +36,7 @@ const App = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setSelected(1)}
+          onPress={() => handleContextChange(1)}
           style={[
             styles.cuadro,
             styles.modoOscuro,
@@ -45,7 +49,7 @@ const App = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setSelected(2)}
+          onPress={() => handleContextChange(2)}
           style={[
             styles.cuadro,
             styles.temaNoche,
@@ -58,15 +62,15 @@ const App = () => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => setSelected(3)}
+          onPress={() => handleContextChange(3)}
           style={[
             styles.cuadro,
-            styles.temaEnergia,
+            styles.temaFuego,
             selected === 3 && styles.selectedCuadro,
           ]}
         >
-          <Text style={[styles.bottomText, styles.temaEnergiaText]}>
-            Tema energia
+          <Text style={[styles.bottomText, styles.temaFuegoText]}>
+            Tema fuego
           </Text>
         </TouchableOpacity>
       </View>
@@ -84,7 +88,6 @@ const styles = StyleSheet.create({
   topBar: {
     width: "100%",
     height: 80,
-    backgroundColor: "#00d1ff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -138,12 +141,12 @@ const styles = StyleSheet.create({
   temaNocheText: {
     color: "#FF5F6B",
   },
-  temaEnergia: {
+  temaFuego: {
     backgroundColor: "#FF6347",
   },
-  temaEnergiaText: {
+  temaFuegoText: {
     color: "#FFFFFF",
   },
 });
 
-export default App;
+export default Apariencia;

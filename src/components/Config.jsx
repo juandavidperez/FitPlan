@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -12,11 +12,15 @@ import {
   Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import { ThemeContext } from "./ThemeContext";
 
 const Config = ({ navigation }) => {
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { backgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
   return (
-    <View>
-      <View style={styles.topBar}>
+    <View style={{ backgroundColor: backgroundColor }}>
+      <View style={[styles.topBar, { backgroundColor: highlightColor }]}>
         <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
           Configuración
         </Text>
@@ -40,20 +44,21 @@ const Config = ({ navigation }) => {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <FontAwesome5 name="user-alt" size={24} color="black" />
+            <FontAwesome5 name="user-alt" size={24} color={textColor} />
             <Text
               style={{
                 fontSize: 20,
                 fontWeight: "bold",
                 color: "#000",
                 marginLeft: 5,
+                color: textColor,
               }}
             >
               Cuenta
             </Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate("Account")}>
-            <FontAwesome5 name="chevron-right" size={24} color="black" />
+            <FontAwesome5 name="chevron-right" size={24} color={textColor} />
           </TouchableOpacity>
         </View>
         <View
@@ -68,20 +73,21 @@ const Config = ({ navigation }) => {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <Ionicons name="color-palette" size={24} color="black" />
+            <Ionicons name="color-palette" size={24} color={textColor} />
             <Text
               style={{
                 fontSize: 20,
                 fontWeight: "bold",
                 color: "#000",
                 marginLeft: 5,
+                color: textColor,
               }}
             >
               Apariencia
             </Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate("Apariencia")}>
-            <FontAwesome5 name="chevron-right" size={24} color="black" />
+            <FontAwesome5 name="chevron-right" size={24} color={textColor} />
           </TouchableOpacity>
         </View>
         <View
@@ -96,20 +102,21 @@ const Config = ({ navigation }) => {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <MaterialIcons name="support-agent" size={25} color="black" />
+            <MaterialIcons name="support-agent" size={25} color={textColor} />
             <Text
               style={{
                 fontSize: 20,
                 fontWeight: "bold",
                 color: "#000",
                 marginLeft: 5,
+                color: textColor,
               }}
             >
               Ayuda y soporte
             </Text>
           </View>
           <TouchableOpacity>
-            <FontAwesome5 name="chevron-right" size={24} color="black" />
+            <FontAwesome5 name="chevron-right" size={24} color={textColor} />
           </TouchableOpacity>
         </View>
         <View
@@ -124,20 +131,21 @@ const Config = ({ navigation }) => {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <Feather name="help-circle" size={25} color="black" />
+            <Feather name="help-circle" size={25} color={textColor} />
             <Text
               style={{
                 fontSize: 20,
                 fontWeight: "bold",
                 color: "#000",
                 marginLeft: 5,
+                color: textColor,
               }}
             >
               Acerca de{" "}
             </Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate("About")}>
-            <FontAwesome5 name="chevron-right" size={24} color="black" />
+            <FontAwesome5 name="chevron-right" size={24} color={textColor} />
           </TouchableOpacity>
         </View>
       </View>

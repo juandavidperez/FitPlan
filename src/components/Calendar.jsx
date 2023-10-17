@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import moment from "moment";
 import { FontAwesome5, Feather } from "@expo/vector-icons";
+import { ThemeContext } from "./ThemeContext";
 
 const fecha = new Date();
 const hoy = fecha.getDate();
@@ -72,13 +73,18 @@ LocaleConfig.defaultLocale = "es";
 
 const width = Dimensions.get("window").width;
 const CalendarC = ({ navigation }) => {
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { backgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
   const [selectedDate, setSelectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
 
   return (
-    <View style={styles.container}>
-      <View style={styles.calendarContainer}>
+    <View style={[styles.container, { backgroundColor: backgroundColor }]}>
+      <View
+        style={[styles.calendarContainer, { backgroundColor: highlightColor }]}
+      >
         <View
           style={{
             flexDirection: "row",
@@ -92,9 +98,9 @@ const CalendarC = ({ navigation }) => {
           current={selectedDate}
           style={styles.monthCalendar}
           theme={{
-            backgroundColor: "#00d1ff",
-            calendarBackground: "#00d1ff",
-            selectedDayTextColor: "#00d1ff",
+            backgroundColor: highlightColor,
+            calendarBackground: highlightColor,
+            selectedDayTextColor: highlightColor,
             textMonthFontSize: 25,
             textMonthFontWeight: "bold",
             monthTextColor: "white",
@@ -122,6 +128,7 @@ const CalendarC = ({ navigation }) => {
         >
           <Text
             style={{
+              color: textColor,
               fontSize: 22,
               fontWeight: "bold",
               marginTop: 20,
@@ -131,7 +138,9 @@ const CalendarC = ({ navigation }) => {
             Racha actual
           </Text>
           <View style={{ flexDirection: "row" }}>
-            <Text style={{ fontSize: 45, marginTop: 6 }}>2</Text>
+            <Text style={{ fontSize: 45, marginTop: 6, color: textColor }}>
+              2
+            </Text>
             <FontAwesome5
               name="fire"
               size={50}
@@ -144,24 +153,24 @@ const CalendarC = ({ navigation }) => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
-            <Text>Lun</Text>
-            <Text>Mar</Text>
-            <Text>Mier</Text>
-            <Text>Jue</Text>
-            <Text>Vie</Text>
-            <Text>Sab</Text>
-            <Text>Dom</Text>
+            <Text style={{ color: textColor }}>Lun</Text>
+            <Text style={{ color: textColor }}>Mar</Text>
+            <Text style={{ color: textColor }}>Mier</Text>
+            <Text style={{ color: textColor }}>Jue</Text>
+            <Text style={{ color: textColor }}>Vie</Text>
+            <Text style={{ color: textColor }}>Sab</Text>
+            <Text style={{ color: textColor }}>Dom</Text>
           </View>
           <View
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
-            <Feather name="circle" size={24} color="black" />
-            <Feather name="check-circle" size={24} color="black" />
-            <Feather name="circle" size={24} color="black" />
-            <Feather name="check-circle" size={24} color="black" />
-            <Feather name="circle" size={24} color="black" />
-            <Feather name="circle" size={24} color="black" />
-            <Feather name="circle" size={24} color="black" />
+            <Feather name="circle" size={24} color={textColor} />
+            <Feather name="check-circle" size={24} color={textColor} />
+            <Feather name="circle" size={24} color={textColor} />
+            <Feather name="check-circle" size={24} color={textColor} />
+            <Feather name="circle" size={24} color={textColor} />
+            <Feather name="circle" size={24} color={textColor} />
+            <Feather name="circle" size={24} color={textColor} />
           </View>
         </View>
         <Image
@@ -186,7 +195,6 @@ const styles = StyleSheet.create({
   calendarContainer: {
     width: "100%",
     height: "60%",
-    backgroundColor: "#00d1ff",
     elevation: 7,
     justifyContent: "flex-start",
     alignItems: "center",

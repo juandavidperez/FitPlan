@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   ScrollView,
   Text,
@@ -11,6 +11,7 @@ import {
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get, set } from "firebase/database";
+import { ThemeContext } from "./ThemeContext";
 
 const fecha = new Date();
 const hoy = fecha.getDate();
@@ -186,6 +187,9 @@ const Home = ({ navigation }) => {
   const [rutine, setRutine] = useState(null);
   const [diasSeleccionadosCortos, setDiasSeleccionadosCortos] = useState([]);
   const [indiceDia, setIndiceDia] = useState(0);
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { backgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
 
   useEffect(() => {
     // Este efecto se ejecuta cuando cambias a cualquier otra pantalla
@@ -283,16 +287,16 @@ const Home = ({ navigation }) => {
     console.log(indiceDia);
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.banner}>
-        <Text style={styles.date}>
+    <View style={[styles.container, { backgroundColor: backgroundColor }]}>
+      <View style={[styles.banner, { backgroundColor: highlightColor }]}>
+        <Text style={[styles.date, { color: textColor }]}>
           {hoy} / {getMonthName(mesActual)}
         </Text>
         {isLoaded && rutine !== null ? (
           diasSeleccionadosCortos.includes(getDayName(diaActual)) ? (
             rutine[indiceDia][0].musculos.map((musculo, index) => {
               return (
-                <Text key={index} style={styles.date}>
+                <Text key={index} style={[styles.date, { color: textColor }]}>
                   {firstLetterToUpperCase(musculo)}
                 </Text>
               );
@@ -329,8 +333,13 @@ const Home = ({ navigation }) => {
           <Text style={styles.date}>Cargando...</Text>
         )}
       </View>
-      <View style={styles.rutine}>
-        <View style={styles.excersices}>
+      <View style={[styles.rutine, { backgroundColor: highlightColor }]}>
+        <View
+          style={[
+            styles.excersices,
+            { backgroundColor: backgroundColor, borderColor: highlightColor },
+          ]}
+        >
           <View
             style={{
               flexDirection: "row",
@@ -346,20 +355,20 @@ const Home = ({ navigation }) => {
             <Ionicons
               name="barbell"
               size={30}
-              color="black"
+              color={textColor}
               style={{ marginLeft: 15 }}
             />
-            <Text style={{ color: "black", fontWeight: "bold" }}>
+            <Text style={{ color: textColor, fontWeight: "bold" }}>
               Ejercicios diarios{" "}
             </Text>
-            <Text style={{ color: "black", fontWeight: "bold" }}>
+            <Text style={{ color: textColor, fontWeight: "bold" }}>
               {getDayName(diaActual)} {hoy}
             </Text>
             <TouchableOpacity>
               <Ionicons
                 name="md-chevron-forward-circle"
                 size={30}
-                color="black"
+                color={textColor}
                 style={{ marginHorizontal: 10 }}
               />
             </TouchableOpacity>
@@ -369,9 +378,16 @@ const Home = ({ navigation }) => {
               diasSeleccionadosCortos.includes(getDayName(diaActual)) ? (
                 rutine[indiceDia].map((ejercicio, index) => {
                   return (
-                    <View key={index} style={styles.excersice}>
+                    <View
+                      key={index}
+                      style={[
+                        styles.excersice,
+                        { backgroundColor: highlightColor },
+                      ]}
+                    >
                       <Text
                         style={{
+                          color: textColor,
                           fontSize: 17,
                           fontWeight: "bold",
                           margin: 15,
@@ -381,6 +397,7 @@ const Home = ({ navigation }) => {
                       </Text>
                       <Text
                         style={{
+                          color: textColor,
                           fontSize: 15,
                           marginHorizontal: 15,
                           marginBottom: 5,
@@ -392,6 +409,7 @@ const Home = ({ navigation }) => {
                       </Text>
                       <Text
                         style={{
+                          color: textColor,
                           fontSize: 15,
                           marginHorizontal: 15,
                           marginBottom: 5,
@@ -589,7 +607,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     backgroundColor: "#fff",
     elevation: 5,
-    borderColor: "#00d1ff",
     borderWidth: 2,
     marginBottom: 25,
   },

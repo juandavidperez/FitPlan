@@ -15,6 +15,7 @@ import Apariencia from "./src/components/Apariencia.jsx";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { ThemeProvider } from "./src/components/ThemeContext.js";
 
 const Stack = createStackNavigator();
 
@@ -59,69 +60,71 @@ export default function App() {
   };
 
   return (
-    <NavigationContainer style={{ width: 180 }}>
-      <Stack.Navigator
-        initialRouteName="FirstScreen"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="Main" component={FirstScreen} />
-        <Stack.Screen name="LoginG" component={LoginG} />
-        <Stack.Screen name="SignUp">
-          {(props) => (
-            <SignUp
-              onEnviar={(data) => {
-                setUsername(data.username);
-                setEmail(data.email);
-              }}
-              {...props}
-            ></SignUp>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="FirstForm">
-          {(props) => (
-            <FirstForm
-              onEnviar={(data) => {
-                setGenero(data.genero);
-                setEdad(data.edad);
-                setPeso(data.peso);
-                setAltura(data.altura);
-                setUnidadPeso(data.unidadPeso);
-                setUnidadAltura(data.unidadAltura);
-              }}
-              {...props}
-            ></FirstForm>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="SecondForm">
-          {(props) => (
-            <SecondForm
-              onEnviar={(data) => {
-                setMeta(data.meta);
-                setExperiencia(data.experiencia);
-                setDificultad(data.dificultad);
-                setDiasSeleccionados(data.diasSeleccionados);
-              }}
-              {...props}
-            ></SecondForm>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="ThirdForm" enviarDatos={enviarDatos}>
-          {(props) => (
-            <ThirdForm
-              onEnviar={(data) => {
-                setSelectedSet(data.selectedSet);
-              }}
-              enviarDatos={enviarDatos}
-              {...props}
-            ></ThirdForm>
-          )}
-        </Stack.Screen>
-        <Stack.Screen name="BottomTab" component={BottomTab} />
-        <Stack.Screen name="EditProfile" component={EditProfile} />
-        <Stack.Screen name="Account" component={Account} />
-        <Stack.Screen name="About" component={About} />
-        <Stack.Screen name="Apariencia" component={Apariencia} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <ThemeProvider>
+      <NavigationContainer style={{ width: 180 }}>
+        <Stack.Navigator
+          initialRouteName="FirstScreen"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Main" component={FirstScreen} />
+          <Stack.Screen name="LoginG" component={LoginG} />
+          <Stack.Screen name="SignUp">
+            {(props) => (
+              <SignUp
+                onEnviar={(data) => {
+                  setUsername(data.username);
+                  setEmail(data.email);
+                }}
+                {...props}
+              ></SignUp>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="FirstForm">
+            {(props) => (
+              <FirstForm
+                onEnviar={(data) => {
+                  setGenero(data.genero);
+                  setEdad(data.edad);
+                  setPeso(data.peso);
+                  setAltura(data.altura);
+                  setUnidadPeso(data.unidadPeso);
+                  setUnidadAltura(data.unidadAltura);
+                }}
+                {...props}
+              ></FirstForm>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="SecondForm">
+            {(props) => (
+              <SecondForm
+                onEnviar={(data) => {
+                  setMeta(data.meta);
+                  setExperiencia(data.experiencia);
+                  setDificultad(data.dificultad);
+                  setDiasSeleccionados(data.diasSeleccionados);
+                }}
+                {...props}
+              ></SecondForm>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="ThirdForm" enviarDatos={enviarDatos}>
+            {(props) => (
+              <ThirdForm
+                onEnviar={(data) => {
+                  setSelectedSet(data.selectedSet);
+                }}
+                enviarDatos={enviarDatos}
+                {...props}
+              ></ThirdForm>
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="BottomTab" component={BottomTab} />
+          <Stack.Screen name="EditProfile" component={EditProfile} />
+          <Stack.Screen name="Account" component={Account} />
+          <Stack.Screen name="About" component={About} />
+          <Stack.Screen name="Apariencia" component={Apariencia} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }

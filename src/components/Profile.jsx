@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get } from "firebase/database";
 import RadarChart from "./RadarChart";
+import { ThemeContext } from "./ThemeContext";
 
 const Profile = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { backgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
 
   const user = auth.currentUser;
   const name = user.email.split("@")[0].replace(".", "_");
@@ -30,22 +34,23 @@ const Profile = ({ navigation }) => {
     });
   const inicial = userData === null ? "c" : userData.username[0].toLowerCase();
   return (
-    <View style={styles.container}>
-      <View style={styles.topBar}>
-        <Text style={{ fontSize: 25, color: "#fff", marginTop: 15 }}>
+    <View style={[styles.container, { backgroundColor: backgroundColor }]}>
+      <View style={[styles.topBar, { backgroundColor: highlightColor }]}>
+        <Text style={{ fontSize: 25, color: textColor, marginTop: 15 }}>
           {" "}
           Perfil
         </Text>
       </View>
-      <View style={styles.userDesc}>
+      <View style={[styles.userDesc, { backgroundColor: backgroundColor }]}>
         <MaterialCommunityIcons
           name={"alpha-" + inicial + "-circle"}
           size={95}
-          color="#000"
+          color={textColor}
           style={{ marginTop: 15 }}
         />
         <Text
           style={{
+            color: textColor,
             fontSize: 25,
             fontWeight: "bold",
             marginBottom: 23,
@@ -55,7 +60,7 @@ const Profile = ({ navigation }) => {
           {userData === null ? "Cargando..." : userData.username}
         </Text>
       </View>
-      <View style={styles.userStats}>
+      <View style={[styles.userStats, { backgroundColor: highlightColor }]}>
         <View
           style={{
             width: "100%",
@@ -67,6 +72,7 @@ const Profile = ({ navigation }) => {
         >
           <Text
             style={{
+              color: textColor,
               fontSize: 18,
               fontWeight: "bold",
               marginBottom: 10,
@@ -83,7 +89,7 @@ const Profile = ({ navigation }) => {
             <MaterialCommunityIcons
               name="account-edit"
               size={30}
-              color="#000"
+              color={textColor}
             />
           </TouchableOpacity>
         </View>
@@ -94,9 +100,10 @@ const Profile = ({ navigation }) => {
             marginBottom: 5,
           }}
         >
-          <View style={styles.stat}>
+          <View style={[styles.stat, { backgroundColor: backgroundColor }]}>
             <Text
               style={{
+                color: textColor,
                 fontSize: 15,
                 fontWeight: "bold",
                 marginBottom: 5,
@@ -106,14 +113,20 @@ const Profile = ({ navigation }) => {
               Edad
             </Text>
             <Text
-              style={{ fontSize: 15, marginBottom: 5, textAlign: "center" }}
+              style={{
+                fontSize: 15,
+                marginBottom: 5,
+                textAlign: "center",
+                color: textColor,
+              }}
             >
               {userData == null ? "Cargando..." : `${userData.edad} años`}
             </Text>
           </View>
-          <View style={styles.stat}>
+          <View style={[styles.stat, { backgroundColor: backgroundColor }]}>
             <Text
               style={{
+                color: textColor,
                 fontSize: 15,
                 fontWeight: "bold",
                 marginBottom: 5,
@@ -123,7 +136,12 @@ const Profile = ({ navigation }) => {
               Altura
             </Text>
             <Text
-              style={{ fontSize: 15, marginBottom: 15, textAlign: "center" }}
+              style={{
+                fontSize: 15,
+                marginBottom: 15,
+                textAlign: "center",
+                color: textColor,
+              }}
             >
               {userData == null
                 ? "Cargando..."
@@ -138,38 +156,50 @@ const Profile = ({ navigation }) => {
             marginBottom: 5,
           }}
         >
-          <View style={styles.stat}>
+          <View style={[styles.stat, { backgroundColor: backgroundColor }]}>
             <Text
               style={{
                 fontSize: 15,
                 fontWeight: "bold",
                 marginBottom: 5,
                 textAlign: "center",
+                color: textColor,
               }}
             >
               Peso
             </Text>
             <Text
-              style={{ fontSize: 15, marginBottom: 5, textAlign: "center" }}
+              style={{
+                fontSize: 15,
+                marginBottom: 5,
+                textAlign: "center",
+                color: textColor,
+              }}
             >
               {userData == null
                 ? "Cargando..."
                 : userData.peso[0] + " " + userData.peso[1]}
             </Text>
           </View>
-          <View style={styles.stat}>
+          <View style={[styles.stat, { backgroundColor: backgroundColor }]}>
             <Text
               style={{
                 fontSize: 15,
                 fontWeight: "bold",
                 marginBottom: 5,
                 textAlign: "center",
+                color: textColor,
               }}
             >
               Genero
             </Text>
             <Text
-              style={{ fontSize: 15, marginBottom: 5, textAlign: "center" }}
+              style={{
+                fontSize: 15,
+                marginBottom: 5,
+                textAlign: "center",
+                color: textColor,
+              }}
             >
               {userData == null ? "Cargando..." : userData.genero}
             </Text>
@@ -182,6 +212,7 @@ const Profile = ({ navigation }) => {
               flexDirection: "row",
               justifyContent: "space-around",
               marginBottom: 15,
+              borderColor: highlightColor,
             },
           ]}
         >
@@ -258,7 +289,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     elevation: 5,
     justifyContent: "center",
-    borderColor: "#00d1ff",
     borderWidth: 2,
   },
 });
