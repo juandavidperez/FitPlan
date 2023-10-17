@@ -1,21 +1,43 @@
-import React from "react";
+import React, { useContext } from "react";
+import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../Home.jsx";
 import Profile from "../Profile.jsx";
 import CalendarC from "../Calendar.jsx";
 import Config from "../Config.jsx";
+import { ThemeContext } from "../ThemeContext.js";
 
 const Tab = createBottomTabNavigator();
 const BottomTab = () => {
+  const { selected, themes, handleContextChange } = useContext(ThemeContext);
+
+  const selectedTheme = themes[selected];
+
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: selectedTheme.highlightColor,
+        },
+        tabBarActiveTintColor: selectedTheme.titleColor,
+      }}
+    >
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-home" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name="ios-home"
+              color={
+                focused
+                  ? selectedTheme.titleColor
+                  : selectedTheme.backgroundColor
+              }
+              size={size}
+            />
           ),
         }}
       />
@@ -23,8 +45,16 @@ const BottomTab = () => {
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-person" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name="ios-person"
+              color={
+                focused
+                  ? selectedTheme.titleColor
+                  : selectedTheme.backgroundColor
+              }
+              size={size}
+            />
           ),
         }}
       />
@@ -32,8 +62,16 @@ const BottomTab = () => {
         name="Calendar"
         component={CalendarC}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-calendar" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name="ios-calendar"
+              color={
+                focused
+                  ? selectedTheme.titleColor
+                  : selectedTheme.backgroundColor
+              }
+              size={size}
+            />
           ),
         }}
       />
@@ -41,13 +79,23 @@ const BottomTab = () => {
         name="Config"
         component={Config}
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-settings-sharp" color={color} size={size} />
+          tabBarIcon: ({ focused, color, size }) => (
+            <Ionicons
+              name="ios-settings-sharp"
+              color={
+                focused
+                  ? selectedTheme.titleColor
+                  : selectedTheme.backgroundColor
+              }
+              size={size}
+            />
           ),
         }}
       />
     </Tab.Navigator>
   );
 };
+
+const styles = StyleSheet.create({});
 
 export default BottomTab;

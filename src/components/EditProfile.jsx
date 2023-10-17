@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   ScrollView,
@@ -10,6 +10,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { auth } from "../../firebase";
 import { getDatabase, ref, get, update, set } from "firebase/database";
+import { ThemeContext } from "./ThemeContext";
 
 const EditProfile = ({ navigation }) => {
   const [key, setKey] = useState(""); // [1]
@@ -21,6 +22,9 @@ const EditProfile = ({ navigation }) => {
   const [altura, setAltura] = useState("");
   const [unidadAltura, setUnidadAltura] = useState("Cm");
   const [genero, setGenero] = useState("");
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { backgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -108,8 +112,8 @@ const EditProfile = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topBar}>
+    <View style={[styles.container, { backgroundColor }]}>
+      <View style={[styles.topBar, { backgroundColor: highlightColor }]}>
         <Text style={{ fontSize: 27, color: "#fff", marginTop: 25 }}>
           Editar información
         </Text>
