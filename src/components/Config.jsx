@@ -80,7 +80,7 @@ const Config = ({ navigation }) => {
               Apariencia
             </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Apariencia")}>
             <FontAwesome5 name="chevron-right" size={24} color="black" />
           </TouchableOpacity>
         </View>
