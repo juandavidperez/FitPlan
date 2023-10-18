@@ -6,9 +6,11 @@ export const ThemeProvider = ({ children }) => {
   const modoClaroTheme = {
     backgroundColor: "#f5f5f5",
     secondaryBackgroundColor: "rgba(78, 150, 209, 0.8)",
-    titleColor: "#000",
+    titleColor: "#333",
     textColor: "#333",
     highlightColor: "#00d1ff",
+    navBarColor: "#fff",
+    focusedColor: "#00d1ff",
   };
 
   const modoOscuroTheme = {
@@ -17,22 +19,28 @@ export const ThemeProvider = ({ children }) => {
     titleColor: "#FFFFFF",
     textColor: "#FFFFFF",
     highlightColor: "#4B4B4B",
+    navBarColor: "#000",
+    focusedColor: "#6a5acd",
   };
 
   const temaNocheTheme = {
     backgroundColor: "#36465d",
     secondaryBackgroundColor: "#374785",
-    titleColor: "#b2dafa",
+    titleColor: "#7388A0",
     textColor: "#B2DAFA",
     highlightColor: "#252850",
+    navBarColor: "#2C3E50",
+    focusedColor: "#b2dafa",
   };
 
   const temaFuegoTheme = {
     backgroundColor: "#FF7F66",
     secondaryBackgroundColor: "#FFA07A",
     titleColor: "#FFFFFF",
-    textColor: "#000",
+    textColor: "#fff",
     highlightColor: "#FF4500",
+    navBarColor: "#FF6347",
+    focusedColor: "#FFa420",
   };
 
   const themes = [

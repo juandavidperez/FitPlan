@@ -17,7 +17,7 @@ const Apariencia = () => {
   return (
     <View style={[styles.container, { backgroundColor: backgroundColor }]}>
       <View style={[styles.topBar, { backgroundColor: highlightColor }]}>
-        <Text style={[styles.title, { color: titleColor }]}>Apariencia</Text>
+        <Text style={[styles.title, { color: textColor }]}>Apariencia</Text>
       </View>
       <View style={styles.content}>
         <TouchableOpacity

@@ -21,7 +21,7 @@ const Config = ({ navigation }) => {
   return (
     <View style={{ backgroundColor: backgroundColor }}>
       <View style={[styles.topBar, { backgroundColor: highlightColor }]}>
-        <Text style={{ fontSize: 20, fontWeight: "bold", color: "#fff" }}>
+        <Text style={{ fontSize: 20, fontWeight: "bold", color: textColor }}>
           Configuración
         </Text>
       </View>
