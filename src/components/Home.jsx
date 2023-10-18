@@ -314,7 +314,7 @@ const Home = ({ navigation }) => {
                 style={[
                   {
                     fontSize: 20,
-                    color: "#fff",
+                    color: textColor,
                     position: "absolute",
                     top: 15,
                     right: "25%",
@@ -426,12 +426,18 @@ const Home = ({ navigation }) => {
                 })
               ) : (
                 <View>
-                  <View style={styles.excersice2}>
+                  <View
+                    style={[
+                      styles.excersice2,
+                      { backgroundColor: highlightColor },
+                    ]}
+                  >
                     <Text
                       style={{
                         fontSize: 17,
                         fontWeight: "bold",
                         margin: 15,
+                        color: textColor,
                       }}
                     >
                       Descansa{" "}
@@ -446,6 +452,7 @@ const Home = ({ navigation }) => {
                         fontSize: 15,
                         marginHorizontal: 15,
                         marginBottom: 5,
+                        color: textColor,
                       }}
                     >
                       Hoy es tu dia de descanso, disfruta!
@@ -455,6 +462,7 @@ const Home = ({ navigation }) => {
                         fontSize: 15,
                         marginHorizontal: 15,
                         marginBottom: 5,
+                        color: textColor,
                       }}
                     >
                       Recuerda dormir tus{" "}
@@ -462,12 +470,18 @@ const Home = ({ navigation }) => {
                       100% mañana
                     </Text>
                   </View>
-                  <View style={styles.excersice2}>
+                  <View
+                    style={[
+                      styles.excersice2,
+                      { backgroundColor: highlightColor },
+                    ]}
+                  >
                     <Text
                       style={{
                         fontSize: 17,
                         fontWeight: "bold",
                         margin: 15,
+                        color: textColor,
                       }}
                     >
                       Come bien{" "}
@@ -482,6 +496,7 @@ const Home = ({ navigation }) => {
                         fontSize: 15,
                         marginHorizontal: 15,
                         marginBottom: 5,
+                        color: textColor,
                       }}
                     >
                       Comer bien es fundamental para tu salud
@@ -491,6 +506,7 @@ const Home = ({ navigation }) => {
                         fontSize: 15,
                         marginHorizontal: 15,
                         marginBottom: 5,
+                        color: textColor,
                       }}
                     >
                       Alimentate con{" "}
@@ -498,12 +514,18 @@ const Home = ({ navigation }) => {
                       las cantidades adecuadas
                     </Text>
                   </View>
-                  <View style={styles.excersice2}>
+                  <View
+                    style={[
+                      styles.excersice2,
+                      { backgroundColor: highlightColor },
+                    ]}
+                  >
                     <Text
                       style={{
                         fontSize: 17,
                         fontWeight: "bold",
                         margin: 15,
+                        color: textColor,
                       }}
                     >
                       Hidratate{" "}
@@ -518,6 +540,7 @@ const Home = ({ navigation }) => {
                         fontSize: 15,
                         marginHorizontal: 15,
                         marginBottom: 5,
+                        color: textColor,
                       }}
                     >
                       Recuerda tomar{" "}
@@ -529,6 +552,7 @@ const Home = ({ navigation }) => {
                         fontSize: 15,
                         marginHorizontal: 15,
                         marginBottom: 5,
+                        color: textColor,
                       }}
                     >
                       Asi mantendras tu cuerpo hidratado y funcionando
