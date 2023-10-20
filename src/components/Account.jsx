@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { auth } from "../../firebase";
 import { child, getDatabase, ref, get, remove } from "firebase/database";
 import { AntDesign } from "@expo/vector-icons";
+import { ThemeContext } from "./ThemeContext";
 
 const Account = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
   const user = auth.currentUser;
   const dbRef = ref(getDatabase());
   const [name, setName] = useState("");
+  const { selected, handleContextChange, themes } = useContext(ThemeContext);
+  const { backgroundColor, titleColor, textColor, highlightColor } =
+    themes[selected];
 
   useEffect(() => {
     if (user !== null) {
@@ -63,9 +67,9 @@ const Account = ({ navigation }) => {
       });
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.topBar}>
-        <Text style={styles.title}>Cuenta</Text>
+    <View style={[styles.container, { backgroundColor: backgroundColor }]}>
+      <View style={[styles.topBar, { backgroundColor: highlightColor }]}>
+        <Text style={[styles.title, { color: textColor }]}>Cuenta</Text>
       </View>
       <View style={styles.accountInfo}>
         <Text
@@ -74,17 +78,22 @@ const Account = ({ navigation }) => {
             fontWeight: "bold",
             marginVertical: 15,
             marginLeft: 15,
+            color: textColor,
           }}
         >
           Informacion de Cuenta
         </Text>
-        <View style={styles.stat}>
-          <Text>Nombre de usuario:</Text>
-          <Text>{userData === null ? "Cargando..." : userData.username}</Text>
+        <View style={[styles.stat, { backgroundColor: backgroundColor }]}>
+          <Text styles={{ color: textColor }}>Nombre de usuario:</Text>
+          <Text styles={{ color: textColor }}>
+            {userData === null ? "Cargando..." : userData.username}
+          </Text>
         </View>
-        <View style={styles.stat}>
-          <Text>Email:</Text>
-          <Text>{userData === null ? "Cargando ..." : userData.email}</Text>
+        <View style={[styles.stat, { backgroundColor: backgroundColor }]}>
+          <Text styles={{ color: textColor }}>Email:</Text>
+          <Text styles={{ color: textColor }}>
+            {userData === null ? "Cargando ..." : userData.email}
+          </Text>
         </View>
       </View>
       <View style={styles.accountManagement}>
@@ -94,6 +103,7 @@ const Account = ({ navigation }) => {
             fontWeight: "bold",
             marginVertical: 15,
             marginLeft: 15,
+            color: textColor,
           }}
         >
           Gestion de Cuenta
@@ -104,8 +114,9 @@ const Account = ({ navigation }) => {
             logOut();
           }}
         >
-          <Text>
-            Cerrar Sesion <AntDesign name="logout" size={24} color="black" />
+          <Text style={{ color: textColor }}>
+            Cerrar Sesion{" "}
+            <AntDesign name="logout" size={24} color={textColor} />
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -115,7 +126,8 @@ const Account = ({ navigation }) => {
           }}
         >
           <Text style={{ color: "red", fontWeight: "bold" }}>
-            Eliminar Cuenta <AntDesign name="delete" size={24} color="black" />
+            Eliminar Cuenta{" "}
+            <AntDesign name="delete" size={24} color={textColor} />
           </Text>
         </TouchableOpacity>
       </View>
@@ -147,7 +159,6 @@ const styles = StyleSheet.create({
   stat: {
     width: "100%",
     height: 50,
-    backgroundColor: "#fff",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

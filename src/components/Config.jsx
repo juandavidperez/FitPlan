@@ -115,7 +115,7 @@ const Config = ({ navigation }) => {
               Ayuda y soporte
             </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("Help")}>
             <FontAwesome5 name="chevron-right" size={24} color={textColor} />
           </TouchableOpacity>
         </View>

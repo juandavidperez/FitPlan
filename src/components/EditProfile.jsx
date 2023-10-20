@@ -23,8 +23,13 @@ const EditProfile = ({ navigation }) => {
   const [unidadAltura, setUnidadAltura] = useState("Cm");
   const [genero, setGenero] = useState("");
   const { selected, handleContextChange, themes } = useContext(ThemeContext);
-  const { backgroundColor, titleColor, textColor, highlightColor } =
-    themes[selected];
+  const {
+    backgroundColor,
+    secondaryBackgroundColor,
+    titleColor,
+    textColor,
+    highlightColor,
+  } = themes[selected];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,7 +123,9 @@ const EditProfile = ({ navigation }) => {
           Editar información
         </Text>
       </View>
-      <ScrollView style={styles.userInfo}>
+      <ScrollView
+        style={[styles.userInfo, { backgroundColor: secondaryBackgroundColor }]}
+      >
         <View style={styles.userData}>
           <Text
             style={{
@@ -156,7 +163,13 @@ const EditProfile = ({ navigation }) => {
             onChangeText={(text) => setPeso(text)}
           />
           <TouchableOpacity onPress={toggleWeightUnit}>
-            <Text style={{ fontSize: 16, color: "#00d1ff" }}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: highlightColor,
+                fontWeight: "bold",
+              }}
+            >
               Cambiar Unidad ({unidadPeso === "Kg" ? "Lb" : "Kg"})
             </Text>
           </TouchableOpacity>
@@ -171,7 +184,13 @@ const EditProfile = ({ navigation }) => {
             onChangeText={(text) => setAltura(text)}
           />
           <TouchableOpacity onPress={toggleHeightUnit}>
-            <Text style={{ fontSize: 16, color: "#00d1ff" }}>
+            <Text
+              style={{
+                fontSize: 16,
+                color: highlightColor,
+                fontWeight: "bold",
+              }}
+            >
               Cambiar Unidad ({unidadAltura === "Cm" ? "Ft" : "Cm"})
             </Text>
           </TouchableOpacity>
@@ -188,7 +207,7 @@ const EditProfile = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: "row", justifyContent: "space-around" }}>
           <TouchableOpacity
-            style={styles.boton}
+            style={[styles.boton, { backgroundColor: highlightColor }]}
             onPress={() => {
               handleSubmmit();
             }}
@@ -256,7 +275,6 @@ const styles = StyleSheet.create({
   userData: {
     width: "90%",
     height: 100,
-    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
@@ -269,6 +287,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingLeft: 10,
     marginLeft: "10%",
+    backgroundColor: "#fff",
   },
 });
 

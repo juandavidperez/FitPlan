@@ -12,6 +12,7 @@ import EditProfile from "./src/components/EditProfile.jsx";
 import Account from "./src/components/Account.jsx";
 import About from "./src/components/About.jsx";
 import Apariencia from "./src/components/Apariencia.jsx";
+import Help from "./src/components/Help.jsx";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -123,6 +124,7 @@ export default function App() {
           <Stack.Screen name="Account" component={Account} />
           <Stack.Screen name="About" component={About} />
           <Stack.Screen name="Apariencia" component={Apariencia} />
+          <Stack.Screen name="Help" component={Help} />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>
