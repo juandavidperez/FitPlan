@@ -1,7 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import moment from "moment";
+import { auth } from "../../firebase";
+import { child, getDatabase, ref, get } from "firebase/database";
 import { FontAwesome5, Feather } from "@expo/vector-icons";
 import { ThemeContext } from "./ThemeContext";
 
@@ -73,6 +75,9 @@ LocaleConfig.defaultLocale = "es";
 
 const width = Dimensions.get("window").width;
 const CalendarC = ({ navigation }) => {
+  const [userData, setUserData] = useState(null);
+  const user = auth.currentUser;
+  const dbRef = ref(getDatabase());
   const { selected, handleContextChange, themes } = useContext(ThemeContext);
   const { backgroundColor, titleColor, textColor, highlightColor } =
     themes[selected];
@@ -80,6 +85,25 @@ const CalendarC = ({ navigation }) => {
     moment().format("YYYY-MM-DD")
   );
 
+  const name = user.email.split("@")[0].replace(".", "_");
+
+  get(child(dbRef, "usuarios/" + name + "/"))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        for (const key in data) {
+          if (Object.hasOwnProperty.call(data, key)) {
+            const element = data[key];
+            setUserData(element);
+          }
+        }
+      } else {
+        console.log("No data available");
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   return (
     <View style={[styles.container, { backgroundColor: backgroundColor }]}>
       <View
