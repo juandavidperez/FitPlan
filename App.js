@@ -31,7 +31,7 @@ export default function App() {
   const [unidadAltura, setUnidadAltura] = useState("Cm");
   const [meta, setMeta] = useState("");
   const [experiencia, setExperiencia] = useState("");
-  const [dificultad, setDificultad] = useState("");
+  const [lesion, setLesion] = useState("");
   const [diasSeleccionados, setDiasSeleccionados] = useState([]);
   const [selectedSet, setSelectedSet] = useState(null);
   const user = auth.currentUser;
@@ -51,7 +51,7 @@ export default function App() {
         altura: [altura, unidadAltura],
         meta: meta,
         experiencia: experiencia,
-        dificultad: dificultad,
+        lesion: lesion,
         diasSeleccionados: diasSeleccionados,
         selectedSet: selectedSet,
       });
@@ -101,7 +101,7 @@ export default function App() {
                 onEnviar={(data) => {
                   setMeta(data.meta);
                   setExperiencia(data.experiencia);
-                  setDificultad(data.dificultad);
+                  setLesion(data.lesion);
                   setDiasSeleccionados(data.diasSeleccionados);
                 }}
                 {...props}

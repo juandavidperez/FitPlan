@@ -120,7 +120,7 @@ const generarRutina = (ejercicios, meta, usuario) => {
 
   // Filtrar ejercicios que no tienen dificultades coincidentes con las del usuario
   const ejerciciosMetaSinDificultad = ejerciciosMeta.filter((ejercicio) => {
-    return !ejercicio.dificultad.includes(usuario.dificultad);
+    return !ejercicio.lesion.includes(usuario.lesion);
   });
   // Encontrar todos los grupos musculares disponibles
   const gruposMusculares = new Set();
@@ -139,7 +139,7 @@ const generarRutina = (ejercicios, meta, usuario) => {
   const gruposMuscularesArray = Array.from(gruposMusculares);
   const gruposMuscularesPorDia =
     gruposMuscularesArray.length / diasEntrenamiento.length;
-  const ejerciciosPorDia = Math.floor(
+  const ejerciciosPorDia = Math.ceil(
     ejerciciosMetaSinDificultadArray.length / diasEntrenamiento.length
   );
   const ejerciciosPorGrupo = {};
@@ -163,10 +163,20 @@ const generarRutina = (ejercicios, meta, usuario) => {
       const grupoMuscular =
         gruposMuscularesArray[i * gruposMuscularesPorDia + j];
       const ejerciciosGrupo = ejerciciosPorGrupo[grupoMuscular];
-      if (typeof ejerciciosGrupo === "undefined") {
-        continue;
-      }
-      if (ejerciciosGrupo.length > 0) {
+      if (
+        typeof ejerciciosGrupo === "undefined" ||
+        ejerciciosGrupo.length === 0
+      ) {
+        // Si no hay ejercicios disponibles en este grupo, elige uno aleatorio de todos los ejercicios
+        const ejercicioIndex = Math.floor(
+          Math.random() * ejerciciosMetaSinDificultadArray.length
+        );
+        const ejercicio = ejerciciosMetaSinDificultadArray.splice(
+          ejercicioIndex,
+          1
+        )[0];
+        dia.push(ejercicio);
+      } else {
         const ejercicioIndex = Math.floor(
           Math.random() * ejerciciosGrupo.length
         );
@@ -176,6 +186,7 @@ const generarRutina = (ejercicios, meta, usuario) => {
     }
     rutina.push(dia);
   }
+  console.log(gruposMuscularesArray, ejerciciosPorGrupo);
   return rutina;
 };
 
@@ -282,10 +293,6 @@ const Home = ({ navigation }) => {
     }
   }, [isLoaded, data]);
 
-  if (isLoaded && rutine !== null) {
-    console.log(rutine);
-    console.log(indiceDia);
-  }
   return (
     <View style={[styles.container, { backgroundColor: backgroundColor }]}>
       <View style={[styles.banner, { backgroundColor: highlightColor }]}>

@@ -14,12 +14,9 @@ import { ref, set, push } from "firebase/database";
 const SecondForm = ({ navigation, onEnviar }) => {
   const [meta, setMeta] = useState("");
   const [experiencia, setExperiencia] = useState("");
-  const [dificultad, setDificultad] = useState("");
+  const [lesion, setLesion] = useState("");
   const [diasSeleccionados, setDiasSeleccionados] = useState([]);
-
-  const handleInfoIconPress = () => {
-    console.log("Icono de información presionado");
-  };
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleDiaCheckboxPress = (dia) => {
     if (diasSeleccionados.includes(dia)) {
@@ -29,16 +26,18 @@ const SecondForm = ({ navigation, onEnviar }) => {
     } else {
       setDiasSeleccionados([...diasSeleccionados, dia]);
     }
+    const selectedDaysCount = diasSeleccionados.length;
+    setIsButtonDisabled(selectedDaysCount < 2 || selectedDaysCount > 4);
   };
 
   const handleNext = () => {
     onEnviar({
       meta: meta,
       experiencia: experiencia,
-      dificultad: dificultad,
+      lesion: lesion,
       diasSeleccionados: diasSeleccionados,
     });
-    console.log(meta, experiencia, dificultad, diasSeleccionados);
+    console.log(meta, experiencia, lesion, diasSeleccionados);
     navigation.navigate("ThirdForm");
   };
 
@@ -82,27 +81,26 @@ const SecondForm = ({ navigation, onEnviar }) => {
       </View>
 
       <View style={styles.fieldContainer}>
-        <Text style={styles.label}>Dificultades:</Text>
+        <Text style={styles.label}>Lesiones:</Text>
         <View style={styles.inputContainer}>
           <Picker
             style={styles.picker}
-            selectedValue={dificultad}
-            onValueChange={(itemValue) => setDificultad(itemValue)}
+            selectedValue={lesion}
+            onValueChange={(itemValue) => setLesion(itemValue)}
           >
             <Picker.Item label="Ninguna" value="ninguna" />
-            <Picker.Item label="Cardiacas" value="cardiacas" />
-            <Picker.Item
-              label="Falta de extremidades"
-              value="falta_extremidades"
-            />
-            <Picker.Item label="Lesiones" value="lesiones" />
-            <Picker.Item label="Obesidad" value="obesidad" />
+            <Picker.Item label="Rodillas" value="rodillas" />
+            <Picker.Item label="Hombros" value="hombros" />
+            <Picker.Item label="Espalda" value="espalda" />
           </Picker>
         </View>
       </View>
 
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>Días:</Text>
+        <Text style={{ marginBottom: 10, fontSize: 10 }}>
+          Selecciona entre 3 y 5 días
+        </Text>
         <View style={styles.checkboxContainer}>
           <TouchableOpacity
             style={[
@@ -226,7 +224,11 @@ const SecondForm = ({ navigation, onEnviar }) => {
         >
           <Text style={styles.buttonText}>Anterior</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => handleNext()}>
+        <TouchableOpacity
+          style={[styles.button, isButtonDisabled && styles.buttonDisabled]}
+          onPress={() => handleNext()}
+          disabled={isButtonDisabled}
+        >
           <Text style={styles.buttonText}>Siguiente</Text>
         </TouchableOpacity>
       </View>
@@ -304,10 +306,16 @@ const styles = StyleSheet.create({
     width: "45%",
     marginHorizontal: 5,
   },
+  buttonDisabled: {
+    backgroundColor: "#b3b3b3", // Cambia el color de fondo cuando el botón está deshabilitado
+  },
   buttonText: {
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  buttonTextDisabled: {
+    color: "#666666", // Cambia el color del texto cuando el botón está deshabilitado
   },
 });
 
