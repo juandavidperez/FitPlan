@@ -301,13 +301,9 @@ const Home = ({ navigation }) => {
         </Text>
         {isLoaded && rutine !== null ? (
           diasSeleccionadosCortos.includes(getDayName(diaActual)) ? (
-            rutine[indiceDia][0].musculos.map((musculo, index) => {
-              return (
-                <Text key={index} style={[styles.date, { color: textColor }]}>
-                  {firstLetterToUpperCase(musculo)}
-                </Text>
-              );
-            })
+            <Text style={[styles.date, { color: textColor }]}>
+              {firstLetterToUpperCase(rutine[indiceDia][0].musculos[0])}
+            </Text>
           ) : (
             <View
               style={{

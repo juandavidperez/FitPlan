@@ -116,7 +116,6 @@ const LoginG = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(78, 150, 209, 0.8)",
     padding: 20,
     justifyContent: "center",
   },
@@ -124,14 +123,12 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
-    color: "#000",
     marginBottom: 20,
   },
   text: {
     fontSize: 16,
     textAlign: "center",
     marginVertical: 10,
-    color: "#000",
   },
   inputContainer: {
     height: 40,
