@@ -13,6 +13,7 @@ import Account from "./src/components/Account.jsx";
 import About from "./src/components/About.jsx";
 import Apariencia from "./src/components/Apariencia.jsx";
 import Help from "./src/components/Help.jsx";
+import Excercise from "./src/components/Excercise.jsx";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -125,6 +126,7 @@ export default function App() {
           <Stack.Screen name="About" component={About} />
           <Stack.Screen name="Apariencia" component={Apariencia} />
           <Stack.Screen name="Help" component={Help} />
+          <Stack.Screen name="Excercise" component={Excercise} />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

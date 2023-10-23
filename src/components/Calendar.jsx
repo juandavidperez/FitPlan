@@ -163,7 +163,7 @@ const CalendarC = ({ navigation }) => {
           </Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={{ fontSize: 45, marginTop: 6, color: textColor }}>
-              2
+              1
             </Text>
             <FontAwesome5
               name="fire"
@@ -189,10 +189,10 @@ const CalendarC = ({ navigation }) => {
             style={{ flexDirection: "row", justifyContent: "space-around" }}
           >
             <Feather name="circle" size={24} color={textColor} />
-            <Feather name="check-circle" size={24} color={textColor} />
+            <Feather name="circle" size={24} color={textColor} />
+            <Feather name="circle" size={24} color={textColor} />
             <Feather name="circle" size={24} color={textColor} />
             <Feather name="check-circle" size={24} color={textColor} />
-            <Feather name="circle" size={24} color={textColor} />
             <Feather name="circle" size={24} color={textColor} />
             <Feather name="circle" size={24} color={textColor} />
           </View>

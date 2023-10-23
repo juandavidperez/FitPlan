@@ -113,6 +113,10 @@ const generarRutina = (ejercicios, meta, usuario) => {
     console.log("No hay ejercicios o usuario", ejercicios, usuario);
     return null;
   }
+  ejercicios.length === undefined
+    ? (ejercicios = ejercicios[getExperiencia(usuario.experiencia)])
+    : null;
+  console.log(ejercicios);
   // Filtrar ejercicios según la meta seleccionada
   const ejerciciosMeta = ejercicios.filter((ejercicio) => {
     return ejercicio.objetivo.includes(meta);
@@ -367,64 +371,72 @@ const Home = ({ navigation }) => {
             <Text style={{ color: textColor, fontWeight: "bold" }}>
               {getDayName(diaActual)} {hoy}
             </Text>
-            <TouchableOpacity>
-              <Ionicons
-                name="md-chevron-forward-circle"
-                size={30}
-                color={textColor}
-                style={{ marginHorizontal: 10 }}
-              />
-            </TouchableOpacity>
+            <Ionicons
+              name="md-chevron-forward-circle"
+              size={30}
+              color={backgroundColor}
+              style={{ marginHorizontal: 10 }}
+            />
           </View>
           <ScrollView style={{ width: "100%", margin: 13 }}>
             {isLoaded && rutine !== null ? (
               diasSeleccionadosCortos.includes(getDayName(diaActual)) ? (
                 rutine[indiceDia].map((ejercicio, index) => {
                   return (
-                    <View
+                    <TouchableOpacity
                       key={index}
-                      style={[
-                        styles.excersice,
-                        { backgroundColor: highlightColor },
-                      ]}
+                      onPress={() => {
+                        console.log(ejercicio);
+                        navigation.navigate("Excercise", {
+                          ejercicio: ejercicio,
+                        });
+                      }}
                     >
-                      <Text
-                        style={{
-                          color: textColor,
-                          fontSize: 17,
-                          fontWeight: "bold",
-                          margin: 15,
-                        }}
+                      <View
+                        key={index}
+                        style={[
+                          styles.excersice,
+                          { backgroundColor: highlightColor },
+                        ]}
                       >
-                        {ejercicio.nombre}
-                      </Text>
-                      <Text
-                        style={{
-                          color: textColor,
-                          fontSize: 15,
-                          marginHorizontal: 15,
-                          marginBottom: 5,
-                        }}
-                      >
-                        {ejercicio.repeticion === null
-                          ? `Duracion: ${ejercicio.duracion} seg`
-                          : `Repeticiones: ${ejercicio.repeticion}`}
-                      </Text>
-                      <Text
-                        style={{
-                          color: textColor,
-                          fontSize: 15,
-                          marginHorizontal: 15,
-                          marginBottom: 5,
-                        }}
-                      >
-                        Series: {ejercicio.set}
-                      </Text>
-                      <Image
-                        source={equipamento[ejercicio.equipo]}
-                        style={styles.image}
-                      />
-                    </View>
+                        <Text
+                          style={{
+                            color: textColor,
+                            fontSize: 17,
+                            fontWeight: "bold",
+                            margin: 15,
+                          }}
+                        >
+                          {firstLetterToUpperCase(ejercicio.nombre)}
+                        </Text>
+                        <Text
+                          style={{
+                            color: textColor,
+                            fontSize: 15,
+                            marginHorizontal: 15,
+                            marginBottom: 5,
+                          }}
+                        >
+                          {ejercicio.repeticion === null
+                            ? `Duracion: ${ejercicio.duracion} seg`
+                            : `Repeticiones: ${ejercicio.repeticion}`}
+                        </Text>
+                        <Text
+                          style={{
+                            color: textColor,
+                            fontSize: 15,
+                            marginHorizontal: 15,
+                            marginBottom: 5,
+                          }}
+                        >
+                          Series: {ejercicio.set}
+                        </Text>
+                        <Image
+                          source={equipamento[ejercicio.equipo]}
+                          style={styles.image}
+                        />
+                      </View>
+                    </TouchableOpacity>
                   );
                 })
               ) : (
