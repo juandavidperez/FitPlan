@@ -52,20 +52,20 @@ const BottomTab = () => {
         }}
       />
       <Tab.Screen
-        name="Config"
-        component={Config}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-settings-sharp" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="ChatBot"
         component={ChatBot}
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-chatbubbles" color={color} size={size} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Config"
+        component={Config}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="ios-settings-sharp" color={color} size={size} />
           ),
         }}
       />
