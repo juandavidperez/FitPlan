@@ -27,7 +27,7 @@ const ChatBot = () => {
 
   const fetchAssistantReply = async (userMessage) => {
     // Coloca tu API Key en lugar de 'API KEY'
-    const apiKey = "API KEY";
+    const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
     try {
@@ -93,7 +93,7 @@ const ChatBot = () => {
       </View>
       <ScrollView style={{ width: "100%", height: "50%" }}>
         <View style={[styles.userDesc, { backgroundColor: backgroundColor }]}>
-          <View style={styles.chatbox}>
+          <View style={[styles.chatbox, { backgroundColor: highlightColor }]}>
             {chatMessages.length > 0 && (
               <Text
                 style={{
@@ -113,18 +113,26 @@ const ChatBot = () => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
-            <View style={styles.inputContainer}>
+            <View
+              style={[
+                styles.inputContainer,
+                { backgroundColor: highlightColor },
+              ]}
+            >
               <TextInput
                 placeholder="Escribe tu mensaje..."
-                placeholderTextColor="#666"
+                placeholderTextColor={titleColor}
                 multiline
                 numberOfLines={4}
-                style={styles.input}
+                style={[styles.input, { color: textColor }]}
                 value={userInput}
                 onChangeText={setUserInput}
               />
             </View>
-            <TouchableOpacity style={styles.btnSend} onPress={handleSend}>
+            <TouchableOpacity
+              style={[styles.btnSend, { backgroundColor: highlightColor }]}
+              onPress={handleSend}
+            >
               <Ionicons name="send" size={24} color="#fff" />
             </TouchableOpacity>
           </View>
