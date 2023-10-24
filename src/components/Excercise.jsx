@@ -24,7 +24,7 @@ const Excercise = ({ route }) => {
             <Image
               style={styles.gif}
               source={{
-                uri: `${ejercicio.gif.substring(1, ejercicio.gif.length - 1)}`,
+                uri: `${ejercicio.gif}`,
               }}
             />
           ) : (
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: "bold",
     marginTop: 20,
     marginLeft: 20,
