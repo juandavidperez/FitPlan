@@ -17,3 +17,5 @@ web-build/
 .metro-health-check*
 .env
 firebase.js
+
+src/components/ChatBot.jsx
