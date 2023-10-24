@@ -46,7 +46,7 @@ const ChatBot = () => {
 
   const fetchAssistantReply = async (userMessage) => {
     // Coloca tu API Key en lugar de 'API KEY'
-    const apiKey = "API KEY";
+    const apiKey = "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";
     const apiUrl = "https://api.openai.com/v1/chat/completions";
 
     try {
