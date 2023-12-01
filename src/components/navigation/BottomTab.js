@@ -5,7 +5,6 @@ import Home from "../Home.jsx";
 import Profile from "../Profile.jsx";
 import CalendarC from "../Calendar.jsx";
 import Config from "../Config.jsx";
-import ChatBot from "../ChatBot.jsx";
 import { ThemeContext } from "../ThemeContext.js";
 
 const Tab = createBottomTabNavigator();
@@ -48,15 +47,6 @@ const BottomTab = () => {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-calendar" color={color} size={size} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="ChatBot"
-        component={ChatBot}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-chatbubbles" color={color} size={size} />
           ),
         }}
       />
