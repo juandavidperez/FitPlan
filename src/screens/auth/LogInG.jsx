@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { ThemeContext } from "../ThemeContext";
+import { ThemeContext } from "../../components/ThemeContext";
 
 const LoginG = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -48,7 +48,7 @@ const LoginG = ({ navigation }) => {
         <Text style={styles.title}>Welcome to Our App!</Text>
         <View style={styles.imageContainer}>
           <Image
-            source={require("../../../assets/google.png")}
+            source={require("../../../assets/images/google.png")}
             style={styles.image}
           />
         </View>

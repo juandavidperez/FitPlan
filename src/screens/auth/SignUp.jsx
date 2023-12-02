@@ -54,7 +54,7 @@ const SignUp = ({ navigation, onEnviar }) => {
         <Text style={styles.title}>Welcome to Our App!</Text>
         <View style={styles.imageContainer}>
           <Image
-            source={require("../../../assets/google.png")}
+            source={require("../../../assets/images/google.png")}
             style={styles.image}
           />
         </View>
