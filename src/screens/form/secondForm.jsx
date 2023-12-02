@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { Ionicons } from "@expo/vector-icons";
-import { auth, database } from "../../../firebase";
+import { auth, database } from "../../utils/firebase";
 import { ref, set, push } from "firebase/database";
 
 const SecondForm = ({ navigation, onEnviar }) => {

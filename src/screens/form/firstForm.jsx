@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import { auth, database } from "../../../firebase";
+import { auth, database } from "../../utils/firebase";
 import { ref, set, push } from "firebase/database";
 import { Ionicons } from "@expo/vector-icons";
 

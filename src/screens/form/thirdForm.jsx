@@ -32,20 +32,20 @@ const ThirdForm = ({ navigation, onEnviar, enviarDatos }) => {
       id: "casa",
       title: "En casa",
       description: "No tienes implementos pero quieres entrenar en casa.",
-      image: require("../../../assets/saltar-la-cuerda.png"),
+      image: require("../../../assets/images/saltar-la-cuerda.png"),
     },
     {
       id: "basico",
       title: "Básico",
       description: "Un set con implementos básicos para entrenar.",
-      image: require("../../../assets/rutina-de-ejercicio.png"),
+      image: require("../../../assets/images/rutina-de-ejercicio.png"),
     },
     {
       id: "gimnasio",
       title: "Gimnasio",
       description:
         "Tienes posibilidad de entrenar con los implementos de un gimnasio.",
-      image: require("../../../assets/levantamiento-de-pesas.png"),
+      image: require("../../../assets/images/levantamiento-de-pesas.png"),
     },
   ];
 
