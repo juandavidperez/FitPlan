@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Svg, Circle, Line, Polygon, Text } from "react-native-svg";
-import { auth } from "../../firebase";
+import { auth } from "../utils/firebase";
 import { child, getDatabase, ref, get } from "firebase/database";
 
 function normalize(value, min, max, newMin, newMax) {

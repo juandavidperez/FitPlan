@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import Home from "../Home.jsx";
-import Profile from "../Profile.jsx";
-import CalendarC from "../Calendar.jsx";
-import Config from "../Config.jsx";
-import { ThemeContext } from "../ThemeContext.js";
+import Home from "../screens/Home.jsx";
+import Profile from "../screens/Profile.jsx";
+import CalendarC from "../screens/Calendar.jsx";
+import Config from "../screens/Config.jsx";
+import { ThemeContext } from "../components/ThemeContext.js";
 
 const Tab = createBottomTabNavigator();
 const BottomTab = () => {
