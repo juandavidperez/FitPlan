@@ -101,11 +101,11 @@ const firstLetterToUpperCase = (string) => {
 };
 
 const equipamento = {
-  null: require("../../assets/corriendo.png"),
-  banda: require("../../assets/saltar-la-cuerda.png"),
-  mancuernas: require("../../assets/dumbell.png"),
-  barra: require("../../assets/levantamiento-de-pesas.png"),
-  maquina: require("../../assets/gimnasia.png"),
+  null: require("../../assets/images/corriendo.png"),
+  banda: require("../../assets/images/saltar-la-cuerda.png"),
+  mancuernas: require("../../assets/images/dumbell.png"),
+  barra: require("../../assets/images/levantamiento-de-pesas.png"),
+  maquina: require("../../assets/images/gimnasia.png"),
 };
 
 const generarRutina = (ejercicios, meta, usuario) => {
@@ -331,7 +331,7 @@ const Home = ({ navigation }) => {
                 Descanso
               </Text>
               <Image
-                source={require("../../assets/ramadan.png")}
+                source={require("../../assets/images/ramadan.png")}
                 style={styles.icon}
               />
             </View>

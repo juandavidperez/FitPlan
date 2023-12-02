@@ -26,7 +26,7 @@ const Main = ({ navigation }) => {
       </Text>
       <TouchableOpacity onPress={() => navigation.navigate("LoginG")}>
         <Image
-          source={require("../../assets/fitplan.png")}
+          source={require("../../assets/images/fitplan.png")}
           style={styles.image}
         />
       </TouchableOpacity>

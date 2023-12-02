@@ -198,7 +198,7 @@ const CalendarC = ({ navigation }) => {
           </View>
         </View>
         <Image
-          source={require("../../assets/fitplan.png")}
+          source={require("../../assets/images/fitplan.png")}
           style={{
             width: 100,
             height: 100,
