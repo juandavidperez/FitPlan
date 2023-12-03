@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import AuthService from "../../services/AuthService";
 import { ThemeContext } from "../../components/ThemeContext";
 
 const SignUp = ({ navigation, onEnviar }) => {
@@ -23,23 +23,39 @@ const SignUp = ({ navigation, onEnviar }) => {
 
   const windowHeight = Dimensions.get("window").height;
   const auth = getAuth();
+
   const handleSignUp = async (email, password) => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
+    if (email.length === 0 || password.length === 0) {
+      Alert.alert("Error ❌", "Por favor rellena todos los campos");
+      return;
+    }
+    if (!emailRegex.test(email)) {
+      Alert.alert(
+        "Error ❌",
+        "Por favor ingresa un correo electrónico válido (ejemplo: usuario@gmail.com o usuario@inemjose.edu.co)"
       );
-      const user = userCredential.user;
-      onEnviar({
-        username: username,
-        email: email,
-      });
-      console.log(username, email);
-      navigation.navigate("FirstForm");
-    } catch (error) {
-      Alert.alert("Error ❌", "Ha ocurrido un error al registrarte");
-      console.log(error);
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      Alert.alert(
+        "Error ❌",
+        "La contraseña debe contener al menos 6 caracteres, incluyendo al menos una letra y un número y un caracter especial."
+      );
+      return;
+    }
+
+    const user = await AuthService.signUp(email, password);
+
+    if (user) {
+      navigation.navigate("BottomTab");
+    }
+  };
+
+  const handleButtonPress = () => {
+    if (username.length > 0 && email.length > 0 && password.length > 0) {
+      handleSignUp(email, password);
+    } else {
+      Alert.alert("Error ❌", "Por favor rellena todos los campos");
     }
   };
 
@@ -98,20 +114,7 @@ const SignUp = ({ navigation, onEnviar }) => {
             onChangeText={(text) => setPassword(text)}
           />
         </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            if (
-              username.length > 0 &&
-              email.length > 0 &&
-              password.length > 0
-            ) {
-              handleSignUp(email, password);
-            } else {
-              Alert.alert("Error ❌", "Porfavor rellena todos los campos");
-            }
-          }}
-        >
+        <TouchableOpacity style={styles.button} onPress={handleButtonPress}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <Text style={styles.text}>

@@ -10,7 +10,7 @@ import {
   Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import AuthService from "../../services/AuthService";
 import { ThemeContext } from "../../components/ThemeContext";
 
 const LoginG = ({ navigation }) => {
@@ -23,18 +23,44 @@ const LoginG = ({ navigation }) => {
 
   const windowHeight = Dimensions.get("window").height;
   const auth = getAuth();
-  const handleLogin = (email, password) => {
-    console.log({ email, password });
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
+
+  const handleLogin = async (email, password) => {
+    try {
+      if (email.length === 0 || password.length === 0) {
+        console.log("hay campos vacios");
+        Alert.alert("Error ❌", "Por favor rellena todos los campos");
+        return;
+      }
+      if (!emailRegex.test(email)) {
+        console.log("el correo no es valido");
+        Alert.alert(
+          "Error ❌",
+          "Por favor ingresa un correo electrónico válido (ejemplo: usuario@gmail.com)"
+        );
+        return;
+      }
+      if (!passwordRegex.test(password)) {
+        console.log("la contraseña no es valida");
+        Alert.alert(
+          "Error ❌",
+          "La contraseña debe contener al menos 6 caracteres, incluyendo al menos una letra, un caracter especial y un número."
+        );
+        return;
+      }
+
+      const user = await AuthService.signIn(email, password);
+
+      if (user) {
+        console.log("inicio de sesion exitoso");
         navigation.navigate("BottomTab");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        Alert.alert("Error ❌", errorMessage);
-      });
+      }
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error.message);
+      Alert.alert(
+        "Error ❌",
+        "Hubo un problema al iniciar sesión. Por favor, inténtalo de nuevo."
+      );
+    }
   };
 
   return (
@@ -53,12 +79,7 @@ const LoginG = ({ navigation }) => {
           />
         </View>
         <View style={styles.inputContainer}>
-          <Ionicons
-            name="mail"
-            size={20}
-            color="#000"
-            style={{ marginRight: 10, marginTop: 5 }}
-          />
+          <Ionicons name="mail" size={20} color="#000" style={styles.icon} />
           <TextInput
             placeholder="Email or Username"
             style={styles.input}
@@ -70,7 +91,7 @@ const LoginG = ({ navigation }) => {
             name="lock-closed"
             size={20}
             color="#000"
-            style={{ marginRight: 10, marginTop: 5 }}
+            style={styles.icon}
           />
           <TextInput
             placeholder="Password"
@@ -82,7 +103,7 @@ const LoginG = ({ navigation }) => {
             name={showPassword ? "eye-off" : "eye"}
             size={20}
             color="#000"
-            style={{ marginLeft: 10, marginTop: 8 }}
+            style={styles.icon}
             onPress={() => setShowPassword(!showPassword)}
           />
         </View>
@@ -101,7 +122,7 @@ const LoginG = ({ navigation }) => {
         <Text style={styles.text}>
           Don't have an account?
           <Text
-            style={{ color: "#000", fontWeight: "bold" }}
+            style={styles.linkText}
             onPress={() => navigation.navigate("SignUp")}
           >
             {" "}
@@ -138,6 +159,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     paddingHorizontal: 10,
     flexDirection: "row",
+    alignItems: "center",
   },
   input: {
     flex: 1,
@@ -168,6 +190,14 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 50,
+  },
+  icon: {
+    marginRight: 10,
+    marginTop: 5,
+  },
+  linkText: {
+    color: "#000",
+    fontWeight: "bold",
   },
 });
 
