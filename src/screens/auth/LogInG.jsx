@@ -63,6 +63,10 @@ const LoginG = ({ navigation }) => {
     }
   };
 
+  const images = {
+    google: require("../../../assets/images/google.png"),
+  };
+
   return (
     <View
       style={[
@@ -73,10 +77,7 @@ const LoginG = ({ navigation }) => {
       <View style={styles.div}>
         <Text style={styles.title}>Welcome to Our App!</Text>
         <View style={styles.imageContainer}>
-          <Image
-            source={require("../../../assets/images/google.png")}
-            style={styles.image}
-          />
+          <Image source={images.google} style={styles.image} />
         </View>
         <View style={styles.inputContainer}>
           <Ionicons name="mail" size={20} color="#000" style={styles.icon} />

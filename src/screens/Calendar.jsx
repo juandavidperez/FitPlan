@@ -87,6 +87,11 @@ const CalendarC = ({ navigation }) => {
 
   const name = user.email.split("@")[0].replace(".", "_");
 
+  const images = {
+    fitplan: require("../../assets/images/fitplan.png"),
+    // Add more images here
+  };
+
   get(child(dbRef, "usuarios/" + name + "/"))
     .then((snapshot) => {
       if (snapshot.exists()) {
@@ -198,7 +203,7 @@ const CalendarC = ({ navigation }) => {
           </View>
         </View>
         <Image
-          source={require("../../assets/images/fitplan.png")}
+          source={images.fitplan}
           style={{
             width: 100,
             height: 100,

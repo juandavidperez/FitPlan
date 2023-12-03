@@ -14,7 +14,10 @@ const Main = ({ navigation }) => {
   const { themes, selected } = useContext(ThemeContext);
   const { highlightColor, titleColor } = themes[selected];
 
-  const windowHeight = Dimensions.get("window").height;
+  const images = {
+    fitplan: require("../../assets/images/fitplan.png"),
+  };
+
   return (
     <View style={[styles.container, { backgroundColor: highlightColor }]}>
       <Text style={[styles.title, { color: titleColor }]}>
@@ -25,10 +28,7 @@ const Main = ({ navigation }) => {
         ¡Tu entrenador personal!
       </Text>
       <TouchableOpacity onPress={() => navigation.navigate("LoginG")}>
-        <Image
-          source={require("../../assets/images/fitplan.png")}
-          style={styles.image}
-        />
+        <Image source={images.fitplan} style={styles.image} />
       </TouchableOpacity>
     </View>
   );
