@@ -20,7 +20,8 @@ const Index = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        //router.push("/screens/BottomTab");
+        // Si está autenticado, redirige a la pantalla de Home
+        router.push("/(tabs)/HomeScreen");
       } else {
         // Si no está autenticado, redirige a la pantalla de Login
         router.push("/screens/auth/LoginScreen");

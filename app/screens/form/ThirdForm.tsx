@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   StyleSheet,
-  Dimensions,
   ScrollView,
   Image,
 } from "react-native";
@@ -74,7 +73,7 @@ const ThirdForm: React.FC = () => {
          
       console.log("Datos enviados con éxito (simulado)");
       resetForm();
-      // router.replace('/ruta/a/home');
+      router.push("/(tabs)/HomeScreen");
     } catch (error) {
          console.error("Error al enviar datos:", error);
     }

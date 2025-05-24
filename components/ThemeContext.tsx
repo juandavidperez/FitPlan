@@ -14,6 +14,7 @@ export type ThemeContextType = {
   selected: number;
   handleContextChange: (selectedOption: number) => void;
   themes: Theme[];
+  currentTheme: Theme;
 };
 
 const modoClaroTheme: Theme = {
@@ -63,11 +64,11 @@ const themes: Theme[] = [
   temaFuegoTheme,
 ];
 
-// 🟢 Valor inicial por defecto del contexto
 const defaultContext: ThemeContextType = {
   selected: 0,
   handleContextChange: () => {},
   themes,
+  currentTheme: themes[0],
 };
 
 export const ThemeContext = createContext<ThemeContextType>(defaultContext);
@@ -87,6 +88,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     selected,
     handleContextChange,
     themes,
+    currentTheme: themes[selected]
   };
 
   return (

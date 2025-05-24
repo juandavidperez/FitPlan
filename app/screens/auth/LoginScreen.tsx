@@ -61,7 +61,7 @@ const LoginScreen: React.FC = () => {
       const user = await AuthService.login(email, password);
        if (user) {
         console.log("Inicio de sesión exitoso");
-        //router.replace("/screens/BottomTab");
+        router.push("/(tabs)/HomeScreen");
       }
     } catch (error: any) {
       console.error("Error al iniciar sesión:", error.message);
