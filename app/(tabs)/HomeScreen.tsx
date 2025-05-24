@@ -248,7 +248,11 @@ export default function HomeScreen() {
   useFocusEffect(
     
     React.useCallback(() => {
-      setIsLoaded(!!rutine);
+      if(!isLoaded) {
+        setIsLoaded(false);
+      }else{
+        setIsLoaded(true);
+      }
     }, [])
   );
 
