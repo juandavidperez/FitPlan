@@ -76,8 +76,6 @@ LocaleConfig.defaultLocale = "es";
 const width = Dimensions.get("window").width;
 const CalendarC = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
-  const user = auth.currentUser;
-  const dbRef = ref(getDatabase());
   const { selected, handleContextChange, themes } = useContext(ThemeContext);
   const { backgroundColor, titleColor, textColor, highlightColor } =
     themes[selected];
@@ -85,30 +83,33 @@ const CalendarC = ({ navigation }) => {
     moment().format("YYYY-MM-DD")
   );
 
-  const name = user.email.split("@")[0].replace(".", "_");
-
   const images = {
     fitplan: require("../../assets/images/fitplan.png"),
-    // Add more images here
   };
 
-  get(child(dbRef, "usuarios/" + name + "/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        for (const key in data) {
-          if (Object.hasOwnProperty.call(data, key)) {
-            const element = data[key];
-            setUserData(element);
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const name = user.email.split("@")[0].replace(".", "_");
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, "usuarios/" + name + "/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          for (const key in data) {
+            if (Object.hasOwnProperty.call(data, key)) {
+              const element = data[key];
+              setUserData(element);
+            }
           }
+        } else {
+          console.log("No data available");
         }
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
   return (
     <View style={[styles.container, { backgroundColor: backgroundColor }]}>
       <View

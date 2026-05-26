@@ -7,36 +7,33 @@ import { ThemeContext } from "../components/ThemeContext";
 
 const Account = ({ navigation }) => {
   const [userData, setUserData] = useState(null);
-  const user = auth.currentUser;
-  const dbRef = ref(getDatabase());
-  const [name, setName] = useState("");
   const { selected, handleContextChange, themes } = useContext(ThemeContext);
   const { backgroundColor, titleColor, textColor, highlightColor } =
     themes[selected];
 
   useEffect(() => {
-    if (user !== null) {
-      setName(user.email.split("@")[0].replace(".", "_"));
-    }
-  }, [user]);
-
-  get(child(dbRef, "usuarios/" + name + "/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        for (const key in data) {
-          if (Object.hasOwnProperty.call(data, key)) {
-            const element = data[key];
-            setUserData(element);
+    const user = auth.currentUser;
+    if (!user) return;
+    const name = user.email.split("@")[0].replace(".", "_");
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, "usuarios/" + name + "/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          for (const key in data) {
+            if (Object.hasOwnProperty.call(data, key)) {
+              const element = data[key];
+              setUserData(element);
+            }
           }
+        } else {
+          console.log("No data available");
         }
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const logOut = async () => {
     try {
@@ -48,11 +45,14 @@ const Account = ({ navigation }) => {
   };
 
   const deleteAccount = () => {
-    if (!dbRef) return console.log("No existe el usuario");
+    const user = auth.currentUser;
+    if (!user) return console.log("No existe el usuario");
+    const name = user.email.split("@")[0].replace(".", "_");
+    const dbRef = ref(getDatabase());
     remove(child(dbRef, "usuarios/" + name + "/"))
       .then(() => {
         console.log("Remove succeeded.");
-        auth.currentUser
+        user
           .delete()
           .then(() => {
             console.log("User deleted");
