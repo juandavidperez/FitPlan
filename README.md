@@ -1,32 +1,99 @@
-<h1>FitPlan: Your Fitness Buddy</h1>
-<p>Are you ready to embrace a healthier lifestyle? FitPlan is here to help you achieve your fitness goals with ease and fun.</p>
+# FitPlan ⚡
 
-<h2>About FitPlan</h2>
-<p>FitPlan is a mobile application crafted with React Native and powered by a robust Firebase database. It's tailored for fitness enthusiasts, providing a seamless platform to track your workouts, set goals, and monitor progress all in one place.</p>
+Tu entrenador personal en el bolsillo. FitPlan genera rutinas de ejercicio personalizadas según tu experiencia, objetivo y días disponibles, y las sincroniza en tiempo real con Firebase.
 
-<h2>Key Features</h2>
-<ul>
-  <li><strong>Personalized Workouts:</strong> Create your customized workout plans that suit your fitness needs and goals.</li>
-  <li><strong>Progress Tracker:</strong> Monitor and analyze your progress with detailed statistics and visual representations.</li>
-  <li><strong>Community Support:</strong> Join our vibrant fitness community to stay motivated and inspired throughout your fitness journey.</li>
-  <li><strong>Real-time Updates:</strong> Enjoy the convenience of real-time data sync, ensuring your workout data is always up-to-date across your devices.</li>
-</ul>
+<p align="center">
+  <img src="https://github.com/juandavidperez/FitPlan/assets/28809204/1f5d1224-03d0-47df-ba2a-b71053d06de0" width="200" height="400" />
+  <img src="https://github.com/juandavidperez/FitPlan/assets/28809204/09cad7c9-b506-4cc4-bb27-a9ae178cbd07" width="200" height="400" />
+  <img src="https://github.com/juandavidperez/FitPlan/assets/28809204/f42306dc-55ec-4316-81cf-bcf79786d92b" width="200" height="400" />
+</p>
 
-<h2>Installation</h2>
-<p>To get started with FitPlan, follow these simple steps:</p>
-<ol>
-  <li>Clone the repository: <code>git clone [repository URL]</code></li>
-  <li>Install dependencies: <code>npm install</code> and <code>npm install expo</code></li>
-  <li>Run the application: <code>npm start</code> or <code>npx expo start</code></li>
-</ol>
+## Funcionalidades
 
-<h2>Contributing</h2>
-<p>We welcome contributions from the community to make FitPlan even better. If you have any ideas or improvements, feel free to open an issue or submit a pull request.</p>
+- **Rutinas personalizadas** — se generan según tu meta (déficit calórico, hipertrofia, definición o fuerza), nivel de experiencia y días de entrenamiento seleccionados
+- **Calendario de entrenamiento** — visualiza tus días activos y tu racha semanal
+- **Perfil con estadísticas** — gráfico radar con edad, altura y peso
+- **Edición de perfil** — actualiza tus datos en cualquier momento
+- **Temas de apariencia** — modo claro y oscuro
+- **Autenticación** — registro e inicio de sesión con email/contraseña vía Firebase Auth
 
-<h2>Need Help?</h2>
-<p>If you have any questions or need assistance, don't hesitate to reach out. We're here to support you on your fitness journey.</p>
+## Stack tecnológico
 
-<h2>Screenshots</h2>
-<img src="https://github.com/juandavidperez/FitPlan/assets/28809204/1f5d1224-03d0-47df-ba2a-b71053d06de0" width="200" height="400" />
-<img src="https://github.com/juandavidperez/FitPlan/assets/28809204/09cad7c9-b506-4cc4-bb27-a9ae178cbd07" width="200" height="400" />
-<img src="https://github.com/juandavidperez/FitPlan/assets/28809204/f42306dc-55ec-4316-81cf-bcf79786d92b" width="200" height="400" />
+| Tecnología | Versión |
+|---|---|
+| Expo SDK | 52 |
+| React Native | 0.76 |
+| React | 18.3 |
+| Firebase (Auth + Realtime DB) | 11 |
+| React Navigation | 7 |
+
+## Requisitos previos
+
+- [Node.js](https://nodejs.org/) 18 o superior
+- [Expo Go](https://expo.dev/go) en tu dispositivo móvil, o un emulador Android/iOS
+
+## Instalación
+
+```bash
+# 1. Clona el repositorio
+git clone https://github.com/juandavidperez/FitPlan.git
+cd FitPlan
+
+# 2. Instala las dependencias
+npm install
+
+# 3. Crea el archivo de configuración de Firebase
+# Crea src/utils/firebase.js con el siguiente contenido:
+```
+
+```js
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
+
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_AUTH_DOMAIN",
+  databaseURL: "TU_DATABASE_URL",
+  projectId: "TU_PROJECT_ID",
+  storageBucket: "TU_STORAGE_BUCKET",
+  messagingSenderId: "TU_MESSAGING_SENDER_ID",
+  appId: "TU_APP_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+export const database = getDatabase(app);
+```
+
+```bash
+# 4. Inicia la app
+npx expo start
+```
+
+Escanea el QR con Expo Go o presiona `a` para Android / `i` para iOS.
+
+## Estructura del proyecto
+
+```
+src/
+├── components/
+│   ├── navigation/     # Bottom tab navigator
+│   ├── RadarChart.js   # Gráfico de estadísticas
+│   └── ThemeContext.js # Proveedor de temas
+├── screens/
+│   ├── auth/           # Login y registro
+│   ├── form/           # Onboarding (3 pasos)
+│   ├── Home.jsx        # Rutina del día
+│   ├── Calendar.jsx    # Calendario y racha
+│   ├── Profile.jsx     # Perfil y estadísticas
+│   ├── EditProfile.jsx
+│   ├── Account.jsx
+│   └── Config.jsx      # Apariencia y ajustes
+└── services/
+    └── AuthService.js  # Wrapper de Firebase Auth
+```
+
+## Contribuciones
+
+Los PRs son bienvenidos. Para cambios grandes, abre primero un issue para discutir la propuesta.
