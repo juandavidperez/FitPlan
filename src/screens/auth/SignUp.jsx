@@ -13,6 +13,9 @@ import { Ionicons } from "@expo/vector-icons";
 import AuthService from "../../services/AuthService";
 import { ThemeContext } from "../../components/ThemeContext";
 
+const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
+
 const SignUp = ({ navigation, onEnviar }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -22,7 +25,6 @@ const SignUp = ({ navigation, onEnviar }) => {
     themes[selected];
 
   const windowHeight = Dimensions.get("window").height;
-  const auth = getAuth();
 
   const handleSignUp = async (email, password) => {
     if (email.length === 0 || password.length === 0) {
@@ -97,7 +99,6 @@ const SignUp = ({ navigation, onEnviar }) => {
           />
           <TextInput
             placeholder="Email"
-            pattern={"[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,}$"}
             style={styles.input}
             onChangeText={(text) => setEmail(text)}
           />

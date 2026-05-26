@@ -13,6 +13,9 @@ import { Ionicons } from "@expo/vector-icons";
 import AuthService from "../../services/AuthService";
 import { ThemeContext } from "../../components/ThemeContext";
 
+const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,}$/;
+
 const LoginG = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +25,6 @@ const LoginG = ({ navigation }) => {
     themes[selected];
 
   const windowHeight = Dimensions.get("window").height;
-  const auth = getAuth();
 
   const handleLogin = async (email, password) => {
     try {
