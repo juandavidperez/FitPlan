@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
-import moment from "moment";
 import { auth } from "../utils/firebase";
 import { child, getDatabase, ref, get } from "firebase/database";
 import { FontAwesome5, Feather } from "@expo/vector-icons";
@@ -80,7 +79,7 @@ const CalendarC = ({ navigation }) => {
   const { backgroundColor, titleColor, textColor, highlightColor } =
     themes[selected];
   const [selectedDate, setSelectedDate] = useState(
-    moment().format("YYYY-MM-DD")
+    new Date().toISOString().split("T")[0]
   );
 
   const images = {
