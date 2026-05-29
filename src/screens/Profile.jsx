@@ -12,26 +12,30 @@ const Profile = ({ navigation }) => {
   const { backgroundColor, titleColor, textColor, highlightColor } =
     themes[selected];
 
-  const user = auth.currentUser;
-  const name = user.email.split("@")[0].replace(".", "_");
-  const dbRef = ref(getDatabase());
-  get(child(dbRef, "usuarios/" + name + "/"))
-    .then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        for (const key in data) {
-          if (Object.hasOwnProperty.call(data, key)) {
-            const element = data[key];
-            setUserData(element);
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const name = user.email.split("@")[0].replace(".", "_");
+    const dbRef = ref(getDatabase());
+    get(child(dbRef, "usuarios/" + name + "/"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          for (const key in data) {
+            if (Object.hasOwnProperty.call(data, key)) {
+              const element = data[key];
+              setUserData(element);
+            }
           }
+        } else {
+          console.log("No data available");
         }
-      } else {
-        console.log("No data available");
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   const inicial = userData === null ? "c" : userData.username[0].toLowerCase();
   return (
     <View style={[styles.container, { backgroundColor: backgroundColor }]}>

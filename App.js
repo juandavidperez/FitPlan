@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import React, { useState } from "react";
 import { auth, database } from "./src/utils/firebase.js";
 import { ref, set, push } from "firebase/database";

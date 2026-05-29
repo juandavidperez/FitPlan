@@ -28,7 +28,7 @@ const BottomTab = () => {
         component={Home}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-home" color={color} size={size} />
+            <Ionicons name="home" color={color} size={size} />
           ),
         }}
       />
@@ -37,7 +37,7 @@ const BottomTab = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-person" color={color} size={size} />
+            <Ionicons name="person" color={color} size={size} />
           ),
         }}
       />
@@ -46,7 +46,7 @@ const BottomTab = () => {
         component={CalendarC}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-calendar" color={color} size={size} />
+            <Ionicons name="calendar" color={color} size={size} />
           ),
         }}
       />
@@ -55,7 +55,7 @@ const BottomTab = () => {
         component={Config}
         options={{
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-settings-sharp" color={color} size={size} />
+            <Ionicons name="settings-sharp" color={color} size={size} />
           ),
         }}
       />
